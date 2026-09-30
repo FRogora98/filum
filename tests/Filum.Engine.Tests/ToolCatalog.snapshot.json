@@ -1,0 +1,521 @@
+[
+  {
+    "name": "memory_overview",
+    "description": "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered, the memory map), one line for every file (documents, and collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "memory_read",
+    "description": "Read one file of the person's memory with line numbers, at most 500 lines per call; use fromLine and toLine to read further. Read a file only when you need its content.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file, for example /notes/plans.md.",
+          "type": "string"
+        },
+        "fromLine": {
+          "description": "First line to read, from 1.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        },
+        "toLine": {
+          "description": "Last line to read.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_search",
+    "description": "Find the lines that contain a text (ignoring case) across the person's memory or under a folder prefix, at most 50: for a detail you cannot place. Private files are left out unless includePrivate is true, which you set only when the person asks for private content now.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "The text to look for.",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "Folder prefix to search under; / for everything.",
+          "type": "string",
+          "default": "/"
+        },
+        "includePrivate": {
+          "description": "Also search private files; only when the person asks for them in this message.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "memory_write",
+    "description": "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the document, ending in .md.",
+          "type": "string"
+        },
+        "content": {
+          "description": "The whole content of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    }
+  },
+  {
+    "name": "memory_edit",
+    "description": "Replace one exact occurrence of oldText with newText in a document. Fails if oldText is missing or appears more than once: then include more of the surrounding text.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "oldText": {
+          "description": "The exact text to replace; it must appear once.",
+          "type": "string"
+        },
+        "newText": {
+          "description": "The text to put in its place.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "oldText",
+        "newText"
+      ]
+    }
+  },
+  {
+    "name": "memory_append",
+    "description": "Add text at the end of a document, creating it if it does not exist. For collections use collection_add_rows.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "text": {
+          "description": "The lines to add at the end.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "text"
+      ]
+    }
+  },
+  {
+    "name": "collection_add_rows",
+    "description": "Add entries to a collection (a path ending in .csv): one kind of information that repeats, one row per entry, each row an object of field → value. A missing collection is created with the rows' fields. The engine writes the file; never write a collection as text.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "rows": {
+          "description": "The rows to add, each an object of field → value.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "path",
+        "rows"
+      ]
+    }
+  },
+  {
+    "name": "collection_update_rows",
+    "description": "Change rows of a collection: every row whose fields equal all of 'where' gets the values of 'set'. Example: where {\"title\": \"X\"}, set {\"status\": \"seen\"}.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "where": {
+          "description": "Which rows: field → value, all must match (case is ignored).",
+          "type": "object"
+        },
+        "set": {
+          "description": "The new values: field → value.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "where",
+        "set"
+      ]
+    }
+  },
+  {
+    "name": "collection_remove_rows",
+    "description": "Remove the rows of a collection whose fields equal all of 'where'. Example: where {\"item\": \"bread\"}.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "where": {
+          "description": "Which rows to remove: field → value, all must match (case is ignored).",
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "where"
+      ]
+    }
+  },
+  {
+    "name": "collection_add_field",
+    "description": "Add a new field to a collection; existing rows get an empty value. Only when a new kind of detail is really needed.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "field": {
+          "description": "The name of the new field.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "field"
+      ]
+    }
+  },
+  {
+    "name": "memory_delete",
+    "description": "Delete a file. It stays in the history and can be brought back with memory_undo. The core /filum.md cannot be deleted.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_move",
+    "description": "Rename or move a file, keeping its history. Update the memory map in the core afterwards.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "Current path of the file.",
+          "type": "string"
+        },
+        "to": {
+          "description": "New path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ]
+    }
+  },
+  {
+    "name": "memory_set_sensitivity",
+    "description": "Set a file's sensitivity: normal, sensitive (never brought up unprompted) or private (left out of lists and searches unless asked for).",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "level": {
+          "description": "normal, sensitive or private.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "level"
+      ]
+    }
+  },
+  {
+    "name": "memory_history",
+    "description": "The history of one file, newest first: what each change did, who made it and when, with the id of each change for memory_undo.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_undo",
+    "description": "Undo one change by its id (from memory_history or from the result of the tool that made it): the file returns to how it was before. Refused when the file changed again since: undo the later change first.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "description": "The id of the change to undo.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "revisionId"
+      ]
+    }
+  },
+  {
+    "name": "collection_aggregate",
+    "description": "Compute count, sum, average, min or max of a column of a collection, exactly, in code. Optionally group by a column, or by the day, week, month or year of a date column (groupBy plus period); filter rows by a column value (filterColumn plus filterValue) or by a date range (dateColumn plus from and to, as yyyy-MM-dd). Use it for every total, average or count over a collection.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection (.csv).",
+          "type": "string"
+        },
+        "operation": {
+          "description": "count, sum, average, min or max.",
+          "type": "string"
+        },
+        "column": {
+          "description": "The field to compute on; optional for count.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "groupBy": {
+          "description": "A field to group by; with period, a date field.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "period": {
+          "description": "day, week, month or year: groups by that period of the groupBy date field.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "filterColumn": {
+          "description": "A field to filter on.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "filterValue": {
+          "description": "The value filterColumn must have (ignoring case).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "dateColumn": {
+          "description": "A date field to filter by range.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "from": {
+          "description": "First day included, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "to": {
+          "description": "Last day included, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path",
+        "operation"
+      ]
+    }
+  },
+  {
+    "name": "skill_list",
+    "description": "The person's skills, the procedures they keep: name, what it does, when it applies, on or off. Private skills only with includePrivate, when the person asks for them.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "includePrivate": {
+          "description": "Also list private skills; only when the person asks for them.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  },
+  {
+    "name": "skill_use",
+    "description": "Get the full steps of one of the person's enabled skills, by name, when what they ask matches its 'when'; then follow them.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The skill's name, without the '/'.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "skill_save",
+    "description": "Save a skill: a procedure the person wants followed again, with a short name, one line of what it does, one line of when it applies, and plain numbered steps. The engine writes the file. A new name creates it; to change an existing skill set replace to true.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Short name: lowercase words joined by '-', like weekly-review.",
+          "type": "string"
+        },
+        "description": {
+          "description": "One line: what the skill does.",
+          "type": "string"
+        },
+        "when": {
+          "description": "One line: when it applies, in the person's terms.",
+          "type": "string"
+        },
+        "steps": {
+          "description": "The steps, plain and numbered.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "True to change an existing skill with this name.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "when",
+        "steps"
+      ]
+    }
+  },
+  {
+    "name": "skill_propose",
+    "description": "Propose a skill without saving it, when the person keeps asking for the same kind of thing and no skill covers it: the person's app, if any, shows it to them. Ask them in your answer whether to save it; save it with skill_save only when they agree.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Short name: lowercase words joined by '-', like weekly-review.",
+          "type": "string"
+        },
+        "description": {
+          "description": "One line: what the skill does.",
+          "type": "string"
+        },
+        "when": {
+          "description": "One line: when it applies, in the person's terms.",
+          "type": "string"
+        },
+        "steps": {
+          "description": "The steps, plain and numbered.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "when",
+        "steps"
+      ]
+    }
+  },
+  {
+    "name": "skill_set_enabled",
+    "description": "Turn one of the person's skills off (it is kept but no longer used) or back on.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The skill's name, without the '/'.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "False to turn it off, true to turn it back on.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "enabled"
+      ]
+    }
+  }
+]

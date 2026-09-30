@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Filum.Engine/Filum.Engine.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Filum.Engine.Testing/Filum.Engine.Testing.csproj" />
+    <Project Path="tests/Filum.Engine.Tests/Filum.Engine.Tests.csproj" />
+  </Folder>
+</Solution>

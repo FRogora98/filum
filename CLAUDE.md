@@ -4,20 +4,29 @@
 
 The engine is also used, as a library, by a hosted product that lives elsewhere; nothing of that product belongs here.
 
-**Pre-release.** The engine is being extracted from a private codebase and published here step by step, with a clean history. Read `docs/VISION.md` before designing anything.
+**Pre-release.** The engine and its local folder store are here; `filum-mcp` comes next. Read `docs/VISION.md` before designing anything.
 
 ## Layout
 
 | Folder | Content |
 |---|---|
 | `docs/` | **what Filum is for** (functional, not implementation): `VISION.md` (the problem, the thesis, the principles, what Filum is not) |
-| `src/` | the code (to come): `Filum.Engine` (memory, collections, skills, the tool catalog; no web, no database, no model), the local store, `Filum.Mcp` (the `filum-mcp` server) |
-| `tests/` | the tests (to come): the engine's contract runs on every store, with no network and no Docker |
+| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`; no web, no database, no model); `Filum.Mcp` (the `filum-mcp` server) to come |
+| `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog), with no network and no Docker |
+| `scripts/` | `check-secrets.sh`: fails when a tracked file looks like it holds a secret; run by CI and before every push |
 | `specs/` | feature specs (spec-driven development) |
 
 ## Verification commands
 
-To be written with the first code (spec 014 of the private roadmap brings `src/` here). Until then there is nothing to build.
+From the repository root (.NET 10 SDK; no Docker, no database):
+
+```sh
+dotnet build Filum.slnx
+dotnet test Filum.slnx
+bash scripts/check-secrets.sh
+```
+
+The tool surface is `MemoryTools.Catalog`, checked against `tests/Filum.Engine.Tests/ToolCatalog.snapshot.json` (regenerate with `FILUM_UPDATE_SNAPSHOT=1 dotnet test Filum.slnx`, then review the diff). CI (`.github/workflows/ci.yml`) runs the three commands by hand and on every pull request.
 
 A change is done only when the commands for the part it touched pass. Git is trunk-based: work on `main`, small commits, no other branches.
 

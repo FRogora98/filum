@@ -68,7 +68,8 @@ them, edit them, back them up. Filum notices hand edits and records them in the 
 
 ## Build and test
 
-You need the [.NET 10 SDK](https://dotnet.microsoft.com/download). No Docker, no database, no network:
+You need the [.NET 10 SDK](https://dotnet.microsoft.com/download). The engine's and `filum-mcp`'s tests need nothing
+else; the turn's tests (`tests/Filum.Agent.Tests`) run PostgreSQL in a container, so they need Docker:
 
 ```sh
 dotnet build Filum.slnx
@@ -79,9 +80,13 @@ dotnet test Filum.slnx
 |---|---|
 | `src/Filum.Engine/` | the engine: memory as files with revisions, collections, skills, the tool catalog, the local folder store |
 | `src/Filum.Mcp/` | `filum-mcp`, the engine as an MCP server on stdio |
+| `src/Filum.Agent/` | the turn, for a product that hosts the engine: instructions, the agent loop, the reliability check, models and providers, conversations, usage, the PostgreSQL store |
+| `src/Filum.Agent.Http/` | what an ASP.NET host needs: the services from configuration and the endpoint groups |
+| `samples/Filum.SampleHost/` | a sample host: its own database, one tool of its own, the example package |
 | `tests/Filum.Engine.Testing/` | the contract every store must pass |
 | `tests/Filum.Engine.Tests/` | the engine's tests: the contract in memory and on a local folder, the tool catalog snapshot |
 | `tests/Filum.Mcp.Tests/` | `filum-mcp` end to end: the real server over stdio, on a temporary folder |
+| `tests/Filum.Agent.Tests/` | the turn and its hosting, through the sample host over HTTP (Docker) |
 
 Run the server from a clone with `dotnet run --project src/Filum.Mcp` (for example as the command an agent starts).
 `bash scripts/smoke-mcp.sh <command>` checks that a build answers the MCP handshake.
@@ -110,9 +115,37 @@ memory/**        the files a new memory starts with: documents (.md), collection
   list of problems, and the server does not start.
 - [`packs/example/`](packs/example) is a minimal one: a journal, and a weekly look back.
 
+## Host the engine in your service
+
+A product can run the engine and the turn inside its own ASP.NET service, with its own login, database and tools
+(`samples/Filum.SampleHost` does all of it):
+
+```csharp
+builder.Services.AddDbContextFactory<MyDbContext>(o => o.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+builder.Services.AddFilumAgent<MyDbContext>(builder.Configuration);   // models, providers, memory, package, checks
+builder.Services.AddScoped<ITurnToolSource, MyTools>();              // your tools, beside the engine's
+var app = builder.Build();
+HostTools.CheckNames(app.Services);                                   // a clash with an engine tool stops here
+
+app.MapGroup("/api")
+    .RequirePerson(http => /* the person, from your own login */)
+    .MapFilumConversations()
+    .MapFilumUsage()
+    .MapFilumMemory()
+    .MapFilumSkills();
+```
+
+- Your context calls `FilumModel.Configure(modelBuilder)`; you keep the migrations.
+- A tool made with `HostTools.Create` can return a `SurfacedResult(text, data)`: the model reads the text, and your
+  app gets `data` (at most 4 KB) on the turn's step, even when the conversation is read again.
+- `ITurnGate` can refuse a turn before the model, with your status and message; `ITurnObserver` hears the turns
+  that answered, with their usage.
+- `Agent:Name` names the assistant, `Agent:AllowModelChoice` keeps the choice of model to you, and `Agent:TimeZone`
+  is given to your tools.
+
 ## Roadmap
 
-The engine library, the local folder memory, `filum-mcp` and packages (done), then the published evals. The detailed
+The engine library, the local folder memory, `filum-mcp`, packages and hosting (done), then the published evals. The detailed
 specs are published alongside the code, in `specs/`.
 
 ## License

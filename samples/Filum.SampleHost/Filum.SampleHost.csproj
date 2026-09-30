@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- A sample host of the engine (spec 017): its own context and login, one tool of its own, the example package, the
+       endpoint groups under /sample. Domain-free, and not a real login: a starting point, not a product. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Filum.SampleHost</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Agent.Http\Filum.Agent.Http.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+    <Using Include="Filum.Agent" />
+    <Using Include="Filum.Agent.Http" />
+  </ItemGroup>
+
+</Project>

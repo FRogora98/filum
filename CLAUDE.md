@@ -4,22 +4,23 @@
 
 The engine is also used, as a library, by a hosted product that lives elsewhere; nothing of that product belongs here.
 
-**Pre-release (0.x).** The engine, its local folder store, packages and `filum-mcp` are here; releases carry ready executables. Read `docs/VISION.md` before designing anything.
+**Pre-release (0.x).** The engine, its local folder store, packages, `filum-mcp` and the libraries to host the turn in a product are here; releases carry ready executables. Read `docs/VISION.md` before designing anything.
 
 ## Layout
 
 | Folder | Content |
 |---|---|
 | `docs/` | **what Filum is for** (functional, not implementation): `VISION.md` (the problem, the thesis, the principles, what Filum is not) |
-| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`, packages `Pack`; no web, no database, no model); `Filum.Mcp` (`filum-mcp`: the catalog as MCP tools over stdio, one fresh `MemoryTools` per call, refusals as tool errors, `McpInstructions` for the host, logs on stderr) |
-| `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog) and `Filum.Mcp.Tests` (the real server over stdio on a temporary `FILUM_HOME`), with no network and no Docker |
+| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`, packages `Pack`; no web, no database, no model); `Filum.Mcp` (`filum-mcp`: the catalog as MCP tools over stdio, one fresh `MemoryTools` per call, refusals as tool errors, `McpInstructions` for the host, logs on stderr); `Filum.Agent` (the turn: instructions, agent loop, reliability check, models and providers, conversations, usage, the Postgres store, and the hosting points of spec 017: `AgentOptions`, `ITurnToolSource`, `SurfacedResult`, `ITurnGate`, `ITurnObserver`, `HostTools`; no ASP.NET); `Filum.Agent.Http` (`AddFilumAgent`, `RequirePerson`, the endpoint groups) |
+| `samples/` | `Filum.SampleHost`: a domain-free host of the engine (its own context, a header as a sample-only person, `sample_now`, the example package, the groups under `/sample`) |
+| `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog) and `Filum.Mcp.Tests` (the real server over stdio on a temporary `FILUM_HOME`), with no network and no Docker; `Filum.Agent.Tests` (the sample host over HTTP on PostgreSQL in a container: Docker needed) |
 | `packs/` | `example/`: a minimal, domain-free package (spec 016); real packages live with the products that own them |
 | `scripts/` | `check-secrets.sh`: fails when a tracked file looks like it holds a secret; run by CI and before every push. `smoke-mcp.sh <command>`: the MCP handshake against a build |
 | `specs/` | feature specs (spec-driven development) |
 
 ## Verification commands
 
-From the repository root (.NET 10 SDK; no Docker, no database):
+From the repository root (.NET 10 SDK; Docker running for `tests/Filum.Agent.Tests`, the rest needs nothing else):
 
 ```sh
 dotnet build Filum.slnx

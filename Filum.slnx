@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Filum.SampleHost/Filum.SampleHost.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Filum.Agent.Http/Filum.Agent.Http.csproj" />
     <Project Path="src/Filum.Agent/Filum.Agent.csproj" />

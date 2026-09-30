@@ -1,6 +1,6 @@
 # Hosting the engine
 
-> Status: Reviewed
+> Status: Implemented
 > Area: engine / hosting
 > Author/date: federico rogora (drafted by Claude), 2026-09-30
 > Roadmap: 017, designed with the first product that hosts the engine (sync point S3)

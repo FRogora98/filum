@@ -12,16 +12,20 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Filum.Agent\Filum.Agent.csproj" />
+    <ProjectReference Include="..\..\samples\Filum.SampleHost\Filum.SampleHost.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="Filum.Engine" />
     <Using Include="Filum.Agent" />
+    <Using Include="Filum.Agent.Http" />
   </ItemGroup>
 
 </Project>

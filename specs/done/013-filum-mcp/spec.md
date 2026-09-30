@@ -1,6 +1,6 @@
 # filum-mcp: the engine as a local MCP server
 
-> Status: Reviewed
+> Status: Implemented
 > Area: MCP
 > Author/date: federico rogora (drafted by Claude), 2026-09-30
 

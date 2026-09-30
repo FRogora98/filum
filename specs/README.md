@@ -20,7 +20,7 @@
 
 | # | Spec | Status | Area |
 |---|---|---|---|
-| 013 | [filum-mcp: the engine as a local MCP server](013-filum-mcp/spec.md) · [filum-mcp: il motore come server MCP locale](013-filum-mcp/spec.it.md) | Reviewed | MCP |
+| 013 | [filum-mcp: the engine as a local MCP server](done/013-filum-mcp/spec.md) · [filum-mcp: il motore come server MCP locale](done/013-filum-mcp/spec.it.md) | Implemented | MCP |
 
 ## Rules · Regole
 

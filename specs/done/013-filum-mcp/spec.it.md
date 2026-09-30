@@ -1,6 +1,6 @@
 # filum-mcp: il motore come server MCP locale
 
-> Stato: Rivista
+> Stato: Implementata
 > Area: MCP
 > Autore/data: federico rogora (redatta da Claude), 2026-09-30
 

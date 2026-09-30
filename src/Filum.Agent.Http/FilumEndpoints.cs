@@ -60,6 +60,7 @@ public static class FilumEndpoints
                 TurnOutcome.NotFound => Results.Problem(title: result.Error, statusCode: StatusCodes.Status404NotFound),
                 TurnOutcome.BudgetReached => Results.Problem(title: result.Error, statusCode: StatusCodes.Status402PaymentRequired),
                 TurnOutcome.NotConfigured => Results.Problem(title: result.Error, statusCode: StatusCodes.Status503ServiceUnavailable),
+                TurnOutcome.Refused => Results.Problem(title: result.Error, statusCode: result.Status ?? StatusCodes.Status403Forbidden),
                 _ => Results.Problem(title: result.Error, statusCode: StatusCodes.Status502BadGateway)
             };
         });

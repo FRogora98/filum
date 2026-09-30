@@ -15,9 +15,10 @@ public sealed record SkillProposalDto(string Name, string Description, string Wh
 }
 
 /// <summary>One thing Filum did on the person's memory while answering, as the tool reported it, never as the model told it.</summary>
-public sealed record StepDto(string Kind, string Tool, string? Path, string Description, int DurationMs, long? RevisionId, string? Error = null, int? Rows = null, bool Undone = false)
+/// <param name="Data">What a host's tool surfaced for the app (spec 017); absent for the engine's tools.</param>
+public sealed record StepDto(string Kind, string Tool, string? Path, string Description, int DurationMs, long? RevisionId, string? Error = null, int? Rows = null, bool Undone = false, System.Text.Json.JsonElement? Data = null)
 {
-    public static StepDto From(ToolStep step) => new(step.Kind, step.Tool, step.Path, step.Description, step.DurationMs, step.RevisionId, step.Error, step.Rows);
+    public static StepDto From(ToolStep step) => new(step.Kind, step.Tool, step.Path, step.Description, step.DurationMs, step.RevisionId, step.Error, step.Rows, Data: step.Data);
 
     public const string Read = "read";
     public const string Searched = "searched";
@@ -26,6 +27,7 @@ public sealed record StepDto(string Kind, string Tool, string? Path, string Desc
     public const string Wrote = "wrote";
     public const string Asked = "asked";
     public const string Failed = "failed";
+    public const string Used = "used";
 }
 
 public sealed record ConversationDto(Guid Id, string Title, string Model, string Preview, DateTimeOffset CreatedAt, DateTimeOffset UpdatedAt);

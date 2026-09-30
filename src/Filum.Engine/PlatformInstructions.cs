@@ -51,10 +51,14 @@ public static class PlatformInstructions
     /// The instructions of one turn: the platform layer first, then the person's core, the index of the memory, the
     /// enabled skills, and the skill the person invoked by name when there is one.
     /// </summary>
-    public static string Compose(string core, string index, string skills, string? invoked = null, string? repetition = null, Pack? pack = null) =>
-        $"{Text}\n{PackSection(pack)}# The person's core (/filum.md)\n\n{core}\n# What your memory holds (complete list, made for this message)\n\n{index}\n\n# Your skills (enabled)\n\n{skills}\n"
+    public static string Compose(string core, string index, string skills, string? invoked = null, string? repetition = null, Pack? pack = null, string? name = null) =>
+        $"{Named(name)}\n{PackSection(pack)}# The person's core (/filum.md)\n\n{core}\n# What your memory holds (complete list, made for this message)\n\n{index}\n\n# Your skills (enabled)\n\n{skills}\n"
         + (invoked is null ? string.Empty : $"\n{invoked}\n")
         + (repetition is null ? string.Empty : $"\n{repetition}\n");
+
+    /// <summary>The platform layer for an assistant a host names (spec 017); <see cref="Text"/> as it is without a name.</summary>
+    public static string Named(string? name) =>
+        string.IsNullOrWhiteSpace(name) || name == "Filum" ? Text : Text.Replace("You are Filum,", $"You are {name.Trim()},", StringComparison.Ordinal);
 
     /// <summary>
     /// The package's prompt (spec 016), placed after the platform layer and before the person's core, with the same

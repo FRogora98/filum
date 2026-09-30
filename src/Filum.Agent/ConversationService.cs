@@ -13,10 +13,12 @@ public enum TurnOutcome
     NotFound,
     BudgetReached,
     NotConfigured,
-    AssistantFailed
+    AssistantFailed,
+    /// <summary>A host's turn gate refused the turn, with its own status and message (spec 017).</summary>
+    Refused
 }
 
-public sealed record TurnResult(TurnOutcome Outcome, SendMessageResponse? Response = null, string? Error = null);
+public sealed record TurnResult(TurnOutcome Outcome, SendMessageResponse? Response = null, string? Error = null, int? Status = null);
 
 /// <summary>
 /// Conversations of one user, stateless: everything is read from and written to the database on each call,
@@ -34,8 +36,16 @@ public sealed class ConversationService(
     IOptions<ReliabilityOptions> reliabilityOptions,
     ClaimCheck claimCheck,
     ILogger<ConversationService> logger,
-    IChatClientProvider? chatClientProvider = null)
+    IChatClientProvider? chatClientProvider = null,
+    IOptions<AgentOptions>? agentOptions = null,
+    IEnumerable<ITurnToolSource>? toolSources = null,
+    IEnumerable<ITurnGate>? gates = null,
+    IEnumerable<ITurnObserver>? observers = null,
+    IServiceProvider? services = null,
+    TimeProvider? time = null)
 {
+    private AgentOptions Agent => agentOptions?.Value ?? new AgentOptions();
+
     public const int MaxContentLength = 8000;
 
     private static readonly JsonSerializerOptions StepsJson = new(JsonSerializerDefaults.Web);
@@ -116,7 +126,8 @@ public sealed class ConversationService(
             return new TurnResult(TurnOutcome.Invalid, Error: validationError);
         }
 
-        var model = request.Model is null ? modelCatalog.Default : modelCatalog.Find(request.Model);
+        // The host may keep the choice of model to itself: then the one a request names is ignored.
+        var model = request.Model is null || !Agent.AllowModelChoice ? modelCatalog.Default : modelCatalog.Find(request.Model);
         if (model is null)
         {
             return new TurnResult(TurnOutcome.Invalid, Error: $"The model '{request.Model}' is not available.");
@@ -142,6 +153,17 @@ public sealed class ConversationService(
             {
                 var storedUsage = await db.Set<UsageRecord>().FirstOrDefaultAsync(u => u.MessageId == existingAnswer.Id, cancellationToken);
                 return Answered(conversation!, userMessage, existingAnswer, storedUsage);
+            }
+        }
+
+        var turn = new TurnContext(userId, conversationId, request.Id, services ?? EmptyServices.Instance, (time ?? TimeProvider.System).GetUtcNow(), TimeZoneOf(Agent.TimeZone), cancellationToken);
+        foreach (var gate in gates ?? [])
+        {
+            var decision = await gate.CheckAsync(turn);
+            if (!decision.Allowed)
+            {
+                logger.LogInformation("[ ConversationService ] Message {MessageId} of user {UserId} refused by the host's gate {Gate} ({Status})", request.Id, userId, gate.GetType().Name, decision.Status);
+                return new TurnResult(TurnOutcome.Refused, Error: decision.Message, Status: decision.Status);
             }
         }
 
@@ -202,6 +224,14 @@ public sealed class ConversationService(
         var tools = new MemoryTools(memoryService, memoryOptions.Value, userId, MemoryActor.Agent(conversationId, userMessage.Id));
         var skills = await memoryService.ListSkillsAsync(userId, includePrivate: false, cancellationToken);
 
+        // The host's own tools, beside the engine's: each call is a step of this turn (spec 017).
+        var turnTools = tools.Tools
+            .Concat((toolSources ?? [])
+                .SelectMany(source => source.Tools(turn))
+                .Where(t => !memoryOptions.Value.ExcludedTools.Contains(t.Name, StringComparer.Ordinal))
+                .Select(t => (AITool)new RecordedHostTool(t, tools, logger)))
+            .ToList();
+
         // A message that starts with /name gets that skill, whole, from the code: no decision of the model is needed.
         string? invoked = null;
         if (Skills.Invocation(userMessage.Content) is { } invocation)
@@ -222,7 +252,7 @@ public sealed class ConversationService(
 
         var stopwatch = Stopwatch.StartNew();
         var instructions = PlatformInstructions.Compose(core, index, PlatformInstructions.SkillList(skills, memoryOptions.Value.SkillListMax), invoked,
-            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack);
+            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name);
         var spend = new TurnSpend();
         string? answerText;
         var answerModel = model;
@@ -235,7 +265,7 @@ public sealed class ConversationService(
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeout.CancelAfter(TimeSpan.FromSeconds(openAIOptions.Value.TimeoutSeconds));
 
-            answerText = await RunAgentAsync(model, instructions, tools, messages, spend, timeout.Token);
+            answerText = await RunAgentAsync(model, instructions, turnTools, messages, spend, timeout.Token);
 
             // A turn that changed nothing is checked: if the person asked for a change, or the answer claims one, the
             // agent gets one second attempt, told plainly that nothing was saved. A turn that wrote is not checked.
@@ -254,7 +284,7 @@ public sealed class ConversationService(
                 if (leaked || first!.Requested || first.Claimed)
                 {
                     retried = true;
-                    var again = await RunAgentAsync(model, instructions, tools, [.. messages, new(ChatRole.Assistant, answerText), new(ChatRole.User, PlatformInstructions.SecondAttemptNote)], spend, timeout.Token);
+                    var again = await RunAgentAsync(model, instructions, turnTools, [.. messages, new(ChatRole.Assistant, answerText), new(ChatRole.User, PlatformInstructions.SecondAttemptNote)], spend, timeout.Token);
                     if (!string.IsNullOrEmpty(again))
                     {
                         answerText = again;
@@ -270,7 +300,7 @@ public sealed class ConversationService(
                             && await usageService.SpentThisMonthAsync(userId, timeout.Token) + spend.CostUsd < usageService.MonthlyBudgetUsd)
                         {
                             escalated = true;
-                            var last = await RunAgentAsync(stronger, instructions, tools, [.. messages, new(ChatRole.Assistant, answerText), new(ChatRole.User, PlatformInstructions.SecondAttemptNote)], spend, timeout.Token);
+                            var last = await RunAgentAsync(stronger, instructions, turnTools, [.. messages, new(ChatRole.Assistant, answerText), new(ChatRole.User, PlatformInstructions.SecondAttemptNote)], spend, timeout.Token);
                             if (!string.IsNullOrEmpty(last))
                             {
                                 answerText = last;
@@ -363,8 +393,34 @@ public sealed class ConversationService(
         conversation.UpdatedAt = answeredAt;
         await db.SaveChangesAsync(cancellationToken);
 
+        foreach (var observer in observers ?? [])
+        {
+            await observer.AnsweredAsync(turn, new TurnUsage(answerModel.Id, inputTokens, outputTokens, spend.CostUsd));
+        }
+
         logger.LogInformation("[ ConversationService ] Message {MessageId} in conversation {ConversationId} answered by {Model} in {ElapsedMs}ms ({InputTokens} in, {OutputTokens} out, {ToolCalls} memory actions, {FailedToolCalls} refused, check {Check}, retried {Retried}, escalated {Escalated}, unverified {Unverified})", userMessage.Id, conversationId, answerModel.Id, stopwatch.ElapsedMilliseconds, inputTokens, outputTokens, steps.Count, steps.Count(s => s.Kind == StepDto.Failed), checkOutcome, retried, escalated, unverified);
         return Answered(conversation, userMessage, answer, usage);
+    }
+
+    private TimeZoneInfo TimeZoneOf(string id)
+    {
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById(id);
+        }
+        catch (Exception exception) when (exception is TimeZoneNotFoundException or InvalidTimeZoneException)
+        {
+            logger.LogWarning("[ ConversationService ] The time zone {TimeZone} is unknown: using UTC", id);
+            return TimeZoneInfo.Utc;
+        }
+    }
+
+    /// <summary>For a service built without DI (tests): host tools and gates get no services.</summary>
+    private sealed class EmptyServices : IServiceProvider
+    {
+        public static EmptyServices Instance { get; } = new();
+
+        public object? GetService(Type serviceType) => null;
     }
 
     private static string? Validate(SendMessageRequest request)
@@ -395,14 +451,14 @@ public sealed class ConversationService(
             usage is null ? null : new UsageDto(usage.InputTokens, usage.OutputTokens, usage.CostUsd)));
 
     /// <summary>One run of the agent with the turn's tools; its usage is added to the turn at the model's own prices.</summary>
-    private async Task<string?> RunAgentAsync(ModelDefinition model, string instructions, MemoryTools tools, IReadOnlyList<ChatMessage> messages, TurnSpend spend, CancellationToken cancellationToken)
+    private async Task<string?> RunAgentAsync(ModelDefinition model, string instructions, IList<AITool> tools, IReadOnlyList<ChatMessage> messages, TurnSpend spend, CancellationToken cancellationToken)
     {
         // The function-invocation loop runs the tools and adds up the usage of every model call of the run.
         var agent = chatClientProvider!.Get(model.Id)
             .AsBuilder()
             .UseFunctionInvocation(configure: loop => loop.MaximumIterationsPerRequest = memoryOptions.Value.MaxToolCallsPerTurn + 5)
             .Build()
-            .AsAIAgent(instructions: instructions, name: "Filum", tools: tools.Tools);
+            .AsAIAgent(instructions: instructions, name: Agent.Name, tools: tools);
         var run = await agent.RunAsync(messages, cancellationToken: cancellationToken);
         spend.Add(model, run.Usage);
         return run.Text?.Trim();

@@ -551,7 +551,8 @@ public sealed class MemoryTools
         return $"Refused: {reason}";
     }
 
-    private void Record(ToolStep step)
+    /// <summary>Adds a step to the turn, in call order; a host records its own tools' calls here (spec 017).</summary>
+    public void Record(ToolStep step)
     {
         lock (_gate)
         {

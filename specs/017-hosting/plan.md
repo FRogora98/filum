@@ -21,11 +21,11 @@
    - **Host tools:**
      - `ITurnToolSource` (scoped) returns `IReadOnlyList<AIFunction>` from a `TurnContext(Person, ConversationId, MessageId, Services, Now, TimeZone, CancellationToken)`;
      - each host function is wrapped in a `DelegatingAIFunction` that times the call and records a `ToolStep` (kind `used`, the tool, the description from the tool's own description line, the duration, the error);
-     - a `SurfacedResult(Text, Data)` return gives the model `Text` and puts `Data` (a `JsonElement` of at most 4 KB) on the step;
+     - a host tool built with `HostTools.Create` (so its return value reaches the turn as it is) may return a `SurfacedResult(Text, Data)`, which gives the model `Text` and puts `Data` (a `JsonElement` of at most 4 KB) on the step;
      - an exception, or `Data` over the limit, gives a failed step and "the tool failed" to the model.
    - **Steps:** `ToolStep` gains `JsonElement? Data = null`, stored in the steps JSON and returned as the step DTO's `data`.
    - **Excluded tools:** `ExcludedTools` applies to host tools too.
-   - **Name clashes:** `FilumHosting.CheckToolNames(IServiceProvider)` builds each source's tools once, with a synthetic context, and throws on a clash with the catalog or between sources. Hosts call it at start; a source only builds functions and calls nothing.
+   - **Name clashes:** `HostTools.CheckNames(IServiceProvider)` builds each source's tools once, with a synthetic context, and throws on a clash with the catalog or between sources. Hosts call it at start; a source only builds functions and calls nothing.
    - **Gate and observer:**
      - `ITurnGate` is called after validation and before anything is saved; `TurnGateResult.Refuse(status, message)` ends the turn with `TurnOutcome.Refused`, which the HTTP group maps to that status;
      - `ITurnObserver.AnsweredAsync(TurnContext, TurnUsage)` is called only on `Answered`.
@@ -38,7 +38,7 @@
    - sets `Agent:Name` to "Sample";
    - registers a `ClockTools` source with `sample_now`, surfaced (`{"now": …, "timeZone": …}`);
    - maps all groups under `/sample`;
-   - calls `CheckToolNames` at start.
+   - calls `HostTools.CheckNames` at start.
 5. **`tests/Filum.Agent.Tests`** holds `WebApplicationFactory<SampleHost Program>` on a Testcontainers Postgres, with a fake chat client (as in the hosted product's tests), for criteria 3–10. Docker is needed; the CI's `ubuntu-latest` runner has it.
 6. **Hosted product:**
    - `Program.cs` uses `AddFilumAgent<ConversationDbContext>` and the groups;
@@ -60,7 +60,7 @@ Alternatives discarded:
 
 - **New public libraries:** `Filum.Agent` and `Filum.Agent.Http`.
 - **Configuration:** `Agent:Name`, `Agent:AllowModelChoice`, `Agent:TimeZone`.
-- **Engine and agent API:** `ToolStep.Data`, `ITurnToolSource`, `TurnContext`, `SurfacedResult`, `ITurnGate`, `ITurnObserver`, `FilumHosting.CheckToolNames`.
+- **Engine and agent API:** `ToolStep.Data`, `ITurnToolSource`, `TurnContext`, `SurfacedResult`, `ITurnGate`, `ITurnObserver`, `HostTools.Create`, `HostTools.CheckNames`, `MemoryTools.Record`, `UsageService.GetSinceAsync` and `MessagesSinceAsync`.
 - **Payloads:** the step DTO gains `data`, optional. The hosted product's routes are unchanged.
 
 ## Files touched

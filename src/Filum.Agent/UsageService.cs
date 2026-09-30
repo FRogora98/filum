@@ -41,6 +41,20 @@ public sealed class UsageService(DbContext db, IOptions<UsageOptions> usageOptio
                 .ToList());
     }
 
+    /// <summary>What the person spent since <paramref name="from"/>: messages, tokens and cost, for a host's own plans (spec 017).</summary>
+    public async Task<UsageDto> GetSinceAsync(Guid userId, DateTimeOffset from, CancellationToken cancellationToken)
+    {
+        var records = db.Set<UsageRecord>().Where(u => u.UserId == userId && u.CreatedAt >= from);
+        return new UsageDto(
+            await records.SumAsync(u => u.InputTokens, cancellationToken),
+            await records.SumAsync(u => u.OutputTokens, cancellationToken),
+            await records.SumAsync(u => u.CostUsd, cancellationToken));
+    }
+
+    /// <summary>How many answers the person got since <paramref name="from"/>.</summary>
+    public Task<int> MessagesSinceAsync(Guid userId, DateTimeOffset from, CancellationToken cancellationToken) =>
+        db.Set<UsageRecord>().CountAsync(u => u.UserId == userId && u.CreatedAt >= from, cancellationToken);
+
     private IQueryable<UsageRecord> CurrentMonth(Guid userId)
     {
         var start = MonthStart();

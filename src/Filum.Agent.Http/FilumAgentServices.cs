@@ -49,6 +49,7 @@ public static class FilumAgentServices
         services.AddScoped<IMemoryStore, PostgresMemoryStore>();
         services.AddScoped<MemoryService>();
 
+        services.Configure<AgentOptions>(configuration.GetSection(AgentOptions.SectionName));
         services.Configure<ReliabilityOptions>(configuration.GetSection(ReliabilityOptions.SectionName));
         services.AddScoped<ClaimCheck>();
         return new FilumAgentSetup(models, openAIOptions.Model, pack);

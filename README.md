@@ -14,22 +14,23 @@ procedures it learns from you. Bring your own model.
   one call runs it on fresh data.
 - **Typed collections.** Lists with a schema (people, decisions, anything), kept next to the free-form memory.
 - **Works with small models.** Reliability is measured with evals against cheap models and the results are published.
-- **Domain-free.** The engine knows nothing about your domain. Verticals are *packs*: a prompt, preinstalled skills,
-  collection schemas and domain tools, loaded by configuration.
+- **Domain-free.** The engine knows nothing about your domain. Verticals are *packs* (a prompt, preinstalled skills,
+  collection schemas) that live with the products that own them.
 
-## Two ways in, one set of tools
+## How you use it
 
-1. **MCP server (stdio).** Run `filum-mcp` inside Claude Code, Claude Desktop, Codex or any MCP host. No API keys,
-   no service: the host's model does the thinking, Filum keeps the memory in a local directory.
-2. **Self-hosted service.** The same engine with its own agent loop, models and multi-user accounts, reachable via
-   API and remote MCP.
+Run `filum-mcp` inside Claude Code, Claude Desktop, Codex or any MCP host, with one line of configuration. It is for
+one person, on their own machine:
 
-Same tool names, same parameters, same semantics in both.
+- **No API keys, no service, no account.** The host's model does the thinking; Filum gives it the tools.
+- **Your memory is a folder.** Plain files you can open and edit, plus an append-only log of every change, in
+  `~/.filum` (or wherever `FILUM_HOME` points, or one folder per project).
+- **Nothing leaves your machine.**
 
 ## Roadmap
 
-Engine libraries, local directory memory, `filum-mcp`, then remote MCP, packs and hosting APIs. The detailed
-specs will be published alongside the code.
+The engine library, the local folder memory, then `filum-mcp` and the published evals. The detailed specs are
+published alongside the code, in `specs/`.
 
 ## License
 

@@ -3,3 +3,5 @@
 # C# raw string literals keep the line endings of the source file: tool descriptions and templates must read the
 # same on every machine, so C# sources are LF everywhere.
 *.cs text eol=lf
+# Shell scripts run under bash on every platform: LF, or bash reads the carriage returns.
+*.sh text eol=lf

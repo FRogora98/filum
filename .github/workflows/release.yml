@@ -58,4 +58,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$TAG" dist/* --target "$GITHUB_SHA" --title "filum-mcp $TAG" --generate-notes
+          # A pushed tag already exists: then gh must not be given a target too, or it fails after uploading.
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" > /dev/null; then where=(--verify-tag); else where=(--target "$GITHUB_SHA"); fi
+          gh release create "$TAG" dist/* "${where[@]}" --title "filum-mcp $TAG" --generate-notes

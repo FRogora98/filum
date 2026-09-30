@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The turn: platform instructions, the agent loop, the reliability check, models and providers, conversations,
+       usage, and the Postgres store of the engine. No ASP.NET: a host (Filum.Agent.Http gives an ASP.NET one what it needs) brings its
+       own web layer, login and DbContext, and applies FilumModel to it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Filum.Agent</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Agents.AI" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
+    <PackageReference Include="OpenAI" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+    <Using Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+</Project>

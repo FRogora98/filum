@@ -4,16 +4,16 @@
 
 The engine is also used, as a library, by a hosted product that lives elsewhere; nothing of that product belongs here.
 
-**Pre-release.** The engine and its local folder store are here; `filum-mcp` comes next. Read `docs/VISION.md` before designing anything.
+**Pre-release (0.x).** The engine, its local folder store and `filum-mcp` are here; releases carry ready executables. Read `docs/VISION.md` before designing anything.
 
 ## Layout
 
 | Folder | Content |
 |---|---|
 | `docs/` | **what Filum is for** (functional, not implementation): `VISION.md` (the problem, the thesis, the principles, what Filum is not) |
-| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`; no web, no database, no model); `Filum.Mcp` (the `filum-mcp` server) to come |
-| `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog), with no network and no Docker |
-| `scripts/` | `check-secrets.sh`: fails when a tracked file looks like it holds a secret; run by CI and before every push |
+| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`; no web, no database, no model); `Filum.Mcp` (`filum-mcp`: the catalog as MCP tools over stdio, one fresh `MemoryTools` per call, refusals as tool errors, `McpInstructions` for the host, logs on stderr) |
+| `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog) and `Filum.Mcp.Tests` (the real server over stdio on a temporary `FILUM_HOME`), with no network and no Docker |
+| `scripts/` | `check-secrets.sh`: fails when a tracked file looks like it holds a secret; run by CI and before every push. `smoke-mcp.sh <command>`: the MCP handshake against a build |
 | `specs/` | feature specs (spec-driven development) |
 
 ## Verification commands
@@ -26,7 +26,7 @@ dotnet test Filum.slnx
 bash scripts/check-secrets.sh
 ```
 
-The tool surface is `MemoryTools.Catalog`, checked against `tests/Filum.Engine.Tests/ToolCatalog.snapshot.json` (regenerate with `FILUM_UPDATE_SNAPSHOT=1 dotnet test Filum.slnx`, then review the diff). CI (`.github/workflows/ci.yml`) runs the three commands by hand and on every pull request.
+The tool surface is `MemoryTools.Catalog`, checked against `tests/Filum.Engine.Tests/ToolCatalog.snapshot.json` (regenerate with `FILUM_UPDATE_SNAPSHOT=1 dotnet test Filum.slnx`, then review the diff). CI (`.github/workflows/ci.yml`) runs the three commands by hand and on every pull request. A release (`.github/workflows/release.yml`) runs on a pushed `v*` tag or by hand: it builds and tests, publishes one self-contained `filum-mcp` per system (win-x64, osx-arm64, osx-x64, linux-x64), smoke-tests the Linux one and attaches them with `SHA256SUMS`. A release is public: tag only when the owner asks.
 
 A change is done only when the commands for the part it touched pass. Git is trunk-based: work on `main`, small commits, no other branches.
 

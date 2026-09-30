@@ -1,0 +1,61 @@
+name: Release
+
+# By pushing a version tag (git tag v0.1.0 && git push origin v0.1.0), or by hand with the tag to create.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag to create, like v0.1.0'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build, test, publish filum-mcp
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        run: bash scripts/check-secrets.sh
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Build and test
+        run: |
+          dotnet build Filum.slnx --configuration Release
+          dotnet test Filum.slnx --configuration Release --no-build
+
+      # One self-contained file per system: nothing else to install. No trimming or AOT: the tool schemas use reflection.
+      - name: Publish the executables
+        run: |
+          version="${TAG#v}"
+          mkdir -p dist
+          for rid in win-x64 osx-arm64 osx-x64 linux-x64; do
+            dotnet publish src/Filum.Mcp --configuration Release --runtime "$rid" --self-contained \
+              -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true \
+              -p:DebugType=none -p:Version="$version" --output "publish/$rid"
+            ext=""; [ "$rid" = win-x64 ] && ext=".exe"
+            cp "publish/$rid/filum-mcp$ext" "dist/filum-mcp-$rid$ext"
+          done
+          chmod +x dist/filum-mcp-linux-x64 dist/filum-mcp-osx-*
+          (cd dist && sha256sum * > SHA256SUMS)
+          ls -la dist
+
+      - name: Smoke test the Linux executable
+        run: bash scripts/smoke-mcp.sh dist/filum-mcp-linux-x64
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$TAG" dist/* --target "$GITHUB_SHA" --title "filum-mcp $TAG" --generate-notes

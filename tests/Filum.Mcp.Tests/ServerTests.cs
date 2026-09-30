@@ -1,0 +1,173 @@
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol;
+
+namespace Filum.Mcp.Tests;
+
+/// <summary>
+/// The server as a host sees it (spec 013): started as its own process over stdio, on a temporary FILUM_HOME. A new
+/// process is a new session. The client declares no sampling: nothing here may need it.
+/// </summary>
+public sealed class ServerTests : IDisposable
+{
+    private static readonly string Server = Path.Combine(AppContext.BaseDirectory, "filum-mcp.dll");
+
+    private readonly string _home = Path.Combine(Path.GetTempPath(), "filum-mcp-tests", Guid.NewGuid().ToString("N"));
+
+    public void Dispose()
+    {
+        if (Directory.Exists(_home))
+        {
+            Directory.Delete(_home, recursive: true);
+        }
+    }
+
+    [Fact]
+    public async Task A_new_session_gets_the_engines_catalog_and_the_instructions()
+    {
+        await using var client = await Session();
+
+        var tools = await client.ListToolsAsync();
+        var snapshot = JsonNode.Parse(File.ReadAllText(Path.Combine(Root(), "tests", "Filum.Engine.Tests", "ToolCatalog.snapshot.json")))!.AsArray();
+
+        Assert.Equal(21, tools.Count);
+        Assert.Equal(snapshot.Select(t => (string)t!["name"]!).Order(), tools.Select(t => t.Name).Order());
+        Assert.All(tools, tool =>
+        {
+            var expected = snapshot.Single(t => (string)t!["name"]! == tool.Name)!;
+            Assert.Equal((string)expected["description"]!, tool.Description);
+            Assert.True(JsonNode.DeepEquals(expected["parameters"], JsonNode.Parse(tool.ProtocolTool.InputSchema.GetRawText())), tool.Name);
+        });
+        Assert.Contains("memory_overview", client.ServerInstructions);
+        Assert.Equal("filum", client.ServerInfo.Name);
+    }
+
+    [Fact]
+    public async Task A_fact_saved_in_one_session_is_found_in_the_next_and_is_a_plain_file()
+    {
+        await using (var first = await Session())
+        {
+            Ok(await Call(first, "memory_write", new() { ["path"] = "/notes/garden.md", ["content"] = "The lemon tree is watered on Sundays.\n" }));
+        }
+
+        await using var second = await Session();
+        var found = Ok(await Call(second, "memory_search", new() { ["query"] = "lemon tree" }));
+
+        Assert.Contains("/notes/garden.md", found);
+        Assert.Equal("The lemon tree is watered on Sundays.\n", File.ReadAllText(Path.Combine(_home, "notes", "garden.md")));
+    }
+
+    [Fact]
+    public async Task A_skill_saved_in_one_session_runs_in_the_next()
+    {
+        await using (var first = await Session())
+        {
+            Ok(await Call(first, "skill_save", new()
+            {
+                ["name"] = "tidy-notes",
+                ["description"] = "Tidy the notes folder",
+                ["when"] = "the person asks to tidy their notes",
+                ["steps"] = "1. List the notes.\n2. Merge the duplicates."
+            }));
+        }
+
+        await using var second = await Session();
+        var steps = Ok(await Call(second, "skill_use", new() { ["name"] = "tidy-notes" }));
+
+        Assert.Contains("Merge the duplicates", steps);
+    }
+
+    [Fact]
+    public async Task A_refused_call_is_an_error_the_model_can_read_and_the_session_goes_on()
+    {
+        await using var client = await Session();
+
+        var refused = await Call(client, "memory_write", new() { ["path"] = "/notes/../secret.md", ["content"] = "x" });
+        Assert.True(refused.IsError);
+        Assert.Contains("'..'", Text(refused));
+
+        Ok(await Call(client, "memory_write", new() { ["path"] = "/notes/ok.md", ["content"] = "fine\n" }));
+    }
+
+    [Fact]
+    public async Task More_calls_than_one_turn_allows_all_work_in_one_session()
+    {
+        await using var client = await Session();
+
+        for (var i = 0; i < 25; i++)
+        {
+            Ok(await Call(client, "memory_write", new() { ["path"] = $"/notes/n{i}.md", ["content"] = $"note {i}\n" }));
+        }
+    }
+
+    [Fact]
+    public async Task A_file_edited_by_hand_between_calls_is_read_as_it_is_now()
+    {
+        await using var client = await Session();
+        Ok(await Call(client, "memory_write", new() { ["path"] = "/notes/list.md", ["content"] = "one\n" }));
+
+        File.WriteAllText(Path.Combine(_home, "notes", "list.md"), "one\ntwo\n");
+
+        Assert.Contains("two", Ok(await Call(client, "memory_read", new() { ["path"] = "/notes/list.md" })));
+        Assert.Contains("outside Filum", Ok(await Call(client, "memory_history", new() { ["path"] = "/notes/list.md" })));
+    }
+
+    [Fact]
+    public async Task A_folder_that_cannot_be_written_stops_the_server_with_a_message_and_no_protocol_output()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(_home)!);
+        File.WriteAllText(_home, "a file where the folder should be");
+        try
+        {
+            var start = new ProcessStartInfo("dotnet") { RedirectStandardOutput = true, RedirectStandardError = true, RedirectStandardInput = true };
+            start.ArgumentList.Add(Server);
+            start.Environment["FILUM_HOME"] = _home;
+            using var process = Process.Start(start)!;
+            var stdout = process.StandardOutput.ReadToEndAsync();
+            var stderr = process.StandardError.ReadToEndAsync();
+            Assert.True(process.WaitForExit(TimeSpan.FromSeconds(30)));
+
+            Assert.Equal(1, process.ExitCode);
+            Assert.Equal(string.Empty, await stdout);
+            Assert.Contains("FILUM_HOME", await stderr);
+        }
+        finally
+        {
+            File.Delete(_home);
+        }
+    }
+
+    private Task<McpClient> Session() =>
+        McpClient.CreateAsync(new StdioClientTransport(new StdioClientTransportOptions
+        {
+            Name = "filum",
+            Command = "dotnet",
+            Arguments = [Server],
+            EnvironmentVariables = new Dictionary<string, string?> { ["FILUM_HOME"] = _home }
+        }));
+
+    private static async Task<CallToolResult> Call(McpClient client, string tool, Dictionary<string, object?> arguments) =>
+        await client.CallToolAsync(tool, arguments);
+
+    private static string Ok(CallToolResult result)
+    {
+        Assert.False(result.IsError == true, Text(result));
+        return Text(result);
+    }
+
+    private static string Text(CallToolResult result) =>
+        string.Join("\n", result.Content.OfType<TextContentBlock>().Select(c => c.Text));
+
+    private static string Root()
+    {
+        var folder = AppContext.BaseDirectory;
+        while (!File.Exists(Path.Combine(folder, "Filum.slnx")))
+        {
+            folder = Path.GetDirectoryName(folder) ?? throw new InvalidOperationException("Filum.slnx not found above the test output.");
+        }
+
+        return folder;
+    }
+}

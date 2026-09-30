@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- filum-mcp: the engine as an MCP server on stdio, for one person, over a local folder. No network, no key. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>filum-mcp</AssemblyName>
+    <RootNamespace>Filum.Mcp</RootNamespace>
+    <Version>0.1.0</Version>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <!-- The SDK needs a newer Microsoft.Extensions.AI.Abstractions than the engine asks for; only this program raises
+         it, so the engine's minimum (and its hosts' pins) stay where they are. -->
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" VersionOverride="10.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+  </ItemGroup>
+
+</Project>

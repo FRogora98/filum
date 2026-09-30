@@ -89,10 +89,31 @@ Run the server from a clone with `dotnet run --project src/Filum.Mcp` (for examp
 The tool surface is checked against `tests/Filum.Engine.Tests/ToolCatalog.snapshot.json`. After a deliberate change,
 regenerate it with `FILUM_UPDATE_SNAPSHOT=1 dotnet test Filum.slnx` and review the diff.
 
+## Packages
+
+A package makes the engine vertical with data, no code: the rules a product wants its agent to follow, the skills a
+new memory starts with, and its first files and collections. Point `FILUM_PACK` at the package's folder in the server's
+configuration (`claude mcp add filum -e FILUM_PACK=/path/to/pack -- ...`).
+
+```
+pack.json        {"format": 1, "name": "journal", "version": "1.0.0", "description": "One line."}
+                 optional "private" / "sensitive": lists of memory/ files created with that sensitivity
+prompt.md        the package's rules: they come before the person's core, which adds to them and never overrides them
+skills/*.md      starter skills, in the skill file format (a package skill replaces a built-in one of the same name)
+memory/**        the files a new memory starts with: documents (.md), collections (.csv with their header),
+                 and filum.md to replace the core template
+```
+
+- Files and skills are given to a memory when it is created; the prompt is read at every session, so a new version
+  of it reaches everyone.
+- The whole package is checked with the engine's own rules at start. A package with any problem is refused with the
+  list of problems, and the server does not start.
+- [`packs/example/`](packs/example) is a minimal one: a journal, and a weekly look back.
+
 ## Roadmap
 
-The engine library, the local folder memory and `filum-mcp` (done), then packages and the published evals. The detailed specs are
-published alongside the code, in `specs/`.
+The engine library, the local folder memory, `filum-mcp` and packages (done), then the published evals. The detailed
+specs are published alongside the code, in `specs/`.
 
 ## License
 

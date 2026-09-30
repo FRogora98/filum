@@ -151,7 +151,7 @@ public sealed class MemoryTools
             var index = await _memory.BuildIndexAsync(_userId, cancellationToken);
             var skills = PlatformInstructions.SkillList(await _memory.ListSkillsAsync(_userId, includePrivate: false, cancellationToken), _limits.SkillListMax);
             return new Done(
-                $"# The person's core (/filum.md)\n\n{core}\n# What the memory holds\n\n{index}\n\n# Enabled skills\n\n{skills}",
+                $"{PlatformInstructions.PackSection(_memory.Pack)}# The person's core (/filum.md)\n\n{core}\n# What the memory holds\n\n{index}\n\n# Enabled skills\n\n{skills}",
                 ToolStep.Read, "/", "Looked at the memory");
         });
 

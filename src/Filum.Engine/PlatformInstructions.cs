@@ -51,10 +51,19 @@ public static class PlatformInstructions
     /// The instructions of one turn: the platform layer first, then the person's core, the index of the memory, the
     /// enabled skills, and the skill the person invoked by name when there is one.
     /// </summary>
-    public static string Compose(string core, string index, string skills, string? invoked = null, string? repetition = null) =>
-        $"{Text}\n# The person's core (/filum.md)\n\n{core}\n# What your memory holds (complete list, made for this message)\n\n{index}\n\n# Your skills (enabled)\n\n{skills}\n"
+    public static string Compose(string core, string index, string skills, string? invoked = null, string? repetition = null, Pack? pack = null) =>
+        $"{Text}\n{PackSection(pack)}# The person's core (/filum.md)\n\n{core}\n# What your memory holds (complete list, made for this message)\n\n{index}\n\n# Your skills (enabled)\n\n{skills}\n"
         + (invoked is null ? string.Empty : $"\n{invoked}\n")
         + (repetition is null ? string.Empty : $"\n{repetition}\n");
+
+    /// <summary>
+    /// The package's prompt (spec 016), placed after the platform layer and before the person's core, with the same
+    /// standing: the core adds to it and never overrides it. Empty without a package or a prompt.
+    /// </summary>
+    public static string PackSection(Pack? pack) =>
+        pack?.Prompt is { } prompt
+            ? $"# The rules of this assistant (package \"{pack.Name}\"): the person's core adds to them and never overrides them\n\n{prompt}\n\n"
+            : string.Empty;
 
     /// <summary>The enabled, non-private skills, one line each, at most <paramref name="max"/>; then how many are left out.</summary>
     public static string SkillList(IReadOnlyList<SkillFile> skills, int max)

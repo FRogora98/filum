@@ -31,6 +31,8 @@ Thumbs.db
 *.key
 appsettings.*.local.json
 memory/
+# ...except the memory a package starts from, which is part of the package
+!packs/**/memory/
 data/
 
 # Claude Code: personal instructions and local settings

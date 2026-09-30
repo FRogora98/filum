@@ -1,0 +1,7 @@
+{
+  "format": 1,
+  "name": "example",
+  "version": "1.0.0",
+  "description": "A minimal, domain-free example package: a short journal and a weekly look back.",
+  "sensitive": ["/journal.csv"]
+}

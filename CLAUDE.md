@@ -4,15 +4,16 @@
 
 The engine is also used, as a library, by a hosted product that lives elsewhere; nothing of that product belongs here.
 
-**Pre-release (0.x).** The engine, its local folder store and `filum-mcp` are here; releases carry ready executables. Read `docs/VISION.md` before designing anything.
+**Pre-release (0.x).** The engine, its local folder store, packages and `filum-mcp` are here; releases carry ready executables. Read `docs/VISION.md` before designing anything.
 
 ## Layout
 
 | Folder | Content |
 |---|---|
 | `docs/` | **what Filum is for** (functional, not implementation): `VISION.md` (the problem, the thesis, the principles, what Filum is not) |
-| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`; no web, no database, no model); `Filum.Mcp` (`filum-mcp`: the catalog as MCP tools over stdio, one fresh `MemoryTools` per call, refusals as tool errors, `McpInstructions` for the host, logs on stderr) |
+| `src/` | the code: `Filum.Engine` (memory, collections, skills, the tool catalog, the local folder store `LocalFolderStore`, packages `Pack`; no web, no database, no model); `Filum.Mcp` (`filum-mcp`: the catalog as MCP tools over stdio, one fresh `MemoryTools` per call, refusals as tool errors, `McpInstructions` for the host, logs on stderr) |
 | `tests/` | `Filum.Engine.Testing` (`MemoryServiceContract`, the contract every store must pass) and `Filum.Engine.Tests` (the contract in memory and on a local folder, the store, the tool catalog) and `Filum.Mcp.Tests` (the real server over stdio on a temporary `FILUM_HOME`), with no network and no Docker |
+| `packs/` | `example/`: a minimal, domain-free package (spec 016); real packages live with the products that own them |
 | `scripts/` | `check-secrets.sh`: fails when a tracked file looks like it holds a secret; run by CI and before every push. `smoke-mcp.sh <command>`: the MCP handshake against a build |
 | `specs/` | feature specs (spec-driven development) |
 

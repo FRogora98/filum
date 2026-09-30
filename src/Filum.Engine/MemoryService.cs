@@ -14,13 +14,20 @@ public sealed class MemoryService(
     IMemoryStore store,
     IOptions<MemoryOptions> options,
     ILogger<MemoryService> logger,
-    Func<CancellationToken, Task>? beforeSaveForTests = null)
+    Func<CancellationToken, Task>? beforeSaveForTests = null,
+    Pack? pack = null)
 {
     private const string ChangedAtTheSameTime = "{0} was changed at the same time by another action; read it again and retry.";
 
     private MemoryOptions Limits => options.Value;
 
-    /// <summary>The person's core, created from the template the first time, together with the starter skills.</summary>
+    /// <summary>The package every new memory starts from (spec 016), or null for the generic engine.</summary>
+    public Pack? Pack => pack;
+
+    /// <summary>
+    /// The person's core, created the first time together with the starter skills and, with a package, its core, files
+    /// and skills.
+    /// </summary>
     public async Task<string> EnsureCoreAsync(Guid userId, CancellationToken cancellationToken)
     {
         if (await store.FindLiveAsync(userId, MemoryPaths.CorePath, cancellationToken) is { } existing)
@@ -28,24 +35,59 @@ public sealed class MemoryService(
             return existing.Content;
         }
 
-        var created = await ChangeAsync(userId, MemoryActor.Platform, MemoryPaths.CorePath, MemoryOperation.CreateCore, cancellationToken, (file, _) =>
-            file is not null ? null : new Target(MemoryPaths.CorePath, PlatformInstructions.CoreTemplate, MemorySensitivity.Normal, Deleted: false));
-        if (created.IsRefused)
+        foreach (var problem in await CreateMemoryAsync(userId, cancellationToken))
         {
-            // Another request created it first: read that one.
-            logger.LogInformation("[ MemoryService ] The core of user {UserId} was created by a concurrent request", userId);
-        }
-        else
-        {
-            foreach (var skill in Skills.Starters)
-            {
-                await SaveSkillAsync(userId, MemoryActor.Platform, skill, replace: false, cancellationToken);
-            }
-
-            logger.LogInformation("[ MemoryService ] Core and {Skills} starter skills created for user {UserId}", Skills.Starters.Count, userId);
+            logger.LogWarning("[ MemoryService ] The package {Pack} could not create {Problem} for user {UserId}", pack?.Name, problem, userId);
         }
 
         return (await store.FindLiveAsync(userId, MemoryPaths.CorePath, cancellationToken))!.Content;
+    }
+
+    /// <summary>
+    /// Creates a new memory: the core, the package's files, the starter skills (those the package does not replace) and
+    /// the package's skills, all by the platform. Returns what was refused; <see cref="Pack.Load"/> runs it on an empty
+    /// memory to check a package with these very rules.
+    /// </summary>
+    internal async Task<IReadOnlyList<string>> CreateMemoryAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        var core = Normalize(pack?.Core ?? PlatformInstructions.CoreTemplate);
+        var created = await ChangeAsync(userId, MemoryActor.Platform, MemoryPaths.CorePath, MemoryOperation.CreateCore, cancellationToken, (file, _) =>
+            file is not null ? null : new Target(MemoryPaths.CorePath, core, MemorySensitivity.Normal, Deleted: false));
+        if (created.IsRefused)
+        {
+            if (await store.FindLiveAsync(userId, MemoryPaths.CorePath, cancellationToken) is not null)
+            {
+                // Another request created it first: that one made the rest too.
+                logger.LogInformation("[ MemoryService ] The core of user {UserId} was created by a concurrent request", userId);
+                return [];
+            }
+
+            return [$"{MemoryPaths.CorePath}: {created.Refusal}"];
+        }
+
+        var problems = new List<string>();
+        foreach (var file in pack?.Files ?? [])
+        {
+            var written = await ChangeAsync(userId, MemoryActor.Platform, file.Path, MemoryOperation.Write, cancellationToken, (_, _) =>
+                new Target(file.Path, Normalize(file.Content), file.Sensitivity, Deleted: false));
+            if (written.IsRefused)
+            {
+                problems.Add($"{file.Path}: {written.Refusal}");
+            }
+        }
+
+        var packSkills = pack?.Skills ?? [];
+        foreach (var skill in Skills.Starters.Where(s => packSkills.All(p => p.Name != s.Name)).Concat(packSkills))
+        {
+            var saved = await SaveSkillAsync(userId, MemoryActor.Platform, skill, replace: false, cancellationToken);
+            if (saved.IsRefused)
+            {
+                problems.Add($"{Skills.PathOf(skill.Name)}: {saved.Refusal}");
+            }
+        }
+
+        logger.LogInformation("[ MemoryService ] Memory created for user {UserId} ({Pack})", userId, pack is null ? "no package" : $"package {pack.Name} {pack.Version}");
+        return problems;
     }
 
     public async Task<MemoryOutcome<IReadOnlyList<MemoryFileInfo>>> ListAsync(Guid userId, string? prefix, bool includePrivate, CancellationToken cancellationToken)

@@ -13,9 +13,9 @@ namespace Filum.Mcp;
 /// </summary>
 public static class McpServerSetup
 {
-    public static IReadOnlyList<McpServerTool> Tools(LocalFolderStore store, MemoryOptions limits, ILoggerFactory logging)
+    public static IReadOnlyList<McpServerTool> Tools(LocalFolderStore store, MemoryOptions limits, Pack? pack, ILoggerFactory logging)
     {
-        var memory = new MemoryService(store, Options.Create(limits), logging.CreateLogger<MemoryService>());
+        var memory = new MemoryService(store, Options.Create(limits), logging.CreateLogger<MemoryService>(), pack: pack);
         var session = Guid.NewGuid();
         return MemoryTools.Catalog(limits)
             .Select(template => McpServerTool.Create(new PerCall(template, () =>

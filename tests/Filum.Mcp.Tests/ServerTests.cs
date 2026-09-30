@@ -115,6 +115,43 @@ public sealed class ServerTests : IDisposable
     }
 
     [Fact]
+    public async Task With_a_package_the_instructions_carry_its_rules_and_a_new_memory_its_files()
+    {
+        await using var client = await Session(Path.Combine(Root(), "packs", "example"));
+
+        Assert.Contains("Keep the person's journal", client.ServerInstructions);
+        Assert.StartsWith("# The rules of this assistant (package \"example\")", Ok(await Call(client, "memory_overview", [])));
+        Assert.Equal("date,entry\n", File.ReadAllText(Path.Combine(_home, "journal.csv")));
+    }
+
+    [Fact]
+    public async Task A_package_that_cannot_be_used_stops_the_server_with_its_problems()
+    {
+        var pack = Path.Combine(Path.GetDirectoryName(_home)!, Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(pack);
+        File.WriteAllText(Path.Combine(pack, "pack.json"), """{"format": 9, "name": "x", "version": "1", "description": "d"}""");
+        try
+        {
+            var start = new ProcessStartInfo("dotnet") { RedirectStandardOutput = true, RedirectStandardError = true, RedirectStandardInput = true };
+            start.ArgumentList.Add(Server);
+            start.Environment["FILUM_HOME"] = _home;
+            start.Environment["FILUM_PACK"] = pack;
+            using var process = Process.Start(start)!;
+            var stdout = process.StandardOutput.ReadToEndAsync();
+            var stderr = process.StandardError.ReadToEndAsync();
+            Assert.True(process.WaitForExit(TimeSpan.FromSeconds(30)));
+
+            Assert.Equal(1, process.ExitCode);
+            Assert.Equal(string.Empty, await stdout);
+            Assert.Contains("format 9", await stderr);
+        }
+        finally
+        {
+            Directory.Delete(pack, recursive: true);
+        }
+    }
+
+    [Fact]
     public async Task A_folder_that_cannot_be_written_stops_the_server_with_a_message_and_no_protocol_output()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(_home)!);
@@ -139,13 +176,13 @@ public sealed class ServerTests : IDisposable
         }
     }
 
-    private Task<McpClient> Session() =>
+    private Task<McpClient> Session(string? pack = null) =>
         McpClient.CreateAsync(new StdioClientTransport(new StdioClientTransportOptions
         {
             Name = "filum",
             Command = "dotnet",
             Arguments = [Server],
-            EnvironmentVariables = new Dictionary<string, string?> { ["FILUM_HOME"] = _home }
+            EnvironmentVariables = new Dictionary<string, string?> { ["FILUM_HOME"] = _home, ["FILUM_PACK"] = pack }
         }));
 
     private static async Task<CallToolResult> Call(McpClient client, string tool, Dictionary<string, object?> arguments) =>

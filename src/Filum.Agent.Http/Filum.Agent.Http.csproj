@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- What an ASP.NET host needs to run the turn: the services from configuration, and the endpoint groups it maps
+       where it wants, one by one, with its own login deciding who the person is. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Filum.Agent.Http</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Agent\Filum.Agent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+    <Using Include="Filum.Agent" />
+  </ItemGroup>
+
+</Project>

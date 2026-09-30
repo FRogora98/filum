@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Filum.Agent.Http/Filum.Agent.Http.csproj" />
     <Project Path="src/Filum.Agent/Filum.Agent.csproj" />
     <Project Path="src/Filum.Engine/Filum.Engine.csproj" />
     <Project Path="src/Filum.Mcp/Filum.Mcp.csproj" />

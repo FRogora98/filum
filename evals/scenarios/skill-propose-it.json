@@ -1,0 +1,92 @@
+{
+  "id": "skill-propose-it",
+  "language": "it",
+  "description": "Dopo una richiesta ripetuta Filum propone una skill, non salva niente, e la salva quando la persona dice sì.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Aggiungi 'lampadina' alle cose da comprare in ferramenta e dimmi quante sono.",
+      "expect": [
+        {
+          "type": "rows",
+          "name_any": [
+            "ferramenta",
+            "comprare",
+            "hardware",
+            "shopping",
+            "spesa",
+            "lista",
+            "liste"
+          ],
+          "contain": [
+            "lampadina"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Aggiungi 'viti' alle cose da comprare in ferramenta e dimmi quante sono.",
+      "expect": [
+        {
+          "type": "rows",
+          "name_any": [
+            "ferramenta",
+            "comprare",
+            "hardware",
+            "shopping",
+            "spesa",
+            "lista",
+            "liste"
+          ],
+          "contain": [
+            "viti"
+          ]
+        },
+        {
+          "type": "no_skill"
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Aggiungi 'colla' alle cose da comprare in ferramenta e dimmi quante sono.",
+      "expect": [
+        {
+          "type": "rows",
+          "name_any": [
+            "ferramenta",
+            "comprare",
+            "hardware",
+            "shopping",
+            "spesa",
+            "lista",
+            "liste"
+          ],
+          "count": 3,
+          "contain": [
+            "colla"
+          ]
+        },
+        {
+          "type": "proposal"
+        },
+        {
+          "type": "no_skill"
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Sì, salvala.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "skill"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "skill-command-it",
+  "language": "it",
+  "description": "Una skill creata su richiesta si invoca con /nome in una chat nuova.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Crea una skill chiamata lista-veloce: quando ti do delle cose da comprare, aggiungile alla mia lista della spesa, una riga per cosa, e dimmi quante sono in tutto.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "skill",
+          "name_any": [
+            "lista-veloce"
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "/lista-veloce latte e pane",
+      "expect": [
+        {
+          "type": "used_skill"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "spesa",
+            "lista",
+            "liste",
+            "comprare",
+            "shopping",
+            "grocer"
+          ],
+          "count": 2,
+          "contain": [
+            "latte",
+            "pane"
+          ]
+        }
+      ]
+    }
+  ]
+}

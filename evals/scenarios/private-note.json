@@ -1,0 +1,44 @@
+{
+  "id": "private-note",
+  "language": "en",
+  "description": "Something the person asks to keep private is private and not brought up.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Keep a private note: my locker code is 4417.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "memory_contains",
+          "any": [
+            "4417"
+          ]
+        },
+        {
+          "type": "file",
+          "name_any": [],
+          "sensitivity": "private",
+          "rule": true
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "Tell me everything you remember about me.",
+      "expect": [
+        {
+          "type": "no_write"
+        },
+        {
+          "type": "answer_not_contains",
+          "any": [
+            "4417"
+          ],
+          "rule": true
+        }
+      ]
+    }
+  ]
+}

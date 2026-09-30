@@ -21,14 +21,18 @@ using (var scope = app.Services.CreateScope())
     await scope.ServiceProvider.GetRequiredService<SampleDbContext>().Database.EnsureCreatedAsync();
 }
 
+// A host maps the groups it wants: the memory group can be left out (Sample:MapMemory = false).
 var sample = app.MapGroup("/sample");
 sample.MapFilumModels();
-sample.MapGroup(string.Empty)
+var person = sample.MapGroup(string.Empty)
     .RequirePerson(SamplePerson)
     .MapFilumConversations()
     .MapFilumUsage()
-    .MapFilumMemory()
     .MapFilumSkills();
+if (app.Configuration.GetValue("Sample:MapMemory", true))
+{
+    person.MapFilumMemory();
+}
 
 app.Run();
 

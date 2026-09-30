@@ -1,0 +1,46 @@
+{
+  "id": "rows-add",
+  "language": "en",
+  "description": "A row is added to an existing collection.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Start a list of books I want to read: Emma, Dune.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "book",
+            "read"
+          ],
+          "count": 2
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Add Middlemarch to my reading list.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "book",
+            "read"
+          ],
+          "count": 3,
+          "contain": [
+            "Middlemarch",
+            "Emma",
+            "Dune"
+          ]
+        }
+      ]
+    }
+  ]
+}

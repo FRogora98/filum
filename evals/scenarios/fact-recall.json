@@ -1,0 +1,37 @@
+{
+  "id": "fact-recall",
+  "language": "en",
+  "description": "A fact said in one chat is known in a new one.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "My favourite colour is teal.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "memory_contains",
+          "any": [
+            "teal"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "What's my favourite colour?",
+      "expect": [
+        {
+          "type": "no_write"
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "teal"
+          ]
+        }
+      ]
+    }
+  ]
+}

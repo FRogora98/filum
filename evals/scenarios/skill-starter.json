@@ -1,0 +1,38 @@
+{
+  "id": "skill-starter",
+  "language": "en",
+  "description": "A starter skill works for a new person.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "My name is Ada and I live in Turin.",
+      "expect": [
+        {
+          "type": "wrote"
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "/what-you-know-about-me",
+      "expect": [
+        {
+          "type": "used_skill"
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "ada"
+          ]
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "turin",
+            "torino"
+          ]
+        }
+      ]
+    }
+  ]
+}

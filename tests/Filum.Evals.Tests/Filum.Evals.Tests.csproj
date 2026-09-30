@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The eval runner's logic, with no model and no key: the checks on recorded turns, the runner against the sample
+       host with a fake model (PostgreSQL in a container: Docker needed), and the growth test with a fake agent. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Evals\Filum.Evals.csproj" />
+    <ProjectReference Include="..\..\samples\Filum.SampleHost\Filum.SampleHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The sample host's test infrastructure, shared with the hosting tests. -->
+    <Compile Include="..\Filum.Agent.Tests\Infrastructure\*.cs" LinkBase="Infrastructure" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Filum.Engine" />
+    <Using Include="Filum.Agent" />
+    <Using Include="Filum.Agent.Http" />
+    <Using Include="Filum.Evals" />
+  </ItemGroup>
+
+</Project>

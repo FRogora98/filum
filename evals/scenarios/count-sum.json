@@ -1,0 +1,51 @@
+{
+  "id": "count-sum",
+  "language": "en",
+  "description": "Counts and totals over a collection come from computation.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Log my runs: Monday 5 km, Wednesday 8 km, Saturday 12.5 km.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "run"
+          ],
+          "count": 3
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "How many runs have I logged, and how many km in total?",
+      "expect": [
+        {
+          "type": "no_write"
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "25.5",
+            "25,5"
+          ]
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "3",
+            "three"
+          ]
+        },
+        {
+          "type": "step",
+          "kind": "computed",
+          "rule": true
+        }
+      ]
+    }
+  ]
+}

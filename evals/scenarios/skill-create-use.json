@@ -1,0 +1,58 @@
+{
+  "id": "skill-create-use",
+  "language": "en",
+  "description": "A skill created on request is used by name and by intent in new chats.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Create a skill called log-note: when I say 'note that …', add the note to my notes list with today's date, then tell me how many notes I have.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "skill",
+          "name_any": [
+            "log-note"
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "/log-note buy stamps",
+      "expect": [
+        {
+          "type": "used_skill"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "note"
+          ],
+          "contain": [
+            "stamps"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "c",
+      "message": "Note that the plumber comes on Friday.",
+      "expect": [
+        {
+          "type": "rows",
+          "name_any": [
+            "note"
+          ],
+          "count": 2,
+          "contain": [
+            "stamps",
+            "plumber"
+          ]
+        }
+      ]
+    }
+  ]
+}

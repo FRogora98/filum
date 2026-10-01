@@ -1,5 +1,6 @@
 using Filum.SampleHost;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,11 @@ builder.Services.AddDbContextFactory<SampleDbContext>(options => options.UseNpgs
 builder.Services.AddFilumAgent<SampleDbContext>(builder.Configuration);
 builder.Services.AddScoped<ITurnToolSource, ClockTools>();
 
+// The contract of the groups as OpenAPI (spec 019), for the host's app to generate its client from.
+builder.Services.AddOpenApi();
+// Numbers are numbers: a generated client gets exact types (the web default also reads numbers written as strings).
+builder.Services.ConfigureHttpJsonOptions(o => o.SerializerOptions.NumberHandling = JsonNumberHandling.Strict);
+
 var app = builder.Build();
 HostTools.CheckNames(app.Services);
 
@@ -20,6 +26,8 @@ using (var scope = app.Services.CreateScope())
 {
     await scope.ServiceProvider.GetRequiredService<SampleDbContext>().Database.EnsureCreatedAsync();
 }
+
+app.MapOpenApi("/sample/openapi/{documentName}.json");
 
 // A host maps the groups it wants: the memory group can be left out (Sample:MapMemory = false).
 var sample = app.MapGroup("/sample");

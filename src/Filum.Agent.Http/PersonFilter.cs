@@ -19,6 +19,7 @@ public static class PersonFilter
         {
             if (person(context.HttpContext) is not { } id || id == Guid.Empty)
             {
+                FilumApi.Mark(context.HttpContext);
                 return Results.Problem(title: "Sign in to continue.", statusCode: StatusCodes.Status401Unauthorized);
             }
 

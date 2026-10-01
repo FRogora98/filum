@@ -144,6 +144,9 @@ app.MapGroup("/api")
   that answered, with their usage.
 - `Agent:Name` names the assistant, `Agent:AllowModelChoice` keeps the choice of model to you, and `Agent:TimeZone`
   is given to your tools.
+- The groups are a versioned contract (v1, header `Filum-Api-Version`), described in
+  [`docs/api/openapi-v1.json`](docs/api/openapi-v1.json) for generating your app's client; [`docs/api`](docs/api/README.md)
+  says what v1 guarantees.
 
 ## Evals
 
@@ -180,7 +183,7 @@ dotnet run --project src/Filum.Evals -- mcp --filum-mcp <filum-mcp executable or
 
 ## Roadmap
 
-The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host (done), then stable endpoints for apps. The detailed
+The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host (done), stable endpoints for apps (done); next, the engine's advanced techniques and ingestion. The detailed
 specs are published alongside the code, in `specs/`.
 
 ## License

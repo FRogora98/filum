@@ -39,3 +39,6 @@ memory/
 # Claude Code: personal instructions and local settings
 CLAUDE.local.md
 .claude/settings.local.json
+
+# Eval reports are written locally; publishing one is a deliberate commit elsewhere
+evals/results/

@@ -5,9 +5,25 @@ using Microsoft.AspNetCore.Routing;
 namespace Filum.Agent.Http;
 
 /// <summary>
+/// The version of the endpoint groups' contract (spec 019). Within a version a change may only add (an optional field,
+/// a route, an optional parameter); anything else is a new version, mapped beside the old one. See docs/api/README.md.
+/// </summary>
+public static class FilumApi
+{
+    public const string Version = "1";
+
+    /// <summary>The header every response of the groups carries, so a client can check what it talks to.</summary>
+    public const string Header = "Filum-Api-Version";
+
+    internal static void Mark(HttpContext http) => http.Response.Headers[Header] = Version;
+}
+
+/// <summary>
 /// The turn's endpoints as groups a host maps one by one, under the prefix it wants, on a group that went through
 /// <see cref="PersonFilter.RequirePerson"/> (except models, which name no person). Every call works for the request's
 /// person only: another person's conversation, file, revision or message answers 404, like one that does not exist.
+/// Every route has a stable name (its OpenAPI operationId), a summary, a tag and its responses: the contract of
+/// <see cref="FilumApi.Version"/>.
 /// </summary>
 public static class FilumEndpoints
 {
@@ -18,52 +34,69 @@ public static class FilumEndpoints
     public static RouteGroupBuilder MapFilumConversations(this RouteGroupBuilder api)
     {
         api.MapGet("/conversations", async (HttpContext http, ConversationService service, CancellationToken cancellationToken) =>
-            Results.Ok(await service.ListAsync(http.PersonId(), cancellationToken)));
+                Results.Ok(await service.ListAsync(http.PersonId(), cancellationToken)))
+            .Contract("filum.conversations.list", "The person's conversations, the most recent first.", "conversations")
+            .Produces<List<ConversationDto>>();
 
         api.MapDelete("/conversations/{conversationId}", async (string conversationId, HttpContext http, ConversationService service, CancellationToken cancellationToken) =>
-        {
-            if (!Guid.TryParse(conversationId, out var id))
             {
-                return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
-            }
+                if (!Guid.TryParse(conversationId, out var id))
+                {
+                    return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
+                }
 
-            return await service.DeleteAsync(http.PersonId(), id, cancellationToken)
-                ? Results.NoContent()
-                : Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound);
-        });
+                return await service.DeleteAsync(http.PersonId(), id, cancellationToken)
+                    ? Results.NoContent()
+                    : Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound);
+            })
+            .Contract("filum.conversations.delete", "Delete a conversation and its messages; the memory and the usage stay.", "conversations")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         api.MapGet("/conversations/{conversationId}/messages", async (string conversationId, HttpContext http, ConversationService service, CancellationToken cancellationToken) =>
-        {
-            if (!Guid.TryParse(conversationId, out var id))
             {
-                return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
-            }
+                if (!Guid.TryParse(conversationId, out var id))
+                {
+                    return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
+                }
 
-            var messages = await service.GetMessagesAsync(http.PersonId(), id, cancellationToken);
-            return messages is null
-                ? Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound)
-                : Results.Ok(messages);
-        });
+                var messages = await service.GetMessagesAsync(http.PersonId(), id, cancellationToken);
+                return messages is null
+                    ? Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound)
+                    : Results.Ok(messages);
+            })
+            .Contract("filum.conversations.messages", "The messages of a conversation in order, each answer with its steps and proposal.", "conversations")
+            .Produces<List<MessageDto>>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         api.MapPost("/conversations/{conversationId}/messages", async (string conversationId, SendMessageRequest request, HttpContext http, ConversationService service, CancellationToken cancellationToken) =>
-        {
-            if (!Guid.TryParse(conversationId, out var id))
             {
-                return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
-            }
+                if (!Guid.TryParse(conversationId, out var id))
+                {
+                    return Results.Problem(title: InvalidConversationId, statusCode: StatusCodes.Status400BadRequest);
+                }
 
-            var result = await service.SendAsync(http.PersonId(), id, request, cancellationToken);
-            return result.Outcome switch
-            {
-                TurnOutcome.Answered => Results.Ok(result.Response),
-                TurnOutcome.Invalid => Results.Problem(title: result.Error, statusCode: StatusCodes.Status400BadRequest),
-                TurnOutcome.NotFound => Results.Problem(title: result.Error, statusCode: StatusCodes.Status404NotFound),
-                TurnOutcome.BudgetReached => Results.Problem(title: result.Error, statusCode: StatusCodes.Status402PaymentRequired),
-                TurnOutcome.NotConfigured => Results.Problem(title: result.Error, statusCode: StatusCodes.Status503ServiceUnavailable),
-                TurnOutcome.Refused => Results.Problem(title: result.Error, statusCode: result.Status ?? StatusCodes.Status403Forbidden),
-                _ => Results.Problem(title: result.Error, statusCode: StatusCodes.Status502BadGateway)
-            };
-        });
+                var result = await service.SendAsync(http.PersonId(), id, request, cancellationToken);
+                return result.Outcome switch
+                {
+                    TurnOutcome.Answered => Results.Ok(result.Response),
+                    TurnOutcome.Invalid => Results.Problem(title: result.Error, statusCode: StatusCodes.Status400BadRequest),
+                    TurnOutcome.NotFound => Results.Problem(title: result.Error, statusCode: StatusCodes.Status404NotFound),
+                    TurnOutcome.BudgetReached => Results.Problem(title: result.Error, statusCode: StatusCodes.Status402PaymentRequired),
+                    TurnOutcome.NotConfigured => Results.Problem(title: result.Error, statusCode: StatusCodes.Status503ServiceUnavailable),
+                    TurnOutcome.Refused => Results.Problem(title: result.Error, statusCode: result.Status ?? StatusCodes.Status403Forbidden),
+                    _ => Results.Problem(title: result.Error, statusCode: StatusCodes.Status502BadGateway)
+                };
+            })
+            .Contract("filum.conversations.send", "Send the person's message and get the answer; a conversation id not seen before starts one. Sending the same message id again returns the stored answer.", "conversations")
+            .Produces<SendMessageResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status402PaymentRequired)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status502BadGateway)
+            .ProducesProblem(StatusCodes.Status503ServiceUnavailable);
 
         return api;
     }
@@ -72,7 +105,9 @@ public static class FilumEndpoints
     public static RouteGroupBuilder MapFilumUsage(this RouteGroupBuilder api)
     {
         api.MapGet("/usage", async (HttpContext http, UsageService usage, CancellationToken cancellationToken) =>
-            Results.Ok(await usage.GetCurrentMonthAsync(http.PersonId(), cancellationToken)));
+                Results.Ok(await usage.GetCurrentMonthAsync(http.PersonId(), cancellationToken)))
+            .Contract("filum.usage.month", "What the person spent this calendar month (UTC), by model.", "usage")
+            .Produces<MonthlyUsageDto>();
 
         return api;
     }
@@ -86,49 +121,81 @@ public static class FilumEndpoints
         var memory = api.MapGroup("/memory");
 
         memory.MapGet("/files", async (HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.ListAsync(http.PersonId(), "/", includePrivate: true, cancellationToken), files => files.Select(ToDto).ToList()));
+                Answer(await service.ListAsync(http.PersonId(), "/", includePrivate: true, cancellationToken), files => files.Select(ToDto).ToList()))
+            .Contract("filum.memory.files", "Every file of the person's memory, private ones included, without content.", "memory")
+            .Produces<List<MemoryFileDto>>();
 
         memory.MapGet("/file", async (string? path, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-        {
-            var file = await service.GetFileAsync(http.PersonId(), path, cancellationToken);
-            if (file.IsRefused)
             {
-                return Answer(file, _ => file);
-            }
+                var file = await service.GetFileAsync(http.PersonId(), path, cancellationToken);
+                if (file.IsRefused)
+                {
+                    return Answer(file, _ => file);
+                }
 
-            var origin = await service.GetOriginAsync(http.PersonId(), path, cancellationToken);
-            return Answer(origin, o =>
-            {
-                var info = file.Value!.Info;
-                return new MemoryFileDetailDto(info.Path, Kind(info.Path), info.SizeBytes, info.LineCount, info.Sensitivity, info.UpdatedAt, info.Header, info.RowCount,
-                    file.Value.Content, new MemoryOriginDto(o.Author, o.ConversationTitle, o.CreatedAt));
-            });
-        });
+                var origin = await service.GetOriginAsync(http.PersonId(), path, cancellationToken);
+                return Answer(origin, o =>
+                {
+                    var info = file.Value!.Info;
+                    return new MemoryFileDetailDto(info.Path, Kind(info.Path), info.SizeBytes, info.LineCount, info.Sensitivity, info.UpdatedAt, info.Header, info.RowCount,
+                        file.Value.Content, new MemoryOriginDto(o.Author, o.ConversationTitle, o.CreatedAt));
+                });
+            })
+            .Contract("filum.memory.file", "One file with its content and where it came from.", "memory")
+            .Produces<MemoryFileDetailDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapPut("/file", async (string? path, WriteMemoryFileRequest request, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.WriteAsync(http.PersonId(), MemoryActor.Person, path, request.Content, cancellationToken), ToDto));
+                Answer(await service.WriteAsync(http.PersonId(), MemoryActor.Person, path, request.Content, cancellationToken), ToDto))
+            .Contract("filum.memory.write", "Write a whole file as the person; it is checked like any change and gets a revision.", "memory")
+            .Produces<MemoryChangeDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest);
 
         memory.MapPut("/file/sensitivity", async (string? path, SetSensitivityRequest request, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.SetSensitivityAsync(http.PersonId(), MemoryActor.Person, path, request.Level, cancellationToken), ToDto));
+                Answer(await service.SetSensitivityAsync(http.PersonId(), MemoryActor.Person, path, request.Level, cancellationToken), ToDto))
+            .Contract("filum.memory.sensitivity", "Set a file's sensitivity: normal, sensitive or private.", "memory")
+            .Produces<MemoryChangeDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapDelete("/file", async (string? path, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-        {
-            var deleted = await service.DeleteAsync(http.PersonId(), MemoryActor.Person, path, cancellationToken);
-            return deleted.IsRefused ? Answer(deleted, _ => deleted) : Results.NoContent();
-        });
+            {
+                var deleted = await service.DeleteAsync(http.PersonId(), MemoryActor.Person, path, cancellationToken);
+                return deleted.IsRefused ? Answer(deleted, _ => deleted) : Results.NoContent();
+            })
+            .Contract("filum.memory.delete", "Delete a file; its history stays and the deletion can be undone.", "memory")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapGet("/file/history", async (string? path, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.GetHistoryAsync(http.PersonId(), path, cancellationToken),
-                history => history.Select(r => new MemoryRevisionDto(r.Id, r.Operation, r.Author, r.ConversationTitle, r.Summary, r.CreatedAt)).ToList()));
+                Answer(await service.GetHistoryAsync(http.PersonId(), path, cancellationToken),
+                    history => history.Select(r => new MemoryRevisionDto(r.Id, r.Operation, r.Author, r.ConversationTitle, r.Summary, r.CreatedAt)).ToList()))
+            .Contract("filum.memory.history", "Every change of a file, the newest first, with who made it.", "memory")
+            .Produces<List<MemoryRevisionDto>>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapGet("/revisions/{id:long}", async (long id, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.GetRevisionAsync(http.PersonId(), id, cancellationToken), v => new MemoryVersionDto(v.Id, v.Path, v.Content, v.CreatedAt, v.Deleted)));
+                Answer(await service.GetRevisionAsync(http.PersonId(), id, cancellationToken), v => new MemoryVersionDto(v.Id, v.Path, v.Content, v.CreatedAt, v.Deleted)))
+            .Contract("filum.memory.revision", "A file as it was after one change.", "memory")
+            .Produces<MemoryVersionDto>()
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapPost("/revisions/{id:long}/restore", async (long id, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.RestoreAsync(http.PersonId(), MemoryActor.Person, id, cancellationToken), ToDto));
+                Answer(await service.RestoreAsync(http.PersonId(), MemoryActor.Person, id, cancellationToken), ToDto))
+            .Contract("filum.memory.restore", "Bring a file back to how it was after one change, as a new change.", "memory")
+            .Produces<MemoryChangeDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         memory.MapPost("/revisions/{id:long}/undo", async (long id, HttpContext http, MemoryService service, CancellationToken cancellationToken) =>
-            Answer(await service.UndoAsync(http.PersonId(), MemoryActor.Person, id, cancellationToken), ToDto));
+                Answer(await service.UndoAsync(http.PersonId(), MemoryActor.Person, id, cancellationToken), ToDto))
+            .Contract("filum.memory.undo", "Undo one change, as a new change.", "memory")
+            .Produces<MemoryChangeDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         return api;
     }
@@ -142,26 +209,36 @@ public static class FilumEndpoints
         var skills = api.MapGroup("/skills");
 
         skills.MapGet("", async (HttpContext http, MemoryService memory, CancellationToken cancellationToken) =>
-            Results.Ok((await memory.ListSkillsAsync(http.PersonId(), includePrivate: true, cancellationToken))
-                .OrderBy(s => s.Skill.Name, StringComparer.Ordinal)
-                .Select(s => new SkillDto(s.Skill.Name, s.Skill.Description, s.Skill.When, s.Skill.Enabled, s.Path, s.Sensitivity, s.UpdatedAt))
-                .ToList()));
+                Results.Ok((await memory.ListSkillsAsync(http.PersonId(), includePrivate: true, cancellationToken))
+                    .OrderBy(s => s.Skill.Name, StringComparer.Ordinal)
+                    .Select(s => new SkillDto(s.Skill.Name, s.Skill.Description, s.Skill.When, s.Skill.Enabled, s.Path, s.Sensitivity, s.UpdatedAt))
+                    .ToList()))
+            .Contract("filum.skills.list", "The person's skills by name, on and off.", "skills")
+            .Produces<List<SkillDto>>();
 
         skills.MapPost("/proposals/{messageId:guid}/accept", async (Guid messageId, HttpContext http, ConversationService conversations, CancellationToken cancellationToken) =>
-        {
-            var saved = await conversations.AcceptProposalAsync(http.PersonId(), messageId, cancellationToken);
-            return saved.IsMissing ? Results.Problem(title: saved.Refusal, statusCode: StatusCodes.Status404NotFound)
-                : saved.IsRefused ? Results.Problem(title: saved.Refusal, statusCode: StatusCodes.Status400BadRequest)
-                : Results.Ok(new MemoryChangeDto(saved.Value!.RevisionId, saved.Value.Path, saved.Value.LineCount, saved.Value.RowCount));
-        });
+            {
+                var saved = await conversations.AcceptProposalAsync(http.PersonId(), messageId, cancellationToken);
+                return saved.IsMissing ? Results.Problem(title: saved.Refusal, statusCode: StatusCodes.Status404NotFound)
+                    : saved.IsRefused ? Results.Problem(title: saved.Refusal, statusCode: StatusCodes.Status400BadRequest)
+                    : Results.Ok(new MemoryChangeDto(saved.Value!.RevisionId, saved.Value.Path, saved.Value.LineCount, saved.Value.RowCount));
+            })
+            .Contract("filum.skills.accept", "Save the skill an answer proposed.", "skills")
+            .Produces<MemoryChangeDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         skills.MapPost("/proposals/{messageId:guid}/decline", async (Guid messageId, HttpContext http, ConversationService conversations, CancellationToken cancellationToken) =>
-            await conversations.DeclineProposalAsync(http.PersonId(), messageId, cancellationToken) switch
-            {
-                null => Results.Problem(title: "There is no skill proposal on that message.", statusCode: StatusCodes.Status404NotFound),
-                false => Results.Problem(title: "This proposal was already decided.", statusCode: StatusCodes.Status400BadRequest),
-                true => Results.NoContent()
-            });
+                await conversations.DeclineProposalAsync(http.PersonId(), messageId, cancellationToken) switch
+                {
+                    null => Results.Problem(title: "There is no skill proposal on that message.", statusCode: StatusCodes.Status404NotFound),
+                    false => Results.Problem(title: "This proposal was already decided.", statusCode: StatusCodes.Status400BadRequest),
+                    true => Results.NoContent()
+                })
+            .Contract("filum.skills.decline", "Decline the skill an answer proposed; nothing is saved.", "skills")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         return api;
     }
@@ -170,10 +247,23 @@ public static class FilumEndpoints
     public static RouteGroupBuilder MapFilumModels(this RouteGroupBuilder api)
     {
         api.MapGet("/models", (ModelCatalog catalog) => catalog.Models
-            .Select(m => new ModelDto(m.Id, m.Name, m.Description, m.InputPricePerMillionUsd, m.OutputPricePerMillionUsd, m.Id == catalog.Default.Id)));
+                .Select(m => new ModelDto(m.Id, m.Name, m.Description, m.InputPricePerMillionUsd, m.OutputPricePerMillionUsd, m.Id == catalog.Default.Id)))
+            .Contract("filum.models.list", "The models a message may name, with their prices; one is the default.", "models")
+            .Produces<List<ModelDto>>();
 
         return api;
     }
+
+    /// <summary>A route of the contract: its stable name (the operationId), summary and tag, and the version header.</summary>
+    private static RouteHandlerBuilder Contract(this RouteHandlerBuilder route, string name, string summary, string tag) =>
+        route.WithName(name)
+            .WithSummary(summary)
+            .WithTags(tag)
+            .AddEndpointFilter(async (context, next) =>
+            {
+                FilumApi.Mark(context.HttpContext);
+                return await next(context);
+            });
 
     private static IResult Answer<T>(MemoryOutcome<T> outcome, Func<T, object> body) where T : class =>
         outcome.IsMissing ? Results.Problem(title: outcome.Refusal, statusCode: StatusCodes.Status404NotFound)

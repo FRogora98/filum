@@ -231,6 +231,10 @@ public sealed class ConversationService(
                 .Where(t => !memoryOptions.Value.ExcludedTools.Contains(t.Name, StringComparer.Ordinal))
                 .Select(t => (AITool)new RecordedHostTool(t, tools, logger)))
             .ToList();
+        if (Agent.EpisodicMemory)
+        {
+            turnTools.Add(EpisodicMemory.Tool(db, userId, conversationId, tools));
+        }
 
         // A message that starts with /name gets that skill, whole, from the code: no decision of the model is needed.
         string? invoked = null;
@@ -252,7 +256,8 @@ public sealed class ConversationService(
 
         var stopwatch = Stopwatch.StartNew();
         var instructions = PlatformInstructions.Compose(core, index, PlatformInstructions.SkillList(skills, memoryOptions.Value.SkillListMax), invoked,
-            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name);
+            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name)
+            + (Agent.EpisodicMemory ? EpisodicMemory.Rule : string.Empty);
         var spend = new TurnSpend();
         string? answerText;
         var answerModel = model;

@@ -42,3 +42,5 @@ CLAUDE.local.md
 
 # Eval reports are written locally; publishing one is a deliberate commit elsewhere
 evals/results/
+# LongMemEval's files, downloaded by scripts/longmemeval-download.sh
+evals/longmemeval/data/

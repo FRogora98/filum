@@ -80,7 +80,8 @@ public sealed class SessionBudget(int max)
 }
 
 /// <summary>One agent session: a message in, the answer and the tools it called out.</summary>
-public sealed record AgentSession(string Answer, IReadOnlyList<string> Tools, string? Error);
+/// <param name="Model">The model the agent says it ran, for the report.</param>
+public sealed record AgentSession(string Answer, IReadOnlyList<string> Tools, string? Error, string? Model = null);
 
 /// <summary>An agent run through its command line, one new session per call.</summary>
 public interface IAgent
@@ -103,7 +104,8 @@ public sealed class ClaudeCodeAgent(string? model) : IAgent
     public async Task<AgentSession> AskAsync(string message, string workingDirectory, string mcpConfig, bool filumMounted, CancellationToken cancellationToken)
     {
         var start = new ProcessStartInfo("claude") { WorkingDirectory = workingDirectory, RedirectStandardOutput = true, RedirectStandardError = true, RedirectStandardInput = true };
-        foreach (var argument in (string[])["-p", message, "--output-format", "stream-json", "--verbose", "--strict-mcp-config", "--mcp-config", mcpConfig, "--tools", ""])
+        // The message goes in on stdin: a history can be far longer than a command line may be.
+        foreach (var argument in (string[])["-p", "--output-format", "stream-json", "--verbose", "--strict-mcp-config", "--mcp-config", mcpConfig, "--tools", ""])
         {
             start.ArgumentList.Add(argument);
         }
@@ -129,6 +131,7 @@ public sealed class ClaudeCodeAgent(string? model) : IAgent
         }
 
         using var process = Process.Start(start) ?? throw new InvalidOperationException("The agent could not start.");
+        await process.StandardInput.WriteAsync(message);
         process.StandardInput.Close();
         var output = process.StandardOutput.ReadToEndAsync(cancellationToken);
         var errors = process.StandardError.ReadToEndAsync(cancellationToken);
@@ -145,6 +148,7 @@ public static class AgentStream
     {
         var tools = new List<string>();
         string? answer = null;
+        string? model = null;
         string? error = null;
         foreach (var line in stream.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
         {
@@ -159,6 +163,11 @@ public static class AgentStream
             }
 
             var type = item.TryGetProperty("type", out var t) ? t.GetString() : null;
+            if (type == "system" && item.TryGetProperty("model", out var declared) && declared.ValueKind == JsonValueKind.String)
+            {
+                model = declared.GetString();
+            }
+
             if (type == "assistant" && item.TryGetProperty("message", out var message) && message.TryGetProperty("content", out var content) && content.ValueKind == JsonValueKind.Array)
             {
                 tools.AddRange(content.EnumerateArray()
@@ -175,7 +184,7 @@ public static class AgentStream
             }
         }
 
-        return new AgentSession(answer ?? string.Empty, tools, answer is null && error is null ? "the agent gave no result" : error);
+        return new AgentSession(answer ?? string.Empty, tools, answer is null && error is null ? "the agent gave no result" : error, model);
     }
 }
 

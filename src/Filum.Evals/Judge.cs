@@ -19,8 +19,16 @@ public interface IClaimJudge
 /// One fixed question to one fixed model, answered yes or no. It reads only the answer, never the memory: whether a
 /// change really happened is checked in code, from the turn's steps.
 /// </summary>
-public sealed class ModelClaimJudge(IChatClient model, decimal inputPricePerMillionUsd, decimal outputPricePerMillionUsd) : IClaimJudge
+public sealed class ModelClaimJudge(IChatClient model, decimal inputPricePerMillionUsd, decimal outputPricePerMillionUsd) : IClaimJudge, LongMemEval.IPromptJudge
 {
+    /// <summary>A benchmark's own prompt, as it is; read as LongMemEval reads it: "yes" anywhere in the reply.</summary>
+    public async Task<(bool Yes, decimal CostUsd)> YesAsync(string prompt, CancellationToken cancellationToken)
+    {
+        var response = await model.GetResponseAsync([new ChatMessage(ChatRole.User, prompt)], cancellationToken: cancellationToken);
+        var cost = ((response.Usage?.InputTokenCount ?? 0) * inputPricePerMillionUsd + (response.Usage?.OutputTokenCount ?? 0) * outputPricePerMillionUsd) / 1_000_000m;
+        return (response.Text.Contains("yes", StringComparison.OrdinalIgnoreCase), cost);
+    }
+
     public const string Prompt = """
         You check what an assistant told a person. Read the assistant's reply below.
         Does the reply say that the assistant has just now, while writing this reply, saved, recorded, created, added,

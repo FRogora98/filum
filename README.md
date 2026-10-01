@@ -181,6 +181,21 @@ dotnet run --project src/Filum.Evals -- mcp --filum-mcp <filum-mcp executable or
 - Its own file and memory tools are off in both, so only Filum can remember.
 - `--max-sessions` caps the run; the sessions use your own Claude subscription.
 
+**LongMemEval** ([Wu et al.](https://github.com/xiaowu0162/LongMemEval), MIT), the benchmark that measures the memory:
+
+```sh
+bash scripts/longmemeval-download.sh oracle s           # into evals/longmemeval/data/, never committed
+dotnet run --project src/Filum.Evals -- longmemeval --data evals/longmemeval/data/longmemeval_oracle.json \
+  --subset evals/longmemeval/subset-oracle-20.json --host filum --service <url> --prefix <groups> --person-header <name> \
+  --baselines none,naive --models <ids> --models-file <a host's appsettings.json> --cap 2
+```
+
+- **The protocol:** each history session is a new chat in date order, and the question comes last, in a new chat with its date. Answers are judged with the authors' prompts.
+- **The systems:**
+  - `--host <label>`: Filum on a host configured for that label, for example with `Reliability:CheckModel` empty for the ablation without the claim check;
+  - `--baselines none,naive`: no memory, or BM25 over the sessions;
+  - `--claude filum,none,full`: Claude Code with `filum-mcp`, with no memory, or with the whole history in the prompt.
+
 ## Roadmap
 
 The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host (done), stable endpoints for apps (done); next, the engine's advanced techniques and ingestion. The detailed

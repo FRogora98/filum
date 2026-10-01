@@ -24,11 +24,17 @@ public static class EvalCli
             return await McpEvalCli.MainAsync(mcpArgs);
         }
 
+        if (args is ["longmemeval", .. var lmeArgs])
+        {
+            return await LongMemEval.LmeCli.MainAsync(lmeArgs);
+        }
+
         const string help = """
             Filum evals: plays scenarios against a running service that hosts the engine and compares models.
 
               dotnet run --project src/Filum.Evals -- --models <ids|host> [options]
               dotnet run --project src/Filum.Evals -- mcp [options]     (filum-mcp in a real agent, with and without it)
+              dotnet run --project src/Filum.Evals -- longmemeval [options]   (the LongMemEval benchmark, spec 020)
 
               --models <ids>         catalog ids, comma-separated (see the host's models group); "host" for the host's own model
               --service <url>        the host (default: http://localhost:5410)

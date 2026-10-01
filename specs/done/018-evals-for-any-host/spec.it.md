@@ -1,6 +1,6 @@
 # Eval per qualunque host
 
-> Stato: Rivista
+> Stato: Implementata
 > Area: eval
 > Autore/data: federico rogora (redatta da Claude), 2026-09-30
 > Roadmap: 018, sincronizzata con il primo prodotto che ospita il motore (punto di sincronizzazione S5)

@@ -87,6 +87,8 @@ dotnet test Filum.slnx
 | `tests/Filum.Engine.Tests/` | the engine's tests: the contract in memory and on a local folder, the tool catalog snapshot |
 | `tests/Filum.Mcp.Tests/` | `filum-mcp` end to end: the real server over stdio, on a temporary folder |
 | `tests/Filum.Agent.Tests/` | the turn and its hosting, through the sample host over HTTP (Docker) |
+| `src/Filum.Evals/`, `evals/scenarios/` | the eval runner and its synthetic scenarios (run by hand, never in CI) |
+| `tests/Filum.Evals.Tests/` | the runner's logic: every check, the runner against the sample host, the growth test with a fake agent (Docker) |
 
 Run the server from a clone with `dotnet run --project src/Filum.Mcp` (for example as the command an agent starts).
 `bash scripts/smoke-mcp.sh <command>` checks that a build answers the MCP handshake.
@@ -143,9 +145,42 @@ app.MapGroup("/api")
 - `Agent:Name` names the assistant, `Agent:AllowModelChoice` keeps the choice of model to you, and `Agent:TimeZone`
   is given to your tools.
 
+## Evals
+
+Measurements, not claims. `src/Filum.Evals` plays scenarios (JSON: a few messages, and what must be true after each)
+and scores each model on tasks done, changes claimed but not made, rules kept, cost and speed. It calls real models,
+so it runs by hand only, never in CI; the judge is `gpt-5.4-mini` with `OPENAI_API_KEY`.
+
+**Against a service that hosts the engine:**
+
+```sh
+dotnet run --project src/Filum.Evals -- --service http://localhost:5410 --prefix /api --register /api/auth/register \
+  --models <ids, or host for the host's own model> --scenarios-dir <your folder> --reps 3 --cap 1
+```
+
+- `--person-header <name>` instead of `--register` for hosts that identify the person with a header.
+- `--setup "<command>"` runs a command of your own after each new person is made, with `{email}` and `{person}`
+  replaced, for example to give the account a plan.
+- Besides memory checks, scenarios can check guardrails:
+  - `tool` / `no_tool`;
+  - `surfaced`, the card a tool returned, with `fields`, `equals` and `contain`;
+  - `refused`, the turn gate's status, with nothing saved;
+  - `host_unchanged`, a path of yours read before and after the turn;
+  - `judge`, your own yes/no question about the answer.
+
+**The growth test of `filum-mcp`:**
+
+```sh
+dotnet run --project src/Filum.Evals -- mcp --filum-mcp <filum-mcp executable or filum-mcp.dll> --max-sessions 8 --agent-model haiku
+```
+
+- Every turn is a new session of Claude Code (`claude -p`), in two arms: with only `filum-mcp`, and with no MCP server.
+- Its own file and memory tools are off in both, so only Filum can remember.
+- `--max-sessions` caps the run; the sessions use your own Claude subscription.
+
 ## Roadmap
 
-The engine library, the local folder memory, `filum-mcp`, packages and hosting (done), then the published evals. The detailed
+The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host (done), then stable endpoints for apps. The detailed
 specs are published alongside the code, in `specs/`.
 
 ## License

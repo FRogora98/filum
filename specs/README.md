@@ -20,6 +20,7 @@
 
 | # | Spec | Status | Area |
 |---|---|---|---|
+| 018 | [Evals for any host](done/018-evals-for-any-host/spec.md) · [Eval per qualunque host](done/018-evals-for-any-host/spec.it.md) | Implemented | evals |
 | 017 | [Hosting the engine](done/017-hosting/spec.md) · [Ospitare il motore](done/017-hosting/spec.it.md) | Implemented | engine, hosting |
 | 016 | [Packages: a vertical as data](done/016-packages/spec.md) · [Pacchetti: un verticale fatto di dati](done/016-packages/spec.it.md) | Implemented | engine, MCP |
 | 013 | [filum-mcp: the engine as a local MCP server](done/013-filum-mcp/spec.md) · [filum-mcp: il motore come server MCP locale](done/013-filum-mcp/spec.it.md) | Implemented | MCP |

@@ -15,6 +15,10 @@ public static class EvalCli
 
     public static async Task<int> Main(string[] args)
     {
+        // Reports read the same on every console: UTF-8 symbols, numbers with a decimal point.
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
         if (args is ["mcp", .. var mcpArgs])
         {
             return await McpEvalCli.MainAsync(mcpArgs);

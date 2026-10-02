@@ -46,7 +46,7 @@
     - Do: the two tools in `McpServerSetup`; the MCP instructions (log what matters; consolidate at the start of a session when events are pending, and when asked).
     - Verify: `Filum.Mcp.Tests` over stdio (criteria 10, 11); `scripts/smoke-mcp.sh`.
 
-- [ ] **T12 — The hosts**
+- [x] **T12 — The hosts**
     - Do: the sample host creates the table with the rest (no change); hosts that keep migrations add one for `memory_events` and turn consolidation on in their own settings, outside this repository.
     - Verify: `dotnet test tests/Filum.Agent.Tests` (the sample host on Postgres).
 

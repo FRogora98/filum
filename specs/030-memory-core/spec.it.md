@@ -182,3 +182,11 @@ Il proprietario ha risposto a tutte le domande aperte il 2026-10-01 ("a me torna
 - **Fatti:** una collezione normale, `/facts.csv` (§2).
 - **`filum-mcp`:** il modello dell'ospite registra con `memory_log` e consolida con `memory_consolidate` quando Filum glielo chiede (§5).
 - **Conversazioni lunghe:** i messaggi più vecchi vengono riassunti per il modello, e restano tutti nel registro (§3).
+
+## Fissato durante il piano (2026-10-02)
+
+Il piano fissa questi dettagli; nessun criterio di accettazione cambia:
+- **`proposed`** è un tipo di evento in più: un cambio di struttura suggerito dal consolidamento, mostrato all'agente finché la persona non risponde (`proposal_answer`).
+- **`told`** si registra quando un turno ha cambiato le Regole del nucleo, con fonte l'evento `said` della persona: un segnale deterministico, senza una chiamata al modello per messaggio.
+- **I riassunti nella mappa** sono fatti nel codice: per un documento la prima riga di testo, per una collezione i campi e le righe. Nessuna chiamata al modello per file.
+- **Il claim check sui fatti ricordati** (§4: "ogni affermazione ricordata è sostenuta da un passo?") è rimandato: aggiungerebbe una chiamata al modello a ogni risposta, e nessun criterio di accettazione lo richiede. Le istruzioni continuano a chiedere all'agente di nominare la fonte.

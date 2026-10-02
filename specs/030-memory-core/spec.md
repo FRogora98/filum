@@ -178,3 +178,11 @@ All the open questions were answered by the owner on 2026-10-01 ("a me tornano t
 - **Facts:** a plain collection, `/facts.csv` (§2).
 - **`filum-mcp`:** the host's model logs with `memory_log` and consolidates with `memory_consolidate` when Filum asks it (§5).
 - **Long conversations:** the oldest messages are summarized for the model, and all of them stay in the log (§3).
+
+## Settled while planning (2026-10-02)
+
+The plan fixes these details; they change no acceptance criterion:
+- **`proposed`** is one more event kind: a structural change consolidation suggests, shown to the agent until the person answers (`proposal_answer`).
+- **`told`** is recorded when a turn changed the core's Rules, sourced on the person's `said` event: a deterministic signal, with no model call per message.
+- **Summaries in the map** are made in code: a document's first line of text, a collection's fields and rows. No model call per file.
+- **The claim check on remembered facts** (§4: "is every remembered claim backed by a step?") is left for later: it would add a model call to every answer, and no acceptance criterion needs it. The instructions keep asking the agent to name its source.

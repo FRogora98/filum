@@ -87,4 +87,16 @@ public interface IMemoryStore
 
     /// <summary>The titles of the person's conversations among these ids; a store without conversations returns none.</summary>
     Task<IReadOnlyDictionary<Guid, string>> ConversationTitlesAsync(Guid userId, IReadOnlyCollection<Guid> conversationIds, CancellationToken cancellationToken);
+
+    /// <summary>Appends one event to the person's log (spec 030), with the next id; the log is never rewritten.</summary>
+    Task<MemoryEvent> AppendEventAsync(Guid userId, NewMemoryEvent next, DateTimeOffset now, CancellationToken cancellationToken);
+
+    /// <summary>The person's events that match <paramref name="query"/>, oldest first.</summary>
+    Task<IReadOnlyList<MemoryEvent>> EventsAsync(Guid userId, EventQuery query, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Forgets for good: removes these events, and these files with every revision of theirs. The one exception to the
+    /// append-only rule, for the person's right to be forgotten.
+    /// </summary>
+    Task ForgetAsync(Guid userId, IReadOnlyCollection<long> eventIds, IReadOnlyCollection<Guid> fileIds, CancellationToken cancellationToken);
 }

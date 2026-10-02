@@ -9,7 +9,9 @@ public sealed class InMemoryMemoryStore : IMemoryStore
     private readonly Lock _gate = new();
     private readonly Dictionary<Guid, (Guid UserId, StoredFile File)> _files = [];
     private readonly List<(Guid UserId, StoredRevision Revision)> _revisions = [];
+    private readonly List<(Guid UserId, MemoryEvent Event)> _events = [];
     private long _nextRevision = 1;
+    private long _nextEvent = 1;
 
     public Task<StoredFile?> FindLiveAsync(Guid userId, string path, CancellationToken cancellationToken) =>
         Task.FromResult(Read(() => Files(userId).FirstOrDefault(f => f.IsLive && f.Path == path)));
@@ -70,6 +72,34 @@ public sealed class InMemoryMemoryStore : IMemoryStore
 
     public Task<IReadOnlyDictionary<Guid, string>> ConversationTitlesAsync(Guid userId, IReadOnlyCollection<Guid> conversationIds, CancellationToken cancellationToken) =>
         Task.FromResult<IReadOnlyDictionary<Guid, string>>(new Dictionary<Guid, string>());
+
+    public Task<MemoryEvent> AppendEventAsync(Guid userId, NewMemoryEvent next, DateTimeOffset now, CancellationToken cancellationToken)
+    {
+        lock (_gate)
+        {
+            var stored = MemoryEvents.From(_nextEvent++, next, now);
+            _events.Add((userId, stored));
+            return Task.FromResult(stored);
+        }
+    }
+
+    public Task<IReadOnlyList<MemoryEvent>> EventsAsync(Guid userId, EventQuery query, CancellationToken cancellationToken) =>
+        Task.FromResult<IReadOnlyList<MemoryEvent>>(Read(() => _events.Where(e => e.UserId == userId && query.Matches(e.Event)).Select(e => e.Event).ToList()));
+
+    public Task ForgetAsync(Guid userId, IReadOnlyCollection<long> eventIds, IReadOnlyCollection<Guid> fileIds, CancellationToken cancellationToken)
+    {
+        lock (_gate)
+        {
+            _events.RemoveAll(e => e.UserId == userId && eventIds.Contains(e.Event.Id));
+            _revisions.RemoveAll(r => r.UserId == userId && fileIds.Contains(r.Revision.FileId));
+            foreach (var id in fileIds.Where(id => _files.TryGetValue(id, out var f) && f.UserId == userId))
+            {
+                _files.Remove(id);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
 
     private T Read<T>(Func<T> read)
     {

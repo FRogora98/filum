@@ -29,6 +29,9 @@ public sealed class MemoryOptions
     /// <summary>A skill file, header included, is at most this many characters.</summary>
     public int MaxSkillChars { get; set; } = 4_000;
 
+    /// <summary>A search of the log of events returns at most this many events (spec 030).</summary>
+    public int EventsSearchMax { get; set; } = 8;
+
     /// <summary>
     /// Engine tools a host leaves out by name (for example a host whose rules forbid deleting): they are neither offered
     /// nor callable. Empty for the stock host.

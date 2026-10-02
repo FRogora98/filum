@@ -7,7 +7,8 @@ namespace Filum.Engine;
 /// <summary>
 /// A person's memory in a folder on their own disk (spec 012): every file is a real file at its memory path
 /// (<c>/notes/plans.md</c> is <c>notes/plans.md</c>), readable and editable with any editor. Beside them,
-/// <c>.filum/</c> keeps an append-only log of every revision (<c>revisions.jsonl</c>), the current state
+/// <c>.filum/</c> keeps an append-only log of every revision (<c>revisions.jsonl</c>), the log of events
+/// (<c>events.jsonl</c>, spec 030), the current state
 /// (<c>state.json</c>, rebuilt from the log when missing) and the owner. Changes the person makes by hand are adopted
 /// as their revisions before every call. A lock file serializes the processes that share the folder. One person per
 /// folder: for anyone else the memory is empty and a change is refused.
@@ -86,6 +87,33 @@ public sealed class LocalFolderStore : IMemoryStore
 
     public Task<IReadOnlyDictionary<Guid, string>> ConversationTitlesAsync(Guid userId, IReadOnlyCollection<Guid> conversationIds, CancellationToken cancellationToken) =>
         Task.FromResult<IReadOnlyDictionary<Guid, string>>(new Dictionary<Guid, string>());
+
+    public async Task<MemoryEvent> AppendEventAsync(Guid userId, NewMemoryEvent next, DateTimeOffset now, CancellationToken cancellationToken)
+    {
+        if (userId != Owner)
+        {
+            throw new UnauthorizedAccessException("This memory belongs to another person.");
+        }
+
+        return await Locked(s => s.AppendEvent(next, now), cancellationToken);
+    }
+
+    public Task<IReadOnlyList<MemoryEvent>> EventsAsync(Guid userId, EventQuery query, CancellationToken cancellationToken) =>
+        Read<IReadOnlyList<MemoryEvent>>(userId, [], s => s.Events().Where(query.Matches).ToList(), cancellationToken);
+
+    public async Task ForgetAsync(Guid userId, IReadOnlyCollection<long> eventIds, IReadOnlyCollection<Guid> fileIds, CancellationToken cancellationToken)
+    {
+        if (userId != Owner)
+        {
+            return;
+        }
+
+        await Locked(s =>
+        {
+            s.Forget(eventIds, fileIds);
+            return true;
+        }, cancellationToken);
+    }
 
     public async Task<SavedChange?> SaveAsync(Guid userId, StoredFile? current, FileState next, MemoryActor actor, string operation, long? undoesRevisionId, DateTimeOffset now, CancellationToken cancellationToken)
     {
@@ -173,6 +201,8 @@ public sealed class LocalFolderStore : IMemoryStore
     {
         public long LastRevision { get; set; }
 
+        public long LastEvent { get; set; }
+
         public List<Entry> Files { get; set; } = [];
     }
 
@@ -215,6 +245,7 @@ public sealed class LocalFolderStore : IMemoryStore
     {
         private readonly LocalFolderStore _store;
         private List<StoredRevision>? _log;
+        private List<MemoryEvent>? _events;
         private bool _dirty;
 
         public Session(LocalFolderStore store)
@@ -228,6 +259,100 @@ public sealed class LocalFolderStore : IMemoryStore
         private string StatePath => Path.Combine(_store._meta, "state.json");
 
         private string LogPath => Path.Combine(_store._meta, "revisions.jsonl");
+
+        private string EventsPath => Path.Combine(_store._meta, "events.jsonl");
+
+        /// <summary>The events, oldest first; a line that does not parse (a write cut short) is skipped.</summary>
+        public List<MemoryEvent> Events() => _events ??= ReadLines<MemoryEvent>(EventsPath);
+
+        public MemoryEvent AppendEvent(NewMemoryEvent next, DateTimeOffset now)
+        {
+            // The state can be rebuilt without its counter: the log's last id still wins.
+            State.LastEvent = Math.Max(State.LastEvent, Events().Select(e => e.Id).DefaultIfEmpty(0).Max());
+            var stored = MemoryEvents.From(++State.LastEvent, next, now);
+            AppendLine(EventsPath, JsonSerializer.Serialize(stored, Json));
+            Events().Add(stored);
+            _dirty = true;
+            return stored;
+        }
+
+        /// <summary>Removes events and whole files (their revisions and what is on disk) for good.</summary>
+        public void Forget(IReadOnlyCollection<long> eventIds, IReadOnlyCollection<Guid> fileIds)
+        {
+            if (eventIds.Count > 0)
+            {
+                Events().RemoveAll(e => eventIds.Contains(e.Id));
+                Rewrite(EventsPath, Events().Select(e => JsonSerializer.Serialize(e, Json)));
+            }
+
+            if (fileIds.Count > 0)
+            {
+                foreach (var entry in State.Files.Where(e => fileIds.Contains(e.Id)).ToList())
+                {
+                    if (entry.DeletedAt is null)
+                    {
+                        RemoveFromDisk(entry.Path);
+                    }
+
+                    State.Files.Remove(entry);
+                }
+
+                Log().RemoveAll(r => fileIds.Contains(r.FileId));
+                Rewrite(LogPath, Log().Select(r => JsonSerializer.Serialize(r, Json)));
+            }
+
+            _dirty = true;
+        }
+
+        private void Rewrite(string path, IEnumerable<string> lines)
+        {
+            var temporary = System.IO.Path.Combine(_store._meta, "tmp", Guid.NewGuid().ToString("N"));
+            File.WriteAllText(temporary, string.Concat(lines.Select(l => l + "\n")), new UTF8Encoding(false));
+            File.Move(temporary, path, overwrite: true);
+        }
+
+        private static List<T> ReadLines<T>(string path)
+        {
+            var items = new List<T>();
+            if (!File.Exists(path))
+            {
+                return items;
+            }
+
+            foreach (var line in File.ReadLines(path))
+            {
+                if (line.Length == 0)
+                {
+                    continue;
+                }
+
+                try
+                {
+                    if (JsonSerializer.Deserialize<T>(line, Json) is { } item)
+                    {
+                        items.Add(item);
+                    }
+                }
+                catch (JsonException)
+                {
+                }
+            }
+
+            return items;
+        }
+
+        /// <summary>Appends one line and flushes it; a line cut short by a crash is closed first.</summary>
+        private static void AppendLine(string path, string line)
+        {
+            using var file = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read);
+            if (file.Length > 0 && LastByte(path) != (byte)'\n')
+            {
+                file.WriteByte((byte)'\n');
+            }
+
+            file.Write(Encoding.UTF8.GetBytes(line + "\n"));
+            file.Flush(flushToDisk: true);
+        }
 
         public IEnumerable<Entry> Live() => State.Files.Where(e => e.DeletedAt is null);
 
@@ -247,29 +372,7 @@ public sealed class LocalFolderStore : IMemoryStore
                 return _log;
             }
 
-            _log = [];
-            if (File.Exists(LogPath))
-            {
-                foreach (var line in File.ReadLines(LogPath))
-                {
-                    if (line.Length == 0)
-                    {
-                        continue;
-                    }
-
-                    try
-                    {
-                        if (JsonSerializer.Deserialize<StoredRevision>(line, Json) is { } revision)
-                        {
-                            _log.Add(revision);
-                        }
-                    }
-                    catch (JsonException)
-                    {
-                    }
-                }
-            }
-
+            _log = ReadLines<StoredRevision>(LogPath);
             return _log;
         }
 
@@ -277,19 +380,7 @@ public sealed class LocalFolderStore : IMemoryStore
             Guid? conversationId, Guid? messageId, long? undoes, DateTimeOffset now)
         {
             var revision = new StoredRevision(++State.LastRevision, fileId, path, content, sensitivity, deleted, operation, author, conversationId, messageId, undoes, now);
-            var line = JsonSerializer.Serialize(revision, Json) + "\n";
-            using (var log = new FileStream(LogPath, FileMode.Append, FileAccess.Write, FileShare.Read))
-            {
-                // A line cut short by a crash is closed first, so the new one starts on its own line.
-                if (log.Length > 0 && LastByte() != (byte)'\n')
-                {
-                    log.WriteByte((byte)'\n');
-                }
-
-                var bytes = Encoding.UTF8.GetBytes(line);
-                log.Write(bytes);
-                log.Flush(flushToDisk: true);
-            }
+            AppendLine(LogPath, JsonSerializer.Serialize(revision, Json));
 
             Log().Add(revision);
             _dirty = true;
@@ -481,9 +572,9 @@ public sealed class LocalFolderStore : IMemoryStore
             return files;
         }
 
-        private byte LastByte()
+        private static byte LastByte(string path)
         {
-            using var read = new FileStream(LogPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var read = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             read.Seek(-1, SeekOrigin.End);
             return (byte)read.ReadByte();
         }

@@ -10,7 +10,7 @@ namespace Filum.Engine;
 /// <see cref="IMemoryStore"/> only persists. Every change adds a revision and bumps the file's version atomically:
 /// two changes from the same version cannot both win.
 /// </summary>
-public sealed class MemoryService(
+public sealed partial class MemoryService(
     IMemoryStore store,
     IOptions<MemoryOptions> options,
     ILogger<MemoryService> logger,
@@ -20,6 +20,10 @@ public sealed class MemoryService(
     private const string ChangedAtTheSameTime = "{0} was changed at the same time by another action; read it again and retry.";
 
     private MemoryOptions Limits => options.Value;
+
+    private IMemoryStore Store => store;
+
+    private ILogger Logger => logger;
 
     /// <summary>The package every new memory starts from (spec 016), or null for the generic engine.</summary>
     public Pack? Pack => pack;

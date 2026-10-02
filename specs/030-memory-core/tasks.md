@@ -2,11 +2,11 @@
 
 > Rules: tasks are small (each leaves the build and the tests green), ordered (later tasks may depend on earlier ones), and each states how to verify it. Tick them off as you go. If a task turns out to be wrong, fix plan.md or spec.md first, then the task: never diverge silently.
 
-- [ ] **T1 — The event log in the engine**
+- [x] **T1 — The event log in the engine**
     - Do: `MemoryEvents.cs` (records, kinds, sources, query, BM25 over events); the three `IMemoryStore` methods in `InMemoryMemoryStore` and `LocalFolderStore` (`.filum/events.jsonl`, append-only; forget rewrites it without the forgotten lines); `MemoryService.RecordAsync`, `EventsAsync`, `SearchEventsAsync`.
     - Verify: `MemoryServiceContract` gains the event tests (append and read in order, filters, isolation, forget); `dotnet test tests/Filum.Engine.Tests`.
 
-- [ ] **T2 — The event log in Postgres**
+- [x] **T2 — The event log in Postgres**
     - Do: `MemoryEventRow` and `memory_events` in `FilumModel`; `PostgresMemoryStore` implements the three methods; the contract runs on it.
     - Verify: `dotnet test tests/Filum.Agent.Tests` (the contract on Postgres).
 

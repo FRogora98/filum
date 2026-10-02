@@ -425,6 +425,83 @@ public abstract class MemoryServiceContract
         Assert.Equal("- …and 2 older files not listed here: memory_search finds them.", lines[2]);
     }
 
+    [Fact]
+    public async Task Events_are_appended_in_order_and_read_back_with_filters()
+    {
+        var chat = Guid.NewGuid();
+        var said = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "I moved to\r\nthe coast", new DateTimeOffset(2026, 3, 1, 9, 0, 0, TimeSpan.Zero), chat, Guid.NewGuid()), None);
+        var answered = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Answered, MemoryEventSource.Agent, "Noted.", ConversationId: chat), None);
+        var derived = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Derived, MemoryEventSource.Agent, "Wrote 1 change", Sources: [said.Id], Revisions: [7]), None);
+
+        Assert.True(said.Id < answered.Id && answered.Id < derived.Id);
+        Assert.Equal("I moved to\nthe coast", said.Text);
+        Assert.Equal(new DateTimeOffset(2026, 3, 1, 9, 0, 0, TimeSpan.Zero), said.OccurredAt);
+        Assert.True(answered.OccurredAt == answered.RecordedAt);
+
+        var all = await _memory.EventsAsync(_user, new EventQuery(), None);
+        Assert.Equal([said.Id, answered.Id, derived.Id], all.Select(e => e.Id));
+        Assert.Equal([said.Id], all[2].Sources);
+        Assert.Equal([7L], all[2].Revisions);
+        Assert.Equal([answered.Id, derived.Id], (await _memory.EventsAsync(_user, new EventQuery(AfterId: said.Id), None)).Select(e => e.Id));
+        Assert.Equal([said.Id, answered.Id], (await _memory.EventsAsync(_user, new EventQuery(ConversationId: chat), None)).Select(e => e.Id));
+        Assert.Equal([derived.Id], (await _memory.EventsAsync(_user, new EventQuery(Kinds: [MemoryEventKind.Derived]), None)).Select(e => e.Id));
+        Assert.Equal([said.Id], (await _memory.EventsAsync(_user, new EventQuery(Before: new DateTimeOffset(2026, 3, 2, 0, 0, 0, TimeSpan.Zero)), None)).Select(e => e.Id));
+    }
+
+    [Fact]
+    public async Task A_search_of_the_events_ranks_what_was_said_and_gives_the_reply_after_it()
+    {
+        var chat = Guid.NewGuid();
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "The weather is fine today", ConversationId: chat), None);
+        var asked = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "My bicycle is the blue one with a basket", ConversationId: chat), None);
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Answered, MemoryEventSource.Agent, "A blue bicycle, noted.", ConversationId: chat), None);
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Derived, MemoryEventSource.Agent, "bicycle bicycle bicycle"), None);
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "my private bicycle code", Sensitivity: MemorySensitivity.Private), None);
+
+        var hits = Ok(await _memory.SearchEventsAsync(_user, "Bicycle basket", null, null, includePrivate: false, None));
+
+        Assert.Equal(asked.Id, hits[0].Event.Id);
+        Assert.Equal("A blue bicycle, noted.", hits[0].Next?.Text);
+        Assert.DoesNotContain(hits, h => h.Event.Kind == MemoryEventKind.Derived || h.Event.Sensitivity == MemorySensitivity.Private);
+        Assert.Contains(Ok(await _memory.SearchEventsAsync(_user, "code", null, null, includePrivate: true, None)), h => h.Event.Sensitivity == MemorySensitivity.Private);
+        Assert.Empty(Ok(await _memory.SearchEventsAsync(_user, "bicycle", DateTimeOffset.UtcNow.AddDays(1), null, false, None)));
+        Assert.Contains("between 1 and 200", Refused(await _memory.SearchEventsAsync(_user, " ", null, null, false, None)));
+    }
+
+    [Fact]
+    public async Task Forgetting_removes_events_and_whole_files_for_good()
+    {
+        var kept = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "keep this"), None);
+        var gone = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "forget this"), None);
+        Ok(await _memory.WriteAsync(_user, Agent, "/notes/keep.md", "keep\n", None));
+        var dropped = Ok(await _memory.WriteAsync(_user, Agent, "/notes/drop.md", "drop\n", None));
+        Ok(await _memory.AppendAsync(_user, Agent, "/notes/drop.md", "more", None));
+        await _memory.ForgetAsync(_user, [gone.Id], ["/notes/drop.md"], None);
+
+        Assert.Equal([kept.Id], (await _memory.EventsAsync(_user, new EventQuery(), None)).Select(e => e.Id));
+        Assert.Equal(["/notes/keep.md"], Ok(await _memory.ListAsync(_user, "/", true, None)).Select(f => f.Path));
+        Assert.Contains("no change", Refused(await _memory.GetRevisionAsync(_user, dropped.RevisionId, None)));
+        var next = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "after"), None);
+        Assert.True(next.Id > gone.Id);
+    }
+
+    [Fact]
+    public async Task Another_persons_events_do_not_exist()
+    {
+        var other = Guid.NewGuid();
+        var mine = await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "mine"), None);
+
+        Assert.Empty(await _memory.EventsAsync(other, new EventQuery(), None));
+        Assert.Empty(Ok(await _memory.SearchEventsAsync(other, "mine", null, null, true, None)));
+        await _memory.ForgetAsync(other, [mine.Id], [], None);
+        Assert.Single(await _memory.EventsAsync(_user, new EventQuery(), None));
+
+        if (OnePersonPerStore)
+        {
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _memory.RecordAsync(other, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "theirs"), None));
+        }
+    }
+
     /// <summary>A service whose changes all wait for each other right before saving, so they race from the same version.</summary>
     private MemoryService RacingService(int racers)
     {

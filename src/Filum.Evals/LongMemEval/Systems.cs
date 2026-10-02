@@ -66,12 +66,8 @@ public sealed class HostLmeSystem(HttpClient service, HostTarget target, string 
 
             if (consolidate)
             {
+                // A pass that fails leaves its events for the next one, as in the product: the question goes on.
                 var pass = await ConsolidateAsync(person, cancellationToken);
-                if (pass.Error is not null)
-                {
-                    return LmeAnswer.Failed($"consolidation after the session of {date}: {pass.Error}", clock.Elapsed.TotalSeconds, turns) with { InputTokens = input, OutputTokens = output, CostUsd = cost };
-                }
-
                 (input, output, cost) = (input + pass.Input, output + pass.Output, cost + pass.Cost);
             }
         }

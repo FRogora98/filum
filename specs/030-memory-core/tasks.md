@@ -26,7 +26,7 @@
     - Do: `BuildIndexAsync` adds each file's summary (a document's first line of text, a collection's fields and rows); the core template and the instructions (hosted and MCP) lose the hand-kept memory map.
     - Verify: `MapTests` (criterion 8); existing tests updated where they quoted the old template.
 
-- [ ] **T7 — Consolidation's rules in the engine**
+- [x] **T7 — Consolidation's rules in the engine**
     - Do: `Consolidation.cs` (the prompt; pending = events after the last pass); `MemoryTools` in consolidation mode (author `consolidation`; no new files: a `proposed` event instead; no change to a file whose latest revision is the person's); `ProposalsAsync`, `AnswerProposalAsync`, tool `proposal_answer`; open proposals in the turn's instructions.
     - Verify: `ConsolidationRulesTests` (criteria 6, 7); snapshot.
 

@@ -31,4 +31,7 @@ public static class MemoryAuthor
     public const string Agent = "agent";
     public const string Person = "person";
     public const string Platform = "platform";
+
+    /// <summary>A consolidation pass (spec 030).</summary>
+    public const string Consolidation = "consolidation";
 }

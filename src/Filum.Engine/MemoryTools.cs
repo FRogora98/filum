@@ -19,6 +19,7 @@ public sealed class MemoryTools
     private readonly Guid _userId;
     private readonly MemoryActor _actor;
     private readonly IReadOnlyList<long> _sources;
+    private readonly bool _consolidation;
     private readonly List<ToolStep> _steps = [];
     private readonly List<long> _revisions = [];
     private readonly List<string> _savedSkills = [];
@@ -27,9 +28,14 @@ public sealed class MemoryTools
     private int _calls;
 
     /// <param name="sources">The events this turn answers (the person's message), the default source of what it records.</param>
-    public MemoryTools(MemoryService memory, MemoryOptions limits, Guid userId, MemoryActor actor, IReadOnlyList<long>? sources = null)
+    /// <param name="consolidation">
+    /// The tools of a consolidation pass (spec 030): only <see cref="Consolidation.Tools"/>, no new files (a proposal
+    /// instead), and no change to a file the person changed last.
+    /// </param>
+    public MemoryTools(MemoryService memory, MemoryOptions limits, Guid userId, MemoryActor actor, IReadOnlyList<long>? sources = null, bool consolidation = false)
     {
         _sources = sources ?? [];
+        _consolidation = consolidation;
         _memory = memory;
         _limits = limits;
         _userId = userId;
@@ -50,6 +56,10 @@ public sealed class MemoryTools
                 "The facts that hold now, with the day each started and where it came from; of one subject, or all of them."),
             AIFunctionFactory.Create(FactHistory, "facts_history",
                 "How the facts of a subject changed: every value it had, oldest first, with the days it held. Use it for questions about before, since when, or how something changed."),
+            AIFunctionFactory.Create(AnswerProposal, "proposal_answer",
+                "Record the person's answer to a proposal listed under \"Proposals waiting for the person\": accepted true or false. Ask them first, in your answer; call it when they reply. When they accept, then create what was proposed with the usual tools."),
+            AIFunctionFactory.Create(Propose, Consolidation.ProposeTool,
+                "Propose to the person a new file or a new section that the memory needs (a collection for a new kind of entries, a document for a new topic, a skill, a section of the core): what, where, and why, in one or two sentences, with the ids of the events it comes from. Nothing is created; the person decides."),
             AIFunctionFactory.Create(Write, "memory_write",
                 "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes."),
             AIFunctionFactory.Create(Edit, "memory_edit",
@@ -88,7 +98,10 @@ public sealed class MemoryTools
                 "Turn one of the person's skills off (it is kept but no longer used) or back on.")
         ];
         var excluded = new HashSet<string>(limits.ExcludedTools, StringComparer.Ordinal);
-        Tools = all.Where(t => !excluded.Contains(t.Name)).Cast<AITool>().ToList();
+        Tools = all
+            .Where(t => !excluded.Contains(t.Name) && (consolidation ? Consolidation.Tools.Contains(t.Name) : t.Name != Consolidation.ProposeTool))
+            .Cast<AITool>()
+            .ToList();
     }
 
     /// <summary>
@@ -178,7 +191,7 @@ public sealed class MemoryTools
             }
 
             var lines = outcome.Value!.Select(r =>
-                $"- change {r.Id}: {r.Summary} · by {(r.Author == MemoryAuthor.Agent ? "the agent" : r.Author == MemoryAuthor.Person ? "the person" : "the platform")}"
+                $"- change {r.Id}: {r.Summary} · by {(r.Author == MemoryAuthor.Agent ? "the agent" : r.Author == MemoryAuthor.Person ? "the person" : r.Author == MemoryAuthor.Consolidation ? "the tidying pass" : "the platform")}"
                 + (r.ConversationTitle is null ? string.Empty : $" in \"{r.ConversationTitle}\"")
                 + $" · {r.CreatedAt.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture)} UTC");
             return new Done(string.Join('\n', lines), ToolStep.Read, path, $"Read the history of {path}");
@@ -359,6 +372,60 @@ public sealed class MemoryTools
                 $"Read how the facts of {subject} changed");
         });
 
+    private Task<string> AnswerProposal(
+        [Description("The id of the proposal.")] long id,
+        [Description("True when the person accepted it, false when they declined.")] bool accepted,
+        CancellationToken cancellationToken = default) =>
+        Run("proposal_answer", null, $"record the answer to proposal {id}", async () =>
+        {
+            var outcome = await _memory.AnswerProposalAsync(_userId, id, accepted, MemoryEventSource.Chat, cancellationToken);
+            if (outcome.IsRefused)
+            {
+                return outcome.Refusal!;
+            }
+
+            return new Done(accepted ? $"Proposal {id} accepted: now create what it proposed." : $"Proposal {id} declined; it will not be shown again.",
+                ToolStep.Asked, null, accepted ? $"The person accepted proposal {id}" : $"The person declined proposal {id}");
+        });
+
+    private Task<string> Propose(
+        [Description("What to create, where and why, in one or two sentences.")] string proposal,
+        [Description("The ids of the events it comes from.")] List<long>? sources = null,
+        CancellationToken cancellationToken = default) =>
+        Run(Consolidation.ProposeTool, null, "propose", async () =>
+        {
+            if (string.IsNullOrWhiteSpace(proposal) || proposal.Length > 500)
+            {
+                return "A proposal is one or two sentences, at most 500 characters.";
+            }
+
+            var open = await _memory.OpenProposalsAsync(_userId, cancellationToken);
+            if (open.Any(p => string.Equals(p.Text, proposal.Trim(), StringComparison.OrdinalIgnoreCase)))
+            {
+                return "That proposal is already waiting for the person.";
+            }
+
+            var proposed = await _memory.ProposeAsync(_userId, proposal.Trim(), sources ?? _sources, cancellationToken);
+            return new Done($"Proposed (proposal {proposed.Id}); nothing was created.", ToolStep.Asked, null, $"Proposed: {EventSearch.Cut(proposal.Trim(), 100)}");
+        });
+
+    /// <summary>
+    /// What a consolidation pass may not do, decided in code: create a file (other than the facts), change a file the
+    /// person changed last, or add a section to the core.
+    /// </summary>
+    private async Task<string?> RefusedToConsolidation(string path, Func<Task<string?>>? more = null)
+    {
+        if (!_consolidation || path == Facts.Path)
+        {
+            return null;
+        }
+
+        var author = await _memory.LastAuthorAsync(_userId, path, CancellationToken.None);
+        return author is null ? $"{path} does not exist and a pass cannot create files: propose it with {Consolidation.ProposeTool}."
+            : author == MemoryAuthor.Person ? $"The person changed {path} themselves last; leave it as they made it."
+            : more is null ? null : await more();
+    }
+
     private const string UseFactTools = "keeps facts that hold for a time: use fact_record; the platform closes the old value and writes the file.";
 
     private const string UseCollectionTools = "is a collection: use collection_add_rows, collection_update_rows or collection_remove_rows; the platform writes the file.";
@@ -371,6 +438,15 @@ public sealed class MemoryTools
     /// <summary>The facts collection is changed only by fact_record, which keeps its dates right.</summary>
     private static Task<MemoryOutcome<MemoryChange>>? FactsOnly(string path) =>
         path == Facts.Path ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseFactTools}")) : null;
+
+    /// <summary>A pass adds to the core's sections, and proposes a new one.</summary>
+    private Task<MemoryOutcome<MemoryChange>>? NewCoreSection(string path, string? oldText, string? newText)
+    {
+        static int Headings(string? text) => (text ?? string.Empty).Split('\n').Count(l => l.StartsWith("# ", StringComparison.Ordinal));
+        return _consolidation && MemoryPaths.IsCore(path) && Headings(newText) > Headings(oldText)
+            ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"A pass does not add sections to the core: propose it with {Consolidation.ProposeTool}."))
+            : null;
+    }
 
     private static Task<MemoryOutcome<MemoryChange>>? RefuseTyped(string path) =>
         path == Facts.Path ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseFactTools}")) :
@@ -522,7 +598,7 @@ public sealed class MemoryTools
         [Description("The exact text to replace; it must appear once.")] string oldText,
         [Description("The text to put in its place.")] string newText,
         CancellationToken cancellationToken = default) =>
-        Change("memory_edit", path, "edit", () => RefuseTyped(path) ?? _memory.EditAsync(_userId, _actor, path, oldText, newText, cancellationToken),
+        Change("memory_edit", path, "edit", () => RefuseTyped(path) ?? NewCoreSection(path, oldText, newText) ?? _memory.EditAsync(_userId, _actor, path, oldText, newText, cancellationToken),
             _ => $"Edited {path}",
             _ => $"Edited {path}.");
 
@@ -605,6 +681,11 @@ public sealed class MemoryTools
     private Task<string> Change(string tool, string path, string verb, Func<Task<MemoryOutcome<MemoryChange>>> change, Func<MemoryChange, string> describe, Func<MemoryChange, string> forModel, string? stepPath = null) =>
         Run(tool, path, verb, async () =>
         {
+            if (await RefusedToConsolidation(path) is { } refused)
+            {
+                return refused;
+            }
+
             var outcome = await change();
             if (outcome.IsRefused)
             {

@@ -7,6 +7,8 @@ public sealed record MemoryActor(string Author, Guid? ConversationId = null, Gui
 
     public static MemoryActor Person { get; } = new(MemoryAuthor.Person);
 
+    public static MemoryActor Consolidation { get; } = new(MemoryAuthor.Consolidation);
+
     public static MemoryActor Agent(Guid conversationId, Guid messageId) => new(MemoryAuthor.Agent, conversationId, messageId);
 }
 

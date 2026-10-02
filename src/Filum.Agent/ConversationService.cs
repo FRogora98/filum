@@ -255,7 +255,8 @@ public sealed class ConversationService(
 
         var stopwatch = Stopwatch.StartNew();
         var instructions = PlatformInstructions.Compose(core, index, PlatformInstructions.SkillList(skills, memoryOptions.Value.SkillListMax), invoked,
-            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name);
+            repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name)
+            + PlatformInstructions.Proposals(await memoryService.OpenProposalsAsync(userId, cancellationToken));
         var spend = new TurnSpend();
         string? answerText;
         var answerModel = model;

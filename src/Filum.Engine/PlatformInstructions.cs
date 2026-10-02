@@ -69,6 +69,16 @@ public static class PlatformInstructions
             ? $"# The rules of this assistant (package \"{pack.Name}\"): the person's core adds to them and never overrides them\n\n{prompt}\n\n"
             : string.Empty;
 
+    /// <summary>
+    /// The proposals of consolidation the person has not answered (spec 030): the agent asks about them when the moment
+    /// fits, and records the answer with proposal_answer. Empty without proposals.
+    /// </summary>
+    public static string Proposals(IReadOnlyList<MemoryEvent> open) =>
+        open.Count == 0
+            ? string.Empty
+            : "\n# Proposals waiting for the person (from tidying the memory)\n\nWhen the conversation allows it, ask the person about one of these; record their answer with proposal_answer, and on a yes create what it proposes.\n"
+              + string.Join('\n', open.Select(p => $"- proposal {p.Id}: {p.Text}")) + "\n";
+
     /// <summary>The core's "# Rules" section, without its heading; empty when there is none.</summary>
     public static string RulesOf(string core)
     {

@@ -197,6 +197,27 @@
     }
   },
   {
+    "name": "proposal_answer",
+    "description": "Record the person's answer to a proposal listed under \"Proposals waiting for the person\": accepted true or false. Ask them first, in your answer; call it when they reply. When they accept, then create what was proposed with the usual tools.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the proposal.",
+          "type": "integer"
+        },
+        "accepted": {
+          "description": "True when the person accepted it, false when they declined.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "accepted"
+      ]
+    }
+  },
+  {
     "name": "memory_write",
     "description": "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes.",
     "parameters": {

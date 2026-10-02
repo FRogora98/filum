@@ -52,7 +52,7 @@ public sealed class ServerTests : IDisposable
 
         var logged = Ok(await Call(client, McpServerSetup.LogTool, new() { ["text"] = "I moved to the coast in March.", ["occurredAt"] = "2026-03-02" }));
         Assert.StartsWith("Logged (event 1)", logged);
-        Assert.True(Call(client, McpServerSetup.LogTool, new() { ["text"] = "x", ["occurredAt"] = "someday" }).Result.IsError);
+        Assert.True((await Call(client, McpServerSetup.LogTool, new() { ["text"] = "x", ["occurredAt"] = "someday" })).IsError);
 
         var log = File.ReadAllLines(Path.Combine(_home, ".filum", "events.jsonl"));
         var saved = JsonDocument.Parse(Assert.Single(log)).RootElement;

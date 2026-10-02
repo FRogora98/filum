@@ -52,6 +52,14 @@ public static class FilumAgentServices
         services.Configure<AgentOptions>(configuration.GetSection(AgentOptions.SectionName));
         services.Configure<ReliabilityOptions>(configuration.GetSection(ReliabilityOptions.SectionName));
         services.AddScoped<ClaimCheck>();
+
+        // Consolidation (spec 030): on demand always; in the background only when the host turns it on.
+        services.Configure<ConsolidationOptions>(configuration.GetSection(ConsolidationOptions.SectionName));
+        services.AddScoped<ConsolidationService>();
+        if (configuration.GetSection(ConsolidationOptions.SectionName).Get<ConsolidationOptions>()?.Enabled == true)
+        {
+            services.AddHostedService<ConsolidationWorker>();
+        }
         return new FilumAgentSetup(models, openAIOptions.Model, pack);
     }
 

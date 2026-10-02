@@ -30,7 +30,7 @@
     - Do: `Consolidation.cs` (the prompt; pending = events after the last pass); `MemoryTools` in consolidation mode (author `consolidation`; no new files: a `proposed` event instead; no change to a file whose latest revision is the person's); `ProposalsAsync`, `AnswerProposalAsync`, tool `proposal_answer`; open proposals in the turn's instructions.
     - Verify: `ConsolidationRulesTests` (criteria 6, 7); snapshot.
 
-- [ ] **T8 — Consolidation in the hosted product**
+- [x] **T8 — Consolidation in the hosted product**
     - Do: `ConsolidationService` (a run of the cheap model with the consolidation tools over the pending events, usage recorded, the pass closed); `ConsolidationWorker` (opt-in; quiet minutes, nightly hour, advisory lock per person); `POST /memory/consolidate`; OpenAPI snapshot.
     - Verify: `ConsolidationTests` with a scripted model (criterion 4); OpenAPI snapshot reviewed.
 

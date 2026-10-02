@@ -16,6 +16,9 @@ public sealed record MemoryVersionDto(long Id, string Path, string Content, Date
 
 public sealed record WriteMemoryFileRequest(string? Content);
 
+/// <summary>What a consolidation pass did: the events it read, the changes it made, the proposals it left.</summary>
+public sealed record ConsolidationResultDto(int Events, int Changes, int Proposals);
+
 public sealed record SetSensitivityRequest(string? Level);
 
 public sealed record SkillDto(string Name, string Description, string When, bool Enabled, string Path, string Sensitivity, DateTimeOffset UpdatedAt);

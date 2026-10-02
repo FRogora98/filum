@@ -803,10 +803,93 @@
           }
         }
       }
+    },
+    "/sample/memory/consolidate": {
+      "post": {
+        "tags": [
+          "memory"
+        ],
+        "summary": "Tidy the memory now: a pass over what was said since the last one, adding what the conversations did not write.",
+        "operationId": "filum.memory.consolidate",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsolidationResultDto"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ConsolidationResultDto": {
+        "required": [
+          "events",
+          "changes",
+          "proposals"
+        ],
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "changes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "proposals": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "ConversationDto": {
         "required": [
           "id",

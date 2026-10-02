@@ -197,6 +197,25 @@ public static class FilumEndpoints
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound);
 
+        memory.MapPost("/consolidate", async (HttpContext http, ConsolidationService consolidation, CancellationToken cancellationToken) =>
+            {
+                var (outcome, result) = await consolidation.RunAsync(http.PersonId(), cancellationToken);
+                return outcome switch
+                {
+                    ConsolidationOutcome.Done => Results.Ok(new ConsolidationResultDto(result!.Events, result.Changes, result.Proposals)),
+                    ConsolidationOutcome.BudgetReached => Results.Problem(title: "The monthly budget has been reached.", statusCode: StatusCodes.Status402PaymentRequired),
+                    ConsolidationOutcome.NotConfigured => Results.Problem(title: "No model provider is configured.", statusCode: StatusCodes.Status503ServiceUnavailable),
+                    ConsolidationOutcome.Busy => Results.Problem(title: "A pass for this person is already running.", statusCode: StatusCodes.Status409Conflict),
+                    _ => Results.Problem(title: "The pass failed; its events wait for the next one.", statusCode: StatusCodes.Status502BadGateway)
+                };
+            })
+            .Contract("filum.memory.consolidate", "Tidy the memory now: a pass over what was said since the last one, adding what the conversations did not write.", "memory")
+            .Produces<ConsolidationResultDto>()
+            .ProducesProblem(StatusCodes.Status402PaymentRequired)
+            .ProducesProblem(StatusCodes.Status409Conflict)
+            .ProducesProblem(StatusCodes.Status502BadGateway)
+            .ProducesProblem(StatusCodes.Status503ServiceUnavailable);
+
         return api;
     }
 

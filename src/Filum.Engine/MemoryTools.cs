@@ -39,6 +39,8 @@ public sealed class MemoryTools
                 $"Read one file of the person's memory with line numbers, at most {limits.MaxReadLines} lines per call; use fromLine and toLine to read further. Read a file only when you need its content."),
             AIFunctionFactory.Create(Search, "memory_search",
                 $"Find the lines that contain a text (ignoring case) across the person's memory or under a folder prefix, at most {limits.MaxSearchResults}: for a detail you cannot place. Private files are left out unless includePrivate is true, which you set only when the person asks for private content now."),
+            AIFunctionFactory.Create(SearchEvents, "events_search",
+                "Search everything the person said, you answered, or was imported, in every conversation, kept as it was said: each match with its date and the reply after it. Use it for details, dates, numbers and exact words the files may not have kept. Narrow by days with from and to (yyyy-MM-dd). Private messages only with includePrivate, when the person asks for them now."),
             AIFunctionFactory.Create(Write, "memory_write",
                 "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes."),
             AIFunctionFactory.Create(Edit, "memory_edit",
@@ -259,6 +261,48 @@ public sealed class MemoryTools
             var count = result.Truncated ? $"more than {result.Hits.Count} matches" : Plural(result.Hits.Count, "match", "matches");
             return new Done(result.Hits.Count == 0 ? $"No matches for \"{query}\"." : text, ToolStep.Searched, prefix, $"Searched for \"{query}\" · {count}");
         });
+
+    private Task<string> SearchEvents(
+        [Description("Words to look for in what was said, for example a name, a thing or an event.")] string query,
+        [Description("Only what was said on or after this day, yyyy-MM-dd.")] string? from = null,
+        [Description("Only what was said on or before this day, yyyy-MM-dd.")] string? to = null,
+        [Description("Also search private messages; only when the person asks for them in this message.")] bool includePrivate = false,
+        CancellationToken cancellationToken = default) =>
+        Run("events_search", null, "search what was said", async () =>
+        {
+            var outcome = await _memory.SearchEventsAsync(_userId, query, Day(from), Day(to)?.AddDays(1), includePrivate, cancellationToken);
+            if (outcome.IsRefused)
+            {
+                return outcome.Refusal!;
+            }
+
+            var hits = outcome.Value!;
+            var titles = await _memory.ConversationTitlesAsync(_userId, hits.Select(h => h.Event.ConversationId), cancellationToken);
+            var text = new StringBuilder();
+            foreach (var hit in hits)
+            {
+                var e = hit.Event;
+                var title = e.ConversationId is { } id && titles.TryGetValue(id, out var t) ? $" · \"{t}\"" : string.Empty;
+                text.Append(CultureInfo.InvariantCulture, $"--- {e.OccurredAt.UtcDateTime:yyyy-MM-dd HH:mm} UTC{title} · {Who(e)}:\n{EventSearch.Excerpt(e.Text, query)}\n");
+                if (hit.Next is { } next)
+                {
+                    text.Append(CultureInfo.InvariantCulture, $"(then {Who(next)}: {EventSearch.Cut(next.Text, 300)})\n");
+                }
+            }
+
+            return new Done(hits.Count == 0 ? "Nothing that was said matches." : text.ToString(), ToolStep.Searched, null,
+                $"Searched what was said for \"{query}\" · {Plural(hits.Count, "match", "matches")}");
+        });
+
+    private static string Who(MemoryEvent e) => e.Kind switch
+    {
+        MemoryEventKind.Answered => "you",
+        MemoryEventKind.Imported => "imported",
+        _ => "the person"
+    };
+
+    private static DateTimeOffset? Day(string? day) =>
+        DateTimeOffset.TryParseExact(day, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var value) ? value : null;
 
     private const string UseCollectionTools = "is a collection: use collection_add_rows, collection_update_rows or collection_remove_rows; the platform writes the file.";
 

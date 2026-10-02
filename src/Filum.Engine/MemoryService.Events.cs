@@ -12,6 +12,13 @@ public sealed partial class MemoryService
     public Task<IReadOnlyList<MemoryEvent>> EventsAsync(Guid userId, EventQuery query, CancellationToken cancellationToken) =>
         Store.EventsAsync(userId, query, cancellationToken);
 
+    /// <summary>The titles of the person's conversations among these ids, for showing where an event was said.</summary>
+    public async Task<IReadOnlyDictionary<Guid, string>> ConversationTitlesAsync(Guid userId, IEnumerable<Guid?> conversationIds, CancellationToken cancellationToken)
+    {
+        var ids = conversationIds.OfType<Guid>().Distinct().ToList();
+        return ids.Count == 0 ? new Dictionary<Guid, string>() : await Store.ConversationTitlesAsync(userId, ids, cancellationToken);
+    }
+
     /// <summary>
     /// Forgets for good these events and the live files at these paths, with their whole history. Only for the person's
     /// explicit request: nothing of it can be undone.

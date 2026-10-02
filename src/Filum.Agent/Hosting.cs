@@ -18,9 +18,6 @@ public sealed class AgentOptions
 
     /// <summary>The person's time zone, an IANA name, given to the host's tools.</summary>
     public string TimeZone { get; set; } = "UTC";
-
-    /// <summary>The person's past conversations, searchable by the agent (spec 029); off until measured and decided.</summary>
-    public bool EpisodicMemory { get; set; }
 }
 
 /// <summary>What a host's code gets about the turn it runs in.</summary>

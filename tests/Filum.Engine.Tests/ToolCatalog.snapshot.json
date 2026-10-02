@@ -66,6 +66,43 @@
     }
   },
   {
+    "name": "events_search",
+    "description": "Search everything the person said, you answered, or was imported, in every conversation, kept as it was said: each match with its date and the reply after it. Use it for details, dates, numbers and exact words the files may not have kept. Narrow by days with from and to (yyyy-MM-dd). Private messages only with includePrivate, when the person asks for them now.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "Words to look for in what was said, for example a name, a thing or an event.",
+          "type": "string"
+        },
+        "from": {
+          "description": "Only what was said on or after this day, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "to": {
+          "description": "Only what was said on or before this day, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "includePrivate": {
+          "description": "Also search private messages; only when the person asks for them in this message.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
     "name": "memory_write",
     "description": "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes.",
     "parameters": {

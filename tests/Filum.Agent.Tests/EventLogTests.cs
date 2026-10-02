@@ -93,6 +93,31 @@ public sealed class EventLogTests(PostgresFixture postgres)
         Assert.Equal([MemoryEventKind.Said], Events(host, id).Select(e => e.Kind));
     }
 
+    [Fact]
+    public async Task What_was_said_is_found_with_its_date_its_chat_and_the_reply_after_it_and_never_another_persons()
+    {
+        var llm = new FakeChatClient { Reply = _ => "Noted." };
+        await using var host = new SampleHostFactory(postgres, llm);
+        var person = host.Person(Guid.NewGuid());
+        await Send(person, Guid.NewGuid(), "I adopted a grey cat named Miso last week.");
+        await Send(host.Person(Guid.NewGuid()), Guid.NewGuid(), "My cat is called Pepper.");
+
+        llm.Then(Call("events_search", new Dictionary<string, object?> { ["query"] = "cat name" }));
+        await Send(person, Guid.NewGuid(), "What is my cat called?");
+        var found = Assert.Single(llm.ToolResultsBefore(llm.Calls.Count - 1));
+
+        Assert.Contains("I adopted a grey cat named Miso last week.", found);
+        Assert.Contains($"{DateTimeOffset.UtcNow:yyyy-MM-dd}", found);
+        Assert.Contains("· \"I adopted a grey cat named Miso last week.\" · the person:", found);
+        Assert.Contains("(then you: Noted.)", found);
+        Assert.DoesNotContain("Pepper", found);
+        Assert.Contains("events_search", llm.InstructionsOf(0));
+
+        llm.Then(Call("events_search", new Dictionary<string, object?> { ["query"] = "cat", ["from"] = "2000-01-01", ["to"] = "2000-12-31" }));
+        await Send(person, Guid.NewGuid(), "Did I have a cat in 2000?");
+        Assert.Equal("Nothing that was said matches.", Assert.Single(llm.ToolResultsBefore(llm.Calls.Count - 1)));
+    }
+
     private static IReadOnlyList<MemoryEvent> Events(SampleHostFactory host, Guid person)
     {
         using var scope = host.Services.CreateScope();

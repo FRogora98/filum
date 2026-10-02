@@ -32,7 +32,7 @@ public sealed class ServerTests : IDisposable
         var tools = await client.ListToolsAsync();
         var snapshot = JsonNode.Parse(File.ReadAllText(Path.Combine(Root(), "tests", "Filum.Engine.Tests", "ToolCatalog.snapshot.json")))!.AsArray();
 
-        Assert.Equal(21, tools.Count);
+        Assert.Equal(22, tools.Count);
         Assert.Equal(snapshot.Select(t => (string)t!["name"]!).Order(), tools.Select(t => t.Name).Order());
         Assert.All(tools, tool =>
         {

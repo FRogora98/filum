@@ -14,7 +14,7 @@
     - Do: `ConversationService` records `said` before the model, `answered` after; one `derived` event per turn that wrote (its revisions, source the `said`); `told` when the turn changed the core's Rules section.
     - Verify: new `EventLogTests` (criteria 1, 2, 3).
 
-- [ ] **T4 — `events_search` replaces `conversation_search`**
+- [x] **T4 — `events_search` replaces `conversation_search`**
     - Do: the tool in `MemoryTools` over `SearchEventsAsync` (said, answered, imported; date window; private only when asked); the instructions' rule; remove `EpisodicMemory`, `AgentOptions.EpisodicMemory` and their tests; snapshot.
     - Verify: tool catalog snapshot reviewed; `EventLogTests` find a past message with dates; all suites green.
 

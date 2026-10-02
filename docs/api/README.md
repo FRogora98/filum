@@ -39,6 +39,6 @@ The snapshot is checked by `tests/Filum.Agent.Tests/OpenApiTests.cs`: a change t
 |---|---|---|
 | conversations | `filum.conversations.list / messages / send / delete` | list the person's chats, show one, send a message and show the answer with its steps (`data` on a host tool's step is that tool's card), delete a chat |
 | usage | `filum.usage.month` | show what the person spent this month, by model |
-| memory | `filum.memory.files / file / history / revision / write / sensitivity / delete / restore / undo / consolidate` | show what the assistant knows about the person (every file, its content, where it came from), its history, and let the person correct, hide, delete or undo; tidy the memory now (spec 030) |
+| memory | `filum.memory.files / file / history / revision / write / sensitivity / delete / restore / undo / consolidate / forget` | show what the assistant knows about the person (every file, its content, where it came from), its history, and let the person correct, hide, delete or undo; tidy the memory now, and forget a conversation for good (spec 030) |
 | skills | `filum.skills.list / accept / decline` | list the person's procedures, and accept or decline one the assistant proposed |
 | models | `filum.models.list` | let the person choose a model, when the host allows it |

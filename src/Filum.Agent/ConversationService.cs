@@ -85,10 +85,23 @@ public sealed class ConversationService(
 
         if (deleted > 0)
         {
+            // What was said goes with the conversation; what the memory made of it stays (spec 030).
+            await memoryService.ForgetWhatWasSaidAsync(userId, conversationId, cancellationToken);
             logger.LogInformation("[ ConversationService ] Conversation {ConversationId} of user {UserId} deleted", conversationId, userId);
         }
 
         return deleted > 0;
+    }
+
+    /// <summary>
+    /// Forgets a conversation for good (spec 030): what was said, what the memory made only of it, and the conversation
+    /// itself. Null when the person has no such conversation, nor anything left of one.
+    /// </summary>
+    public async Task<ForgetResult?> ForgetAsync(Guid userId, Guid conversationId, CancellationToken cancellationToken)
+    {
+        var forgotten = await memoryService.ForgetConversationAsync(userId, conversationId, cancellationToken);
+        var deleted = await DeleteAsync(userId, conversationId, cancellationToken);
+        return forgotten.Events == 0 && !deleted ? null : forgotten;
     }
 
     /// <summary>The messages, oldest first; empty for an id nobody owns yet; null when the conversation belongs to someone else.</summary>

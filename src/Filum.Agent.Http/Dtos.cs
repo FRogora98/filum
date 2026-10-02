@@ -19,6 +19,11 @@ public sealed record WriteMemoryFileRequest(string? Content);
 /// <summary>What a consolidation pass did: the events it read, the changes it made, the proposals it left.</summary>
 public sealed record ConsolidationResultDto(int Events, int Changes, int Proposals);
 
+public sealed record ForgetRequest(Guid ConversationId);
+
+/// <summary>What forgetting a conversation removed: events of the log, files, and rows of the facts.</summary>
+public sealed record ForgetResultDto(int Events, int Files, int FactRows);
+
 public sealed record SetSensitivityRequest(string? Level);
 
 public sealed record SkillDto(string Name, string Description, string When, bool Enabled, string Path, string Sensitivity, DateTimeOffset UpdatedAt);

@@ -49,7 +49,7 @@ public static class FilumEndpoints
                     ? Results.NoContent()
                     : Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound);
             })
-            .Contract("filum.conversations.delete", "Delete a conversation and its messages; the memory and the usage stay.", "conversations")
+            .Contract("filum.conversations.delete", "Delete a conversation and its messages, with what was said in the memory's log; what the memory made of it and the usage stay.", "conversations")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound);
@@ -215,6 +215,14 @@ public static class FilumEndpoints
             .ProducesProblem(StatusCodes.Status409Conflict)
             .ProducesProblem(StatusCodes.Status502BadGateway)
             .ProducesProblem(StatusCodes.Status503ServiceUnavailable);
+
+        memory.MapPost("/forget", async (ForgetRequest request, HttpContext http, ConversationService conversations, CancellationToken cancellationToken) =>
+                await conversations.ForgetAsync(http.PersonId(), request.ConversationId, cancellationToken) is { } forgotten
+                    ? Results.Ok(new ForgetResultDto(forgotten.Events, forgotten.Files, forgotten.FactRows))
+                    : Results.Problem(title: ConversationNotFound, statusCode: StatusCodes.Status404NotFound))
+            .Contract("filum.memory.forget", "Forget a conversation for good: what was said in it, what the memory made only of it, and the conversation. It cannot be undone.", "memory")
+            .Produces<ForgetResultDto>()
+            .ProducesProblem(StatusCodes.Status404NotFound);
 
         return api;
     }

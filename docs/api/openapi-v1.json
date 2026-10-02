@@ -58,7 +58,7 @@
         "tags": [
           "conversations"
         ],
-        "summary": "Delete a conversation and its messages; the memory and the usage stay.",
+        "summary": "Delete a conversation and its messages, with what was said in the memory\u0027s log; what the memory made of it and the usage stay.",
         "operationId": "filum.conversations.delete",
         "parameters": [
           {
@@ -864,6 +864,47 @@
           }
         }
       }
+    },
+    "/sample/memory/forget": {
+      "post": {
+        "tags": [
+          "memory"
+        ],
+        "summary": "Forget a conversation for good: what was said in it, what the memory made only of it, and the conversation. It cannot be undone.",
+        "operationId": "filum.memory.forget",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForgetResultDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -921,6 +962,40 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "ForgetRequest": {
+        "required": [
+          "conversationId"
+        ],
+        "type": "object",
+        "properties": {
+          "conversationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ForgetResultDto": {
+        "required": [
+          "events",
+          "files",
+          "factRows"
+        ],
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "files": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "factRows": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

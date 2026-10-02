@@ -38,7 +38,7 @@
     - Do: the history budget (`MaxHistoryChars`): the last messages that fit, the older part as a summary (check model, kept as a `derived` event of the conversation, made again when the hidden part has grown by half), and the rule that `events_search` finds the rest.
     - Verify: `LongConversationTests` (criterion 13).
 
-- [ ] **T10 — Forgetting a conversation**
+- [x] **T10 — Forgetting a conversation**
     - Do: `MemoryService.ForgetConversationAsync` (its events; the files all of whose revisions came from its messages; the fact rows sourced only on its events, removed as a revision; a `corrected` event); `POST /memory/forget`; OpenAPI snapshot.
     - Verify: `ForgetTests` (criterion 9).
 

@@ -19,7 +19,7 @@ public sealed class OpenApiTests(PostgresFixture postgres)
         var operations = document["paths"]!.AsObject()
             .SelectMany(path => path.Value!.AsObject().Select(op => (Route: $"{op.Key.ToUpperInvariant()} {path.Key}", Op: op.Value!.AsObject())))
             .ToList();
-        Assert.Equal(19, operations.Count);
+        Assert.Equal(20, operations.Count);
         Assert.All(operations, o =>
         {
             Assert.StartsWith("filum.", (string?)o.Op["operationId"] ?? string.Empty);

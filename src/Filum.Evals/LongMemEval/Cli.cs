@@ -13,7 +13,8 @@ public static class LmeCli
 
         Systems (any together; each is played on every model of --models):
           --host <label>          Filum on a running host, configured for <label> (filum, filum-no-check, filum-no-revisions);
-                                  with --service, --prefix, --register or --person-header, --setup, as in the scenario runs
+                                  with --service, --prefix, --register or --person-header, --setup, as in the scenario runs;
+                                  --consolidate: a consolidation pass after each session (spec 030)
           --baselines none,naive  the references, called directly with --models-file (a host's appsettings: Models, Providers)
           --claude filum,none,full  Claude Code (the owner's subscription), with --filum-mcp <path> and --agent-model <name>
 
@@ -68,7 +69,7 @@ public static class LmeCli
         {
             service = new HttpClient { BaseAddress = new Uri(options.GetValueOrDefault("service", "http://localhost:5410")), Timeout = TimeSpan.FromMinutes(10) };
             var target = new HostTarget(options.GetValueOrDefault("prefix", "/api"), options.GetValueOrDefault("register", "/api/auth/register"), options.GetValueOrDefault("person-header"), options.GetValueOrDefault("setup"));
-            systems.AddRange(models.Select(m => new HostLmeSystem(service, target, m, label)));
+            systems.AddRange(models.Select(m => new HostLmeSystem(service, target, m, label, options.ContainsKey("consolidate"))));
         }
 
         foreach (var baseline in options.GetValueOrDefault("baselines", string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))

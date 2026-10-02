@@ -32,7 +32,8 @@ public interface ILmeSystem
 /// the question in one more. The host's configuration makes the system (the claim check on or off, revisions or not),
 /// and the run names it.
 /// </summary>
-public sealed class HostLmeSystem(HttpClient service, HostTarget target, string model, string name) : ILmeSystem
+/// <param name="consolidate">After each session, a consolidation pass through the host's <c>memory/consolidate</c> (spec 030), as a quiet conversation would get.</param>
+public sealed class HostLmeSystem(HttpClient service, HostTarget target, string model, string name, bool consolidate = false) : ILmeSystem
 {
     public string Name => name;
 
@@ -62,6 +63,17 @@ public sealed class HostLmeSystem(HttpClient service, HostTarget target, string 
 
                 (input, output, cost) = (input + sent.Input, output + sent.Output, cost + sent.Cost);
             }
+
+            if (consolidate)
+            {
+                var pass = await ConsolidateAsync(person, cancellationToken);
+                if (pass.Error is not null)
+                {
+                    return LmeAnswer.Failed($"consolidation after the session of {date}: {pass.Error}", clock.Elapsed.TotalSeconds, turns) with { InputTokens = input, OutputTokens = output, CostUsd = cost };
+                }
+
+                (input, output, cost) = (input + pass.Input, output + pass.Output, cost + pass.Cost);
+            }
         }
 
         var answer = await SendAsync(person, Guid.NewGuid(), LmeProtocol.Question(instance), cancellationToken);
@@ -86,6 +98,22 @@ public sealed class HostLmeSystem(HttpClient service, HostTarget target, string 
 
         var turn = (await response.Content.ReadFromJsonAsync<SendMessageResponse>(cancellationToken))!;
         return new Sent(turn.AssistantMessage.Content, turn.Usage?.InputTokens ?? 0, turn.Usage?.OutputTokens ?? 0, turn.Usage?.CostUsd ?? 0, null);
+    }
+
+    private sealed record Pass(int Events, int Changes, int Proposals, UsageDto Usage);
+
+    private async Task<Sent> ConsolidateAsync(EvalPerson person, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Post, $"{target.Prefix.TrimEnd('/')}/memory/consolidate");
+        person.Apply(request);
+        using var response = await service.SendAsync(request, cancellationToken);
+        if (!response.IsSuccessStatusCode)
+        {
+            return new Sent(string.Empty, 0, 0, 0, $"{(int)response.StatusCode} {await response.Content.ReadAsStringAsync(cancellationToken)}");
+        }
+
+        var pass = (await response.Content.ReadFromJsonAsync<Pass>(cancellationToken))!;
+        return new Sent(string.Empty, pass.Usage.InputTokens, pass.Usage.OutputTokens, pass.Usage.CostUsd, null);
     }
 
     private async Task<EvalPerson> CreatePersonAsync(CancellationToken cancellationToken)

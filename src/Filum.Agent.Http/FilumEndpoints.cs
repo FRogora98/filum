@@ -202,7 +202,7 @@ public static class FilumEndpoints
                 var (outcome, result) = await consolidation.RunAsync(http.PersonId(), cancellationToken);
                 return outcome switch
                 {
-                    ConsolidationOutcome.Done => Results.Ok(new ConsolidationResultDto(result!.Events, result.Changes, result.Proposals)),
+                    ConsolidationOutcome.Done => Results.Ok(new ConsolidationResultDto(result!.Events, result.Changes, result.Proposals, new UsageDto(result.InputTokens, result.OutputTokens, result.CostUsd))),
                     ConsolidationOutcome.BudgetReached => Results.Problem(title: "The monthly budget has been reached.", statusCode: StatusCodes.Status402PaymentRequired),
                     ConsolidationOutcome.NotConfigured => Results.Problem(title: "No model provider is configured.", statusCode: StatusCodes.Status503ServiceUnavailable),
                     ConsolidationOutcome.Busy => Results.Problem(title: "A pass for this person is already running.", statusCode: StatusCodes.Status409Conflict),

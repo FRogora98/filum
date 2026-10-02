@@ -25,8 +25,8 @@ public sealed class ConsolidationOptions
     public int MaxEvents { get; set; } = 200;
 }
 
-/// <summary>What a pass did: the events it read, the changes it made, the proposals it left.</summary>
-public sealed record ConsolidationResult(int Events, int Changes, int Proposals);
+/// <summary>What a pass did: the events it read, the changes it made, the proposals it left, and what it cost.</summary>
+public sealed record ConsolidationResult(int Events, int Changes, int Proposals, int InputTokens = 0, int OutputTokens = 0, decimal CostUsd = 0);
 
 public enum ConsolidationOutcome
 {
@@ -120,6 +120,7 @@ public sealed class ConsolidationService(
 
         var input = (int)(used?.InputTokenCount ?? 0);
         var output = (int)(used?.OutputTokenCount ?? 0);
+        var cost = ModelCatalog.CostUsd(model, input, output);
         db.Set<UsageRecord>().Add(new UsageRecord
         {
             UserId = userId,
@@ -128,7 +129,7 @@ public sealed class ConsolidationService(
             Model = model.Id,
             InputTokens = input,
             OutputTokens = output,
-            CostUsd = ModelCatalog.CostUsd(model, input, output),
+            CostUsd = cost,
             CreatedAt = DateTimeOffset.UtcNow
         });
         await db.SaveChangesAsync(cancellationToken);
@@ -136,6 +137,6 @@ public sealed class ConsolidationService(
         await memory.CloseConsolidationAsync(userId, read, tools.Revisions, cancellationToken);
         var proposals = tools.Steps.Count(s => s.Tool == Consolidation.ProposeTool && s.Kind == ToolStep.Asked);
         logger.LogInformation("[ Consolidation ] User {UserId}: {Events} events read, {Changes} changes, {Proposals} proposals ({Model}, {Input} in, {Output} out)", userId, read.Count, tools.Revisions.Count, proposals, model.Id, input, output);
-        return (ConsolidationOutcome.Done, new ConsolidationResult(read.Count, tools.Revisions.Count, proposals));
+        return (ConsolidationOutcome.Done, new ConsolidationResult(read.Count, tools.Revisions.Count, proposals, input, output, cost));
     }
 }

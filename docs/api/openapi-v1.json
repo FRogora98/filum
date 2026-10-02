@@ -913,7 +913,8 @@
         "required": [
           "events",
           "changes",
-          "proposals"
+          "proposals",
+          "usage"
         ],
         "type": "object",
         "properties": {
@@ -928,6 +929,9 @@
           "proposals": {
             "type": "integer",
             "format": "int32"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageDto"
           }
         }
       },

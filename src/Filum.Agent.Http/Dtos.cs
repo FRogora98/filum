@@ -16,8 +16,8 @@ public sealed record MemoryVersionDto(long Id, string Path, string Content, Date
 
 public sealed record WriteMemoryFileRequest(string? Content);
 
-/// <summary>What a consolidation pass did: the events it read, the changes it made, the proposals it left.</summary>
-public sealed record ConsolidationResultDto(int Events, int Changes, int Proposals);
+/// <summary>What a consolidation pass did: the events it read, the changes it made, the proposals it left, and what it used.</summary>
+public sealed record ConsolidationResultDto(int Events, int Changes, int Proposals, UsageDto Usage);
 
 public sealed record ForgetRequest(Guid ConversationId);
 

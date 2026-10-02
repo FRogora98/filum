@@ -26,7 +26,9 @@ public sealed class ConsolidationTests(PostgresFixture postgres)
         var response = await person.PostAsync("/sample/memory/consolidate", null);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Equal(new ConsolidationResultDto(2, 1, 0), await response.Content.ReadFromJsonAsync<ConsolidationResultDto>());
+        var done = (await response.Content.ReadFromJsonAsync<ConsolidationResultDto>())!;
+        Assert.Equal((2, 1, 0), (done.Events, done.Changes, done.Proposals));
+        Assert.True(done.Usage.InputTokens > 0);
         Assert.StartsWith(Consolidation.Instructions[..40], llm.InstructionsOf(llm.Calls.Count - 1));
         Assert.Contains($"[event {spoken[0]} ·", string.Join("\n", llm.Calls[^1].Select(m => m.Text)));
         var pass = Events(host, id).Single(e => e.Source == MemoryEventSource.Consolidation && e.Text == Consolidation.PassText);
@@ -38,7 +40,8 @@ public sealed class ConsolidationTests(PostgresFixture postgres)
         Assert.Equal(HttpStatusCode.OK, (await person.PostAsync($"/sample/memory/revisions/{revision}/undo", null)).StatusCode);
 
         var again = await person.PostAsync("/sample/memory/consolidate", null);
-        Assert.Equal(new ConsolidationResultDto(0, 0, 0), await again.Content.ReadFromJsonAsync<ConsolidationResultDto>());
+        var nothing = (await again.Content.ReadFromJsonAsync<ConsolidationResultDto>())!;
+        Assert.Equal((0, 0, 0, 0m), (nothing.Events, nothing.Changes, nothing.Proposals, nothing.Usage.CostUsd));
     }
 
     [Fact]

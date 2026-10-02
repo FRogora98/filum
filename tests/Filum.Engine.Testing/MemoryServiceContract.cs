@@ -409,6 +409,23 @@ public abstract class MemoryServiceContract
     }
 
     [Fact]
+    public async Task The_map_is_made_from_the_files_with_what_each_holds_and_the_core_keeps_no_map()
+    {
+        var core = await _memory.EnsureCoreAsync(_user, None);
+        Ok(await _memory.WriteAsync(_user, Agent, "/notes/trip.md", "# The trip\n\nPlans for the walk along the river in May.\nDay one.\n", None));
+        Ok(await _memory.WriteAsync(_user, Agent, "/notes/empty.md", "# Only a title\n", None));
+        Ok(await _memory.RecordFactAsync(_user, Agent, "the person", "plants", "3", null, null, [], None));
+
+        var lines = (await _memory.BuildIndexAsync(_user, None)).Split('\n');
+
+        Assert.DoesNotContain("map", core, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(3, lines.Length);
+        Assert.StartsWith($"- {Facts.Path} (facts that hold for a time · 1 rows", lines[0]);
+        Assert.EndsWith("): Only a title", lines[1]);
+        Assert.EndsWith("): Plans for the walk along the river in May.", lines[2]);
+    }
+
+    [Fact]
     public async Task Past_its_limit_the_index_lists_the_newest_files_and_says_how_many_are_left_out()
     {
         var memory = Memory(new MemoryOptions { IndexMaxFiles = 2 });

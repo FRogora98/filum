@@ -22,7 +22,7 @@
     - Do: `Facts.cs`; `MemoryService.RecordFactAsync` (closes the open fact of subject and attribute, opens the new one, sources), `CurrentFactsAsync`, `FactHistoryAsync`; tools `fact_record`, `facts_current`, `facts_history`; a line in the instructions.
     - Verify: `FactsTests` (criterion 5) on memory and the local folder; snapshot.
 
-- [ ] **T6 — The generated map**
+- [x] **T6 — The generated map**
     - Do: `BuildIndexAsync` adds each file's summary (a document's first line of text, a collection's fields and rows); the core template and the instructions (hosted and MCP) lose the hand-kept memory map.
     - Verify: `MapTests` (criterion 8); existing tests updated where they quoted the old template.
 

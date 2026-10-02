@@ -37,7 +37,7 @@ public sealed class MemoryTools
         IEnumerable<AIFunction> all =
         [
             AIFunctionFactory.Create(Overview, "memory_overview",
-                "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered, the memory map), one line for every file (documents, and collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one."),
+                "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered), the map of every file with what it holds (documents with their first line, collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one."),
             AIFunctionFactory.Create(Read, "memory_read",
                 $"Read one file of the person's memory with line numbers, at most {limits.MaxReadLines} lines per call; use fromLine and toLine to read further. Read a file only when you need its content."),
             AIFunctionFactory.Create(Search, "memory_search",
@@ -67,7 +67,7 @@ public sealed class MemoryTools
             AIFunctionFactory.Create(Delete, "memory_delete",
                 "Delete a file. It stays in the history and can be brought back with memory_undo. The core /filum.md cannot be deleted."),
             AIFunctionFactory.Create(Move, "memory_move",
-                "Rename or move a file, keeping its history. Update the memory map in the core afterwards."),
+                "Rename or move a file, keeping its history."),
             AIFunctionFactory.Create(SetSensitivity, "memory_set_sensitivity",
                 "Set a file's sensitivity: normal, sensitive (never brought up unprompted) or private (left out of lists and searches unless asked for)."),
             AIFunctionFactory.Create(History, "memory_history",

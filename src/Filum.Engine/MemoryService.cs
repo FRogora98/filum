@@ -134,16 +134,16 @@ public sealed partial class MemoryService(
     }
 
     /// <summary>
-    /// What the memory holds, for the agent's instructions: every live, non-private file but the core, newest first,
-    /// one line each, until the file or character limit; then how many are left out. With it the agent does not
-    /// need to look around before it acts.
+    /// The map of the memory, for the agent's instructions (spec 030): every live, non-private file but the core, newest
+    /// first, one line each with what it holds, until the file or character limit; then how many are left out. It is
+    /// made from the files themselves at every message, never kept by hand. With it the agent does not need to look
+    /// around before it acts.
     /// </summary>
     public async Task<string> BuildIndexAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var files = (await store.ListLiveAsync(userId, "/", includePrivate: false, withContent: false, cancellationToken))
+        var files = (await store.ListLiveAsync(userId, "/", includePrivate: false, withContent: true, cancellationToken))
             .Where(f => f.Path != MemoryPaths.CorePath && !Skills.IsSkillPath(f.Path))
             .OrderByDescending(f => f.UpdatedAt)
-            .Select(Info)
             .ToList();
         if (files.Count == 0)
         {
@@ -154,9 +154,11 @@ public sealed partial class MemoryService(
         var length = 0;
         foreach (var file in files)
         {
-            var line = file.Header is null
-                ? $"- {file.Path} (document · {file.LineCount} lines · changed {file.UpdatedAt:yyyy-MM-dd})"
-                : $"- {file.Path} (collection · fields: {file.Header.Replace(",", ", ")} · {file.RowCount} rows · changed {file.UpdatedAt:yyyy-MM-dd})";
+            var line = file.Path == Facts.Path
+                ? $"- {file.Path} (facts that hold for a time · {file.RowCount} rows · changed {file.UpdatedAt:yyyy-MM-dd}): use facts_current and facts_history"
+                : file.Header is null
+                    ? $"- {file.Path} (document · {file.LineCount} lines · changed {file.UpdatedAt:yyyy-MM-dd}){Summary(file.Content)}"
+                    : $"- {file.Path} (collection · fields: {file.Header.Replace(",", ", ")} · {file.RowCount} rows · changed {file.UpdatedAt:yyyy-MM-dd})";
             if (lines.Count == Limits.IndexMaxFiles || length + line.Length > Limits.IndexMaxChars)
             {
                 break;
@@ -860,7 +862,7 @@ public sealed partial class MemoryService(
         if (MemoryPaths.IsCore(path) && content.Length > Limits.MaxCoreChars)
         {
             return new ContentCheck(
-                $"The core would be {content.Length} characters, over the limit of {Limits.MaxCoreChars}; condense it, keeping the essentials and moving details into other files listed in the memory map.",
+                $"The core would be {content.Length} characters, over the limit of {Limits.MaxCoreChars}; condense it, keeping the essentials and moving details into other files.",
                 size, lines, null, null);
         }
 
@@ -878,6 +880,19 @@ public sealed partial class MemoryService(
         }
 
         return new ContentCheck(null, size, lines, null, null);
+    }
+
+    /// <summary>What a document holds, from itself: its first line of text, or its title when it has only headings.</summary>
+    private static string Summary(string content)
+    {
+        var lines = LinesOf(content).Select(l => l.Trim()).Where(l => l.Length > 0).ToList();
+        var text = lines.FirstOrDefault(l => !l.StartsWith('#')) ?? lines.FirstOrDefault()?.TrimStart('#').Trim();
+        if (string.IsNullOrEmpty(text))
+        {
+            return string.Empty;
+        }
+
+        return ": " + (text.Length > 100 ? text[..100] + "…" : text);
     }
 
     private static MemoryFileInfo Info(StoredFile f) => new(f.Path, f.SizeBytes, f.LineCount, f.Sensitivity, f.UpdatedAt, f.Header, f.RowCount);

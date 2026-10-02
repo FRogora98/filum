@@ -1,7 +1,7 @@
 [
   {
     "name": "memory_overview",
-    "description": "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered, the memory map), one line for every file (documents, and collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one.",
+    "description": "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered), the map of every file with what it holds (documents with their first line, collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one.",
     "parameters": {
       "type": "object",
       "properties": {}
@@ -374,7 +374,7 @@
   },
   {
     "name": "memory_move",
-    "description": "Rename or move a file, keeping its history. Update the memory map in the core afterwards.",
+    "description": "Rename or move a file, keeping its history.",
     "parameters": {
       "type": "object",
       "properties": {

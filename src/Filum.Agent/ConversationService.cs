@@ -216,11 +216,10 @@ public sealed class ConversationService(
         var history = await db.Set<ConversationMessage>()
             .Where(m => m.ConversationId == conversationId && m.Sequence <= userMessage.Sequence)
             .OrderBy(m => m.Sequence)
-            .Select(m => new { m.Role, m.Content })
+            .Select(m => new HistoryMessage(m.Id, m.Role, m.Content))
             .ToListAsync(cancellationToken);
-        var messages = history
-            .Select(m => new ChatMessage(m.Role == ConversationMessage.AssistantRole ? ChatRole.Assistant : ChatRole.User, m.Content))
-            .ToList();
+        var spend = new TurnSpend();
+        var messages = await FitHistoryAsync(userId, conversationId, history, spend, cancellationToken);
 
         var core = await memoryService.EnsureCoreAsync(userId, cancellationToken);
         var index = await memoryService.BuildIndexAsync(userId, cancellationToken);
@@ -257,7 +256,6 @@ public sealed class ConversationService(
         var instructions = PlatformInstructions.Compose(core, index, PlatformInstructions.SkillList(skills, memoryOptions.Value.SkillListMax), invoked,
             repeated.Count == 0 ? null : PlatformInstructions.Repetition(repeated), memoryService.Pack, Agent.Name)
             + PlatformInstructions.Proposals(await memoryService.OpenProposalsAsync(userId, cancellationToken));
-        var spend = new TurnSpend();
         string? answerText;
         var answerModel = model;
         var unverified = false;
@@ -405,6 +403,78 @@ public sealed class ConversationService(
 
         logger.LogInformation("[ ConversationService ] Message {MessageId} in conversation {ConversationId} answered by {Model} in {ElapsedMs}ms ({InputTokens} in, {OutputTokens} out, {ToolCalls} memory actions, {FailedToolCalls} refused, check {Check}, retried {Retried}, escalated {Escalated}, unverified {Unverified})", userMessage.Id, conversationId, answerModel.Id, stopwatch.ElapsedMilliseconds, inputTokens, outputTokens, steps.Count, steps.Count(s => s.Kind == StepDto.Failed), checkOutcome, retried, escalated, unverified);
         return Answered(conversation, userMessage, answer, usage);
+    }
+
+    private sealed record HistoryMessage(Guid Id, string Role, string Content);
+
+    /// <summary>The first words of the prompt that summarizes a long conversation: a scripted model in the tests recognizes it by them.</summary>
+    public const string SummaryMarker = "Filum summary.";
+
+    private const string SummaryText = "Summary of the earlier part of this conversation";
+
+    /// <summary>
+    /// The conversation as the model gets it (spec 030). Within <see cref="MemoryOptions.MaxHistoryChars"/> it is sent
+    /// whole. Past it, the latest messages that fit are sent, after a summary of the rest: made by the check model, kept
+    /// as an event of the conversation, and made again only when the part it does not cover has grown. Every message
+    /// stays in the log, where events_search finds it.
+    /// </summary>
+    private async Task<List<ChatMessage>> FitHistoryAsync(Guid userId, Guid conversationId, IReadOnlyList<HistoryMessage> history, TurnSpend spend, CancellationToken cancellationToken)
+    {
+        static ChatMessage Chat(HistoryMessage m) => new(m.Role == ConversationMessage.AssistantRole ? ChatRole.Assistant : ChatRole.User, m.Content);
+        var budget = memoryOptions.Value.MaxHistoryChars;
+        if (history.Sum(m => m.Content.Length) <= budget)
+        {
+            return history.Select(Chat).ToList();
+        }
+
+        // The latest messages within three quarters of the budget, the person's newest always; the rest is summarized.
+        var keep = 0;
+        var kept = 0;
+        while (keep < history.Count && (keep == 0 || kept + history[^(keep + 1)].Content.Length <= budget * 3 / 4))
+        {
+            kept += history[^(keep + 1)].Content.Length;
+            keep++;
+        }
+
+        var hidden = history.Take(history.Count - keep).ToList();
+        var summaries = await memoryService.EventsAsync(userId, new EventQuery(Kinds: [MemoryEventKind.Derived], ConversationId: conversationId), cancellationToken);
+        var last = summaries.LastOrDefault(e => e.Text.StartsWith(SummaryText, StringComparison.Ordinal));
+        var covered = last is null ? 0 : hidden.FindIndex(m => m.Id == last.MessageId) + 1;
+        var summary = last?.Text;
+        var uncovered = hidden.Skip(covered).ToList();
+        if (uncovered.Sum(m => m.Content.Length) > budget / 4 || summary is null)
+        {
+            summary = await SummarizeAsync(userId, conversationId, last?.Text, uncovered, hidden.Count, spend, cancellationToken) ?? summary;
+        }
+
+        var note = summary is null
+            ? $"[Filum platform note] The first {hidden.Count} messages of this conversation are not shown here; events_search finds them."
+            : $"[Filum platform note] {summary}\n(The full text of these messages is kept: events_search finds it.)";
+        return [new ChatMessage(ChatRole.User, note), .. history.Skip(hidden.Count).Select(Chat)];
+    }
+
+    /// <summary>A summary of the earlier messages, folding in the previous one; kept as an event. Null when it fails.</summary>
+    private async Task<string?> SummarizeAsync(Guid userId, Guid conversationId, string? previous, IReadOnlyList<HistoryMessage> messages, int hiddenCount, TurnSpend spend, CancellationToken cancellationToken)
+    {
+        var model = modelCatalog.Find(reliabilityOptions.Value.CheckModel) ?? modelCatalog.Default;
+        var text = string.Join("\n\n", messages.Select(m => $"{(m.Role == ConversationMessage.AssistantRole ? "Assistant" : "Person")}: {m.Content}"));
+        try
+        {
+            var response = await chatClientProvider!.Get(model.Id).GetResponseAsync(
+                [new ChatMessage(ChatRole.User, $"{SummaryMarker} Summarize the earlier part of a conversation between a person and their assistant, for the assistant to continue it: who said what that matters, facts, numbers, dates, decisions, open questions. At most 300 words, plain sentences, in the conversation's language.\n"
+                    + (previous is null ? string.Empty : $"\nThe summary so far:\n<<<\n{previous}\n>>>\n") + $"\nThe messages to add:\n<<<\n{text}\n>>>")],
+                cancellationToken: cancellationToken);
+            spend.Add(model, response.Usage);
+            var summary = $"{SummaryText} ({hiddenCount} messages): {response.Text?.Trim()}";
+            await memoryService.RecordAsync(userId, new NewMemoryEvent(MemoryEventKind.Derived, MemoryEventSource.Agent, summary,
+                ConversationId: conversationId, MessageId: messages.Count > 0 ? messages[^1].Id : null), cancellationToken);
+            return summary;
+        }
+        catch (Exception exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            logger.LogWarning("[ ConversationService ] The summary of conversation {ConversationId} ({Model}) failed: {ExceptionType}", conversationId, model.Id, exception.GetType().Name);
+            return null;
+        }
     }
 
     /// <summary>The person's message as a <c>said</c> event, once: a resend of an unanswered message keeps the first one.</summary>

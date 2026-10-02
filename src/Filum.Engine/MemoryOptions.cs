@@ -29,6 +29,9 @@ public sealed class MemoryOptions
     /// <summary>A skill file, header included, is at most this many characters.</summary>
     public int MaxSkillChars { get; set; } = 4_000;
 
+    /// <summary>A conversation longer than this many characters is sent as a summary of its start and its latest messages (spec 030).</summary>
+    public int MaxHistoryChars { get; set; } = 60_000;
+
     /// <summary>A search of the log of events returns at most this many events (spec 030).</summary>
     public int EventsSearchMax { get; set; } = 8;
 

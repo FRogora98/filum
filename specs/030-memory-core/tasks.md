@@ -34,7 +34,7 @@
     - Do: `ConsolidationService` (a run of the cheap model with the consolidation tools over the pending events, usage recorded, the pass closed); `ConsolidationWorker` (opt-in; quiet minutes, nightly hour, advisory lock per person); `POST /memory/consolidate`; OpenAPI snapshot.
     - Verify: `ConsolidationTests` with a scripted model (criterion 4); OpenAPI snapshot reviewed.
 
-- [ ] **T9 — Long conversations**
+- [x] **T9 — Long conversations**
     - Do: the history budget (`MaxHistoryChars`): the last messages that fit, the older part as a summary (check model, kept as a `derived` event of the conversation, made again when the hidden part has grown by half), and the rule that `events_search` finds the rest.
     - Verify: `LongConversationTests` (criterion 13).
 

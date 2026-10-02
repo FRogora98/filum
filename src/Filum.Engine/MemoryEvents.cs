@@ -85,12 +85,14 @@ public sealed record EventQuery(
     Guid? ConversationId = null,
     DateTimeOffset? From = null,
     DateTimeOffset? Before = null,
-    bool IncludePrivate = true)
+    bool IncludePrivate = true,
+    Guid? MessageId = null)
 {
     public bool Matches(MemoryEvent e) =>
         (AfterId is null || e.Id > AfterId)
         && (Kinds is null || Kinds.Contains(e.Kind))
         && (ConversationId is null || e.ConversationId == ConversationId)
+        && (MessageId is null || e.MessageId == MessageId)
         && (From is null || e.OccurredAt >= From)
         && (Before is null || e.OccurredAt < Before)
         && (IncludePrivate || e.Sensitivity != MemorySensitivity.Private);

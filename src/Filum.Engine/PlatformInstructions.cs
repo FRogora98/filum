@@ -69,6 +69,20 @@ public static class PlatformInstructions
             ? $"# The rules of this assistant (package \"{pack.Name}\"): the person's core adds to them and never overrides them\n\n{prompt}\n\n"
             : string.Empty;
 
+    /// <summary>The core's "# Rules" section, without its heading; empty when there is none.</summary>
+    public static string RulesOf(string core)
+    {
+        var lines = core.Replace("\r\n", "\n").Split('\n');
+        var start = Array.FindIndex(lines, l => l.Trim().Equals("# Rules", StringComparison.OrdinalIgnoreCase));
+        if (start < 0)
+        {
+            return string.Empty;
+        }
+
+        var end = Array.FindIndex(lines, start + 1, l => l.StartsWith("# ", StringComparison.Ordinal));
+        return string.Join('\n', lines[(start + 1)..(end < 0 ? lines.Length : end)]).Trim();
+    }
+
     /// <summary>The enabled, non-private skills, one line each, at most <paramref name="max"/>; then how many are left out.</summary>
     public static string SkillList(IReadOnlyList<SkillFile> skills, int max)
     {

@@ -204,6 +204,9 @@ public sealed class ConversationService(
         conversation.UpdatedAt = now;
         await db.SaveChangesAsync(cancellationToken);
 
+        // What the person said is kept before anything else runs (spec 030): nothing is lost if the turn writes nothing.
+        var said = await SaidAsync(userId, conversationId, userMessage, cancellationToken);
+
         if (chatClientProvider is null)
         {
             logger.LogWarning("[ ConversationService ] Message {MessageId} in conversation {ConversationId} not answered: no model provider has an API key", userMessage.Id, conversationId);
@@ -397,6 +400,7 @@ public sealed class ConversationService(
         conversation.Model = model.Id;
         conversation.UpdatedAt = answeredAt;
         await db.SaveChangesAsync(cancellationToken);
+        await RecordTurnAsync(userId, conversationId, said, answer, tools, core, cancellationToken);
 
         foreach (var observer in observers ?? [])
         {
@@ -405,6 +409,39 @@ public sealed class ConversationService(
 
         logger.LogInformation("[ ConversationService ] Message {MessageId} in conversation {ConversationId} answered by {Model} in {ElapsedMs}ms ({InputTokens} in, {OutputTokens} out, {ToolCalls} memory actions, {FailedToolCalls} refused, check {Check}, retried {Retried}, escalated {Escalated}, unverified {Unverified})", userMessage.Id, conversationId, answerModel.Id, stopwatch.ElapsedMilliseconds, inputTokens, outputTokens, steps.Count, steps.Count(s => s.Kind == StepDto.Failed), checkOutcome, retried, escalated, unverified);
         return Answered(conversation, userMessage, answer, usage);
+    }
+
+    /// <summary>The person's message as a <c>said</c> event, once: a resend of an unanswered message keeps the first one.</summary>
+    private async Task<MemoryEvent> SaidAsync(Guid userId, Guid conversationId, ConversationMessage message, CancellationToken cancellationToken)
+    {
+        var existing = await memoryService.EventsAsync(userId, new EventQuery(Kinds: [MemoryEventKind.Said], ConversationId: conversationId, MessageId: message.Id), cancellationToken);
+        return existing.Count > 0
+            ? existing[0]
+            : await memoryService.RecordAsync(userId, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, message.Content, message.CreatedAt, conversationId, message.Id), cancellationToken);
+    }
+
+    /// <summary>
+    /// What the turn did, in the log: the answer; the changes it made, with the person's message as their source; and,
+    /// when the core's rules changed, the instruction the person gave (spec 030).
+    /// </summary>
+    private async Task RecordTurnAsync(Guid userId, Guid conversationId, MemoryEvent said, ConversationMessage answer, MemoryTools tools, string coreBefore, CancellationToken cancellationToken)
+    {
+        await memoryService.RecordAsync(userId, new NewMemoryEvent(MemoryEventKind.Answered, MemoryEventSource.Agent, answer.Content, answer.CreatedAt, conversationId, answer.Id), cancellationToken);
+        var revisions = tools.Revisions;
+        if (revisions.Count == 0)
+        {
+            return;
+        }
+
+        var paths = tools.Steps.Where(s => s.Kind == ToolStep.Wrote && s.Path is not null).Select(s => s.Path!).Distinct().ToList();
+        await memoryService.RecordAsync(userId, new NewMemoryEvent(MemoryEventKind.Derived, MemoryEventSource.Agent, $"Changed {string.Join(", ", paths)}",
+            ConversationId: conversationId, MessageId: said.MessageId, Sources: [said.Id], Revisions: revisions), cancellationToken);
+
+        if (paths.Contains(MemoryPaths.CorePath) && PlatformInstructions.RulesOf(coreBefore) != PlatformInstructions.RulesOf(await memoryService.EnsureCoreAsync(userId, cancellationToken)))
+        {
+            await memoryService.RecordAsync(userId, new NewMemoryEvent(MemoryEventKind.Told, MemoryEventSource.Chat, said.Text, said.OccurredAt,
+                conversationId, said.MessageId, Sources: [said.Id]), cancellationToken);
+        }
     }
 
     private TimeZoneInfo TimeZoneOf(string id)

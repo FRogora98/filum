@@ -232,6 +232,11 @@ public sealed class PostgresMemoryStore(IFilumDb filumDb) : IMemoryStore
             rows = rows.Where(e => e.ConversationId == conversation);
         }
 
+        if (query.MessageId is { } message)
+        {
+            rows = rows.Where(e => e.MessageId == message);
+        }
+
         if (query.From is { } from)
         {
             rows = rows.Where(e => e.OccurredAt >= from);

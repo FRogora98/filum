@@ -10,7 +10,7 @@
     - Do: `MemoryEventRow` and `memory_events` in `FilumModel`; `PostgresMemoryStore` implements the three methods; the contract runs on it.
     - Verify: `dotnet test tests/Filum.Agent.Tests` (the contract on Postgres).
 
-- [ ] **T3 — The turn records what happened**
+- [x] **T3 — The turn records what happened**
     - Do: `ConversationService` records `said` before the model, `answered` after; one `derived` event per turn that wrote (its revisions, source the `said`); `told` when the turn changed the core's Rules section.
     - Verify: new `EventLogTests` (criteria 1, 2, 3).
 

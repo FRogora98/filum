@@ -102,5 +102,24 @@ public static class FilumModel
             .WithMany()
             .HasForeignKey(r => r.FileId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // The person's log of events (spec 030): no key to conversations, an event outlives its chat until it is forgotten.
+        var memoryEvent = modelBuilder.Entity<MemoryEventRow>();
+        memoryEvent.ToTable("memory_events");
+        memoryEvent.HasKey(e => e.Id);
+        memoryEvent.Property(e => e.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        memoryEvent.Property(e => e.UserId).HasColumnName("user_id");
+        memoryEvent.Property(e => e.OccurredAt).HasColumnName("occurred_at");
+        memoryEvent.Property(e => e.RecordedAt).HasColumnName("recorded_at");
+        memoryEvent.Property(e => e.Kind).HasColumnName("kind").IsRequired();
+        memoryEvent.Property(e => e.Source).HasColumnName("source").IsRequired();
+        memoryEvent.Property(e => e.ConversationId).HasColumnName("conversation_id");
+        memoryEvent.Property(e => e.MessageId).HasColumnName("message_id");
+        memoryEvent.Property(e => e.Text).HasColumnName("text").IsRequired();
+        memoryEvent.Property(e => e.Sensitivity).HasColumnName("sensitivity").IsRequired();
+        memoryEvent.Property(e => e.Sources).HasColumnName("sources");
+        memoryEvent.Property(e => e.Revisions).HasColumnName("revisions");
+        memoryEvent.HasIndex(e => new { e.UserId, e.Id });
+        memoryEvent.HasIndex(e => new { e.UserId, e.ConversationId });
     }
 }

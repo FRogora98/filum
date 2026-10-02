@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Filum.Agent\Filum.Agent.csproj" />
     <ProjectReference Include="..\..\samples\Filum.SampleHost\Filum.SampleHost.csproj" />
+    <ProjectReference Include="..\Filum.Engine.Testing\Filum.Engine.Testing.csproj" />
   </ItemGroup>
 
   <ItemGroup>

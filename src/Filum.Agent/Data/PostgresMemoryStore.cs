@@ -190,6 +190,81 @@ public sealed class PostgresMemoryStore(IFilumDb filumDb) : IMemoryStore
             .ToDictionaryAsync(c => c.Id, c => c.Title, cancellationToken);
     }
 
+    public async Task<MemoryEvent> AppendEventAsync(Guid userId, NewMemoryEvent next, DateTimeOffset now, CancellationToken cancellationToken)
+    {
+        await using var db = filumDb.CreateContext();
+        var row = new MemoryEventRow
+        {
+            UserId = userId,
+            OccurredAt = next.OccurredAt ?? now,
+            RecordedAt = now,
+            Kind = next.Kind,
+            Source = next.Source,
+            ConversationId = next.ConversationId,
+            MessageId = next.MessageId,
+            Text = next.Text,
+            Sensitivity = next.Sensitivity,
+            Sources = [.. next.Sources ?? []],
+            Revisions = [.. next.Revisions ?? []]
+        };
+        db.Add(row);
+        await db.SaveChangesAsync(cancellationToken);
+        return Stored(row);
+    }
+
+    public async Task<IReadOnlyList<MemoryEvent>> EventsAsync(Guid userId, EventQuery query, CancellationToken cancellationToken)
+    {
+        await using var db = filumDb.CreateContext();
+        var rows = db.Set<MemoryEventRow>().AsNoTracking().Where(e => e.UserId == userId);
+        if (query.AfterId is { } after)
+        {
+            rows = rows.Where(e => e.Id > after);
+        }
+
+        if (query.Kinds is { } kinds)
+        {
+            var list = kinds.ToList();
+            rows = rows.Where(e => list.Contains(e.Kind));
+        }
+
+        if (query.ConversationId is { } conversation)
+        {
+            rows = rows.Where(e => e.ConversationId == conversation);
+        }
+
+        if (query.From is { } from)
+        {
+            rows = rows.Where(e => e.OccurredAt >= from);
+        }
+
+        if (query.Before is { } before)
+        {
+            rows = rows.Where(e => e.OccurredAt < before);
+        }
+
+        if (!query.IncludePrivate)
+        {
+            rows = rows.Where(e => e.Sensitivity != MemorySensitivity.Private);
+        }
+
+        return (await rows.OrderBy(e => e.Id).ToListAsync(cancellationToken)).Select(Stored).ToList();
+    }
+
+    public async Task ForgetAsync(Guid userId, IReadOnlyCollection<long> eventIds, IReadOnlyCollection<Guid> fileIds, CancellationToken cancellationToken)
+    {
+        await using var db = filumDb.CreateContext();
+        await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
+        var events = eventIds.ToList();
+        var files = fileIds.ToList();
+        await db.Set<MemoryEventRow>().Where(e => e.UserId == userId && events.Contains(e.Id)).ExecuteDeleteAsync(cancellationToken);
+        await db.Set<MemoryRevision>().Where(r => r.UserId == userId && files.Contains(r.FileId)).ExecuteDeleteAsync(cancellationToken);
+        await db.Set<MemoryFile>().Where(f => f.UserId == userId && files.Contains(f.Id)).ExecuteDeleteAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+    }
+
+    private static MemoryEvent Stored(MemoryEventRow e) =>
+        new(e.Id, e.OccurredAt, e.RecordedAt, e.Kind, e.Source, e.ConversationId, e.MessageId, e.Text, e.Sensitivity, e.Sources, e.Revisions);
+
     private static IQueryable<MemoryFile> Live(DbContext db, Guid userId) =>
         db.Set<MemoryFile>().Where(f => f.UserId == userId && f.DeletedAt == null);
 

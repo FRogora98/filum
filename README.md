@@ -8,8 +8,15 @@ procedures it learns from you. Bring your own model.
 
 ## What it does
 
+- **Nothing said is lost.** Everything the person says is kept in an append-only log of events, with its date, and
+  searchable. The memory the agent builds on it cites where each piece came from.
 - **Memory as files with revisions.** Every fact lives in a plain file you can open. Every change is an append-only
   revision, so you can always see what the agent knew, when, and why it changed.
+- **Facts that change over time.** "Three plants", then "four": the old value is closed with its date, not
+  overwritten, so the memory knows what holds now and what held before.
+- **Written live, tidied later.** The agent writes what matters while it answers, so it is known from the next
+  message; a consolidation pass later catches what it missed, proposes new structures instead of creating them, and
+  never overwrites what the person edited.
 - **Skills: procedures, not just facts.** When you repeat a task, the agent proposes to save it as a skill. Next time,
   one call runs it on fresh data.
 - **Typed collections.** Lists with a schema (people, decisions, anything), kept next to the free-form memory.
@@ -23,8 +30,9 @@ Run `filum-mcp` inside Claude Code, Claude Desktop, Codex or any MCP host, with 
 one person, on their own machine:
 
 - **No API keys, no service, no account.** The host's model does the thinking; Filum gives it the tools.
-- **Your memory is a folder.** Plain files you can open and edit, plus an append-only log of every change, in
-  `~/.filum` (or wherever `FILUM_HOME` points, or one folder per project).
+- **Your memory is a folder.** Plain files you can open and edit, plus an append-only log of every change and of
+  what was said (`memory_log`), in `~/.filum` (or wherever `FILUM_HOME` points, or one folder per project). Your
+  agent tidies it when Filum asks (`memory_consolidate`).
 - **Nothing leaves your machine.**
 
 ## Install
@@ -144,6 +152,10 @@ app.MapGroup("/api")
   that answered, with their usage.
 - `Agent:Name` names the assistant, `Agent:AllowModelChoice` keeps the choice of model to you, and `Agent:TimeZone`
   is given to your tools.
+- Every message is recorded in the person's log of events (`memory_events`: add it to your migrations).
+  `Consolidation:Enabled` runs a pass in the background after 10 minutes of quiet and nightly, with the default model;
+  `POST …/memory/consolidate` runs one now, and `POST …/memory/forget` forgets a conversation and what came only from
+  it.
 - The groups are a versioned contract (v1, header `Filum-Api-Version`), described in
   [`docs/api/openapi-v1.json`](docs/api/openapi-v1.json) for generating your app's client; [`docs/api`](docs/api/README.md)
   says what v1 guarantees.
@@ -192,13 +204,13 @@ dotnet run --project src/Filum.Evals -- longmemeval --data evals/longmemeval/dat
 
 - **The protocol:** each history session is a new chat in date order, and the question comes last, in a new chat with its date. Answers are judged with the authors' prompts.
 - **The systems:**
-  - `--host <label>`: Filum on a host configured for that label, for example with `Reliability:CheckModel` empty for the ablation without the claim check;
+  - `--host <label>`: Filum on a host configured for that label, for example with `Reliability:CheckModel` empty for the ablation without the claim check; `--consolidate` runs a consolidation pass after each session;
   - `--baselines none,naive`: no memory, or BM25 over the sessions;
   - `--claude filum,none,full`: Claude Code with `filum-mcp`, with no memory, or with the whole history in the prompt.
 
 ## Roadmap
 
-The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host (done), stable endpoints for apps (done); next, the engine's advanced techniques and ingestion. The detailed
+The engine library, the local folder memory, `filum-mcp`, packages, hosting and evals for any host, stable endpoints for apps, the LongMemEval benchmark and the memory core with its log of events (done); next, ingestion from files and connectors, faster gating and hybrid retrieval. The detailed
 specs are published alongside the code, in `specs/`.
 
 ## License

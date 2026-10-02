@@ -1,6 +1,6 @@
 # Episodic memory: past conversations, searchable
 
-> Status: Draft
+> Status: Replaced by spec 030 (2026-10-02): `events_search` searches the log of events, and this tool was removed
 > Area: the turn / tools
 > Author/date: federico rogora (drafted by Claude), 2026-10-01
 > Roadmap: phase E, product track; asked for by the first LongMemEval run (spec 020)

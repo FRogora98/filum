@@ -20,8 +20,8 @@
 
 | # | Spec | Status | Area |
 |---|---|---|---|
-| 030 | [The memory core](030-memory-core/spec.md) · [Il nucleo della memoria](030-memory-core/spec.it.md) | Reviewed | engine, the turn |
-| 029 | [Episodic memory](029-episodic-memory/spec.md) · [Memoria episodica](029-episodic-memory/spec.it.md) | Draft | the turn, tools |
+| 030 | [The memory core](done/030-memory-core/spec.md) · [Il nucleo della memoria](done/030-memory-core/spec.it.md) | Implemented | engine, the turn |
+| 029 | [Episodic memory](done/029-episodic-memory/spec.md) · [Memoria episodica](done/029-episodic-memory/spec.it.md) | Replaced by 030 | the turn, tools |
 | 020 | [The benchmark: LongMemEval on Filum](done/020-benchmark/spec.md) · [Il benchmark: LongMemEval su Filum](done/020-benchmark/spec.it.md) | Implemented | evals |
 | 019 | [Stable endpoints for apps](done/019-stable-endpoints/spec.md) · [Endpoint stabili per le app](done/019-stable-endpoints/spec.it.md) | Implemented | hosting, HTTP |
 | 018 | [Evals for any host](done/018-evals-for-any-host/spec.md) · [Eval per qualunque host](done/018-evals-for-any-host/spec.it.md) | Implemented | evals |

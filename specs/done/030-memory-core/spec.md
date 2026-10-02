@@ -1,6 +1,6 @@
 # The memory core: an event log and the projections the agent builds
 
-> Status: Reviewed (the owner agreed with every proposed answer, 2026-10-01: "a me tornano tutte le cose che mi dici")
+> Status: Implemented (2026-10-02). Reviewed (the owner agreed with every proposed answer, 2026-10-01: "a me tornano tutte le cose che mi dici")
 > Area: engine (the memory core) / the turn
 > Author/date: federico rogora (drafted by Claude), 2026-10-01
 > Roadmap: phase E; the owner's decision of 2026-10-01 to rethink the core from its architecture, keeping the frame ("il nucleo è il vero motore dell'engine, se cambiamo quello il resto può rimanere")
@@ -186,3 +186,22 @@ The plan fixes these details; they change no acceptance criterion:
 - **`told`** is recorded when a turn changed the core's Rules, sourced on the person's `said` event: a deterministic signal, with no model call per message.
 - **Summaries in the map** are made in code: a document's first line of text, a collection's fields and rows. No model call per file.
 - **The claim check on remembered facts** (§4: "is every remembered claim backed by a step?") is left for later: it would add a model call to every answer, and no acceptance criterion needs it. The instructions keep asking the agent to name its source.
+
+## Result (2026-10-02)
+
+Every acceptance criterion has its test, except criterion 12 in part: the ablations did not fit in the measurement's cap ($3) and were not run.
+
+LongMemEval (`evals/reports/20261002-170349/`, one repetition, judge gpt-5.4-mini):
+
+| | Gemma 4 31B | DeepSeek V4 Flash |
+|---|---|---|
+| `oracle`, 20 questions, this core | **85%** (knowledge updates 50%, temporal 100%) | **95%** (knowledge updates 100%, temporal 75%) |
+| `oracle`, the old core (spec 020) | 65% | 85% |
+| `oracle`, the old core with episodic memory (029) | 80% | 95% |
+| `oracle`, the raw sessions (naive BM25, spec 020) | 95% | 100% |
+| `S`, 5 questions, this core | **5 of 5** | — |
+| `S`, the same 5, the raw sessions (naive BM25) | 3 of 5 (missed multi-session and temporal) | — |
+
+- **Against the target of §7:** on `oracle` the core comes close to the raw sessions with DeepSeek, not yet with Gemma on knowledge updates (2 of 4). On `S`, where the raw sessions drown in about 50 sessions of noise, it answered all five; five questions are an indication, not a measure.
+- **Cost:** about $0.015 per `oracle` question with Gemma (about $0.002 per message: most of it is the turn's input, about 19,000 tokens of instructions, tools and map), $0.28 per `S` question. A consolidation pass with Gemma costs about $0.002; with the check model it cost eight times more, so passes use the default model.
+- **Next:** knowledge updates with small models; the cost of a turn (prompt caching, fewer tools per turn, shorter descriptions); more `S` questions and the ablations, with repetitions.

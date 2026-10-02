@@ -55,6 +55,6 @@
     - Verify: the report under `evals/reports/`; criterion 12; the total spent stated.
     - Done: `evals/reports/20261002-170349/` (oracle 20 questions on Gemma and DeepSeek; S 5 questions on Gemma with the naive reference), about $2.40 with the stopped tries. The ablations did not fit in the cap and were not run.
 
-- [ ] **T-close — close the spec** (always the last task)
+- [x] **T-close — close the spec** (always the last task)
     - Do: check every acceptance criterion against the code and the tests; set spec.md and spec.it.md to Implemented; move the folder to `specs/done/`; update the index in `specs/README.md`; README and `CLAUDE.md`; spec 029 closed as replaced.
     - Verify: `dotnet build Filum.slnx`, `dotnet test Filum.slnx`, `bash scripts/check-secrets.sh`.

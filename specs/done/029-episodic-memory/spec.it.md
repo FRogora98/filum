@@ -1,6 +1,6 @@
 # Memoria episodica: le conversazioni passate, consultabili
 
-> Stato: Bozza
+> Stato: Sostituita dalla spec 030 (2026-10-02): `events_search` cerca nel registro degli eventi, e questo strumento è stato tolto
 > Area: il turno / strumenti
 > Autore/data: federico rogora (redatta da Claude), 2026-10-01
 > Roadmap: fase E, binario del prodotto; chiesta dalla prima esecuzione di LongMemEval (spec 020)

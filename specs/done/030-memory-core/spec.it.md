@@ -1,6 +1,6 @@
 # Il nucleo della memoria: un registro di eventi e le proiezioni che l'agente costruisce
 
-> Stato: Rivista (il proprietario ha approvato ogni risposta proposta, 2026-10-01: "a me tornano tutte le cose che mi dici")
+> Stato: Implementata (2026-10-02). Rivista (il proprietario ha approvato ogni risposta proposta, 2026-10-01: "a me tornano tutte le cose che mi dici")
 > Area: engine (il nucleo della memoria) / il turno
 > Autore/data: federico rogora (redatta da Claude), 2026-10-01
 > Roadmap: fase E; la decisione del proprietario del 2026-10-01 di ripensare il nucleo partendo dall'architettura, tenendo il telaio ("il nucleo è il vero motore dell'engine, se cambiamo quello il resto può rimanere")
@@ -190,3 +190,22 @@ Il piano fissa questi dettagli; nessun criterio di accettazione cambia:
 - **`told`** si registra quando un turno ha cambiato le Regole del nucleo, con fonte l'evento `said` della persona: un segnale deterministico, senza una chiamata al modello per messaggio.
 - **I riassunti nella mappa** sono fatti nel codice: per un documento la prima riga di testo, per una collezione i campi e le righe. Nessuna chiamata al modello per file.
 - **Il claim check sui fatti ricordati** (§4: "ogni affermazione ricordata è sostenuta da un passo?") è rimandato: aggiungerebbe una chiamata al modello a ogni risposta, e nessun criterio di accettazione lo richiede. Le istruzioni continuano a chiedere all'agente di nominare la fonte.
+
+## Risultato (2026-10-02)
+
+Ogni criterio di accettazione ha il suo test, tranne in parte il 12: le ablazioni non stavano nel tetto della misura (3 $) e non sono state fatte girare.
+
+LongMemEval (`evals/reports/20261002-170349/`, una ripetizione, giudice gpt-5.4-mini):
+
+| | Gemma 4 31B | DeepSeek V4 Flash |
+|---|---|---|
+| `oracle`, 20 domande, questo nucleo | **85%** (aggiornamenti 50%, tempo 100%) | **95%** (aggiornamenti 100%, tempo 75%) |
+| `oracle`, il nucleo vecchio (spec 020) | 65% | 85% |
+| `oracle`, il nucleo vecchio con la memoria episodica (029) | 80% | 95% |
+| `oracle`, le sessioni grezze (BM25 ingenuo, spec 020) | 95% | 100% |
+| `S`, 5 domande, questo nucleo | **5 su 5** | — |
+| `S`, le stesse 5, le sessioni grezze (BM25 ingenuo) | 3 su 5 (sbagliate più sessioni e tempo) | — |
+
+- **Rispetto all'obiettivo del §7:** su `oracle` il nucleo si avvicina alle sessioni grezze con DeepSeek, non ancora con Gemma sugli aggiornamenti (2 su 4). Su `S`, dove le sessioni grezze affogano in circa 50 sessioni di rumore, ha risposto giusto a tutte e cinque; cinque domande sono un'indicazione, non una misura.
+- **Costo:** circa 0,015 $ a domanda di `oracle` con Gemma (circa 0,002 $ a messaggio: quasi tutto è l'input del turno, circa 19.000 token di istruzioni, strumenti e mappa), 0,28 $ a domanda di `S`. Un passaggio di consolidamento con Gemma costa circa 0,002 $; con il modello del controllo costava otto volte tanto, quindi i passaggi usano il modello predefinito.
+- **Prossimi passi:** gli aggiornamenti con i modelli piccoli; il costo di un turno (prompt caching, meno strumenti per turno, descrizioni più corte); più domande di `S` e le ablazioni, con ripetizioni.

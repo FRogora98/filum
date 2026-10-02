@@ -427,7 +427,7 @@ public sealed class ConversationService(
 
     /// <summary>
     /// The conversation as the model gets it (spec 030). Within <see cref="MemoryOptions.MaxHistoryChars"/> it is sent
-    /// whole. Past it, the latest messages that fit are sent, after a summary of the rest: made by the check model, kept
+    /// whole. Past it, the latest messages that fit are sent, after a summary of the rest: made by the default model, kept
     /// as an event of the conversation, and made again only when the part it does not cover has grown. Every message
     /// stays in the log, where events_search finds it.
     /// </summary>
@@ -469,7 +469,7 @@ public sealed class ConversationService(
     /// <summary>A summary of the earlier messages, folding in the previous one; kept as an event. Null when it fails.</summary>
     private async Task<string?> SummarizeAsync(Guid userId, Guid conversationId, string? previous, IReadOnlyList<HistoryMessage> messages, int hiddenCount, TurnSpend spend, CancellationToken cancellationToken)
     {
-        var model = modelCatalog.Find(reliabilityOptions.Value.CheckModel) ?? modelCatalog.Default;
+        var model = modelCatalog.Default;
         var text = string.Join("\n\n", messages.Select(m => $"{(m.Role == ConversationMessage.AssistantRole ? "Assistant" : "Person")}: {m.Content}"));
         try
         {

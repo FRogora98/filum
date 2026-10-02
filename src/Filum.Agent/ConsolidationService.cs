@@ -12,7 +12,7 @@ public sealed class ConsolidationOptions
     /// <summary>The background passes (after quiet, nightly); a pass on demand works either way.</summary>
     public bool Enabled { get; set; }
 
-    /// <summary>The catalog model of a pass; empty = the reliability check's model, then the default.</summary>
+    /// <summary>The catalog model of a pass; empty = the default model, the cheapest a host usually picks.</summary>
     public string Model { get; set; } = string.Empty;
 
     /// <summary>A person's events are consolidated once nothing was said for this long.</summary>
@@ -47,7 +47,6 @@ public sealed class ConsolidationService(
     MemoryService memory,
     IOptions<MemoryOptions> memoryOptions,
     IOptions<ConsolidationOptions> options,
-    IOptions<ReliabilityOptions> reliability,
     ModelCatalog catalog,
     UsageService usage,
     ILogger<ConsolidationService> logger,
@@ -55,7 +54,7 @@ public sealed class ConsolidationService(
 {
     public async Task<(ConsolidationOutcome Outcome, ConsolidationResult? Result)> RunAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var model = catalog.Find(options.Value.Model) ?? catalog.Find(reliability.Value.CheckModel) ?? catalog.Default;
+        var model = catalog.Find(options.Value.Model) ?? catalog.Default;
         if (clients is null || !catalog.AnyAvailable)
         {
             return (ConsolidationOutcome.NotConfigured, null);

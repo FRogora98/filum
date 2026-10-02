@@ -25,7 +25,7 @@
 
 Also:
 - **The map is generated.** The memory index gets a summary per file, made in code: a document's first line of text, a collection's fields and row count. The core template loses its hand-kept "Memory map" section, and the instructions stop asking for one.
-- **Long conversations** keep their last messages within a character budget. The older part is sent as a summary, made once by the check model and kept as a `derived` event of the conversation. The instructions say `events_search` finds the rest.
+- **Long conversations** keep their last messages within a character budget. The older part is sent as a summary, made once by the default model and kept as a `derived` event of the conversation. The instructions say `events_search` finds the rest.
 - **Forgetting a conversation** (`POST /memory/forget`) removes its events and what was derived only from them: files every revision of which came from those messages, and fact rows sourced only on them. A `corrected` event records it.
 
 **Discarded alternatives:**
@@ -98,7 +98,7 @@ Also:
 ### Configuration
 
 - `Consolidation:Enabled` (default false: a host opts in).
-- `Consolidation:Model` (default the check model).
+- `Consolidation:Model` (default: the default model; measured in T13, the check model cost eight times more per pass).
 - `Consolidation:QuietMinutes` (10).
 - `Consolidation:NightlyHourUtc` (3).
 - `Consolidation:MaxEvents` (200 per pass).

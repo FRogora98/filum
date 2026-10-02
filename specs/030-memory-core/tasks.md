@@ -42,7 +42,7 @@
     - Do: `MemoryService.ForgetConversationAsync` (its events; the files all of whose revisions came from its messages; the fact rows sourced only on its events, removed as a revision; a `corrected` event); `POST /memory/forget`; OpenAPI snapshot.
     - Verify: `ForgetTests` (criterion 9).
 
-- [ ] **T11 — `filum-mcp`: `memory_log` and `memory_consolidate`**
+- [x] **T11 — `filum-mcp`: `memory_log` and `memory_consolidate`**
     - Do: the two tools in `McpServerSetup`; the MCP instructions (log what matters; consolidate at the start of a session when events are pending, and when asked).
     - Verify: `Filum.Mcp.Tests` over stdio (criteria 10, 11); `scripts/smoke-mcp.sh`.
 

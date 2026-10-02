@@ -20,4 +20,4 @@ grep -q '"serverInfo":{"name":"filum"' "$out" || { echo "no initialize answer fr
 grep -q '"name":"memory_overview"' "$out" || { echo "tools/list did not return the engine's tools" >&2; exit 1; }
 if grep -qv '^{' "$out"; then echo "stdout carried something other than protocol messages" >&2; exit 1; fi
 [ -f "$home/memory/filum.md" ] || [ -d "$home/memory/.filum" ] || { echo "the memory folder was not created" >&2; exit 1; }
-echo "filum-mcp answered the handshake and listed $(grep -o '"name":"[a-z_]*"' "$out" | grep -c -E 'memory_|collection_|skill_') tools."
+echo "filum-mcp answered the handshake and listed $(grep -o '"name":"[a-z_]*"' "$out" | grep -c -E '"name":"(memory|collection|skill|events|facts?|proposal)_') tools."

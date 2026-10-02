@@ -32,9 +32,9 @@ public sealed class ServerTests : IDisposable
         var tools = await client.ListToolsAsync();
         var snapshot = JsonNode.Parse(File.ReadAllText(Path.Combine(Root(), "tests", "Filum.Engine.Tests", "ToolCatalog.snapshot.json")))!.AsArray();
 
-        Assert.Equal(26, tools.Count);
-        Assert.Equal(snapshot.Select(t => (string)t!["name"]!).Order(), tools.Select(t => t.Name).Order());
-        Assert.All(tools, tool =>
+        Assert.Equal(28, tools.Count);
+        Assert.Equal(snapshot.Select(t => (string)t!["name"]!).Append(McpServerSetup.LogTool).Append(McpServerSetup.ConsolidateTool).Order(), tools.Select(t => t.Name).Order());
+        Assert.All(tools.Where(t => t.Name is not McpServerSetup.LogTool and not McpServerSetup.ConsolidateTool), tool =>
         {
             var expected = snapshot.Single(t => (string)t!["name"]! == tool.Name)!;
             Assert.Equal((string)expected["description"]!, tool.Description);
@@ -42,6 +42,32 @@ public sealed class ServerTests : IDisposable
         });
         Assert.Contains("memory_overview", client.ServerInstructions);
         Assert.Equal("filum", client.ServerInfo.Name);
+    }
+
+    [Fact]
+    public async Task What_the_host_logs_is_kept_in_the_folders_log_changes_no_file_and_is_tidied_once()
+    {
+        await using var client = await Session();
+        Assert.Equal("Nothing is waiting to be tidied.", Ok(await Call(client, McpServerSetup.ConsolidateTool, new())));
+
+        var logged = Ok(await Call(client, McpServerSetup.LogTool, new() { ["text"] = "I moved to the coast in March.", ["occurredAt"] = "2026-03-02" }));
+        Assert.StartsWith("Logged (event 1)", logged);
+        Assert.True(Call(client, McpServerSetup.LogTool, new() { ["text"] = "x", ["occurredAt"] = "someday" }).Result.IsError);
+
+        var log = File.ReadAllLines(Path.Combine(_home, ".filum", "events.jsonl"));
+        var saved = JsonDocument.Parse(Assert.Single(log)).RootElement;
+        Assert.Equal(("said", "host", "I moved to the coast in March."), (saved.GetProperty("kind").GetString(), saved.GetProperty("source").GetString(), saved.GetProperty("text").GetString()));
+        Assert.StartsWith("2026-03-02", saved.GetProperty("occurredAt").GetString());
+        Assert.False(File.Exists(Path.Combine(_home, "filum.md")));
+        Assert.Contains("I moved to the coast in March.", Ok(await Call(client, "events_search", new() { ["query"] = "coast" })));
+
+        var waiting = Ok(await Call(client, McpServerSetup.ConsolidateTool, new()));
+        Assert.Contains("[event 1 · 2026-03-02", waiting);
+        Assert.EndsWith("call memory_consolidate with through=1.", waiting);
+        Assert.Equal("Done: 1 events tidied.", Ok(await Call(client, McpServerSetup.ConsolidateTool, new() { ["through"] = 1 })));
+        Assert.Equal("Nothing is waiting to be tidied.", Ok(await Call(client, McpServerSetup.ConsolidateTool, new())));
+        Assert.Contains("memory_log", client.ServerInstructions);
+        Assert.Contains("memory_consolidate", client.ServerInstructions);
     }
 
     [Fact]

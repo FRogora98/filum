@@ -46,14 +46,14 @@
     - Do: the two tools in `McpServerSetup`; the MCP instructions (log what matters; consolidate at the start of a session when events are pending, and when asked).
     - Verify: `Filum.Mcp.Tests` over stdio (criteria 10, 11); `scripts/smoke-mcp.sh`.
 
-- [ ] **T12 — The private host**
-    - Do: in the private repo, after the submodule update: the migration of `memory_events`, `Consolidation:Enabled` true in the service's settings, the build and tests.
-    - Verify: `dotnet build` and `dotnet test` of the private solution.
+- [ ] **T12 — The hosts**
+    - Do: the sample host creates the table with the rest (no change); hosts that keep migrations add one for `memory_events` and turn consolidation on in their own settings, outside this repository.
+    - Verify: `dotnet test tests/Filum.Agent.Tests` (the sample host on Postgres).
 
 - [ ] **T13 — The measurement (cap $3)**
     - Do: the runner's `--consolidate` (a pass through the host's endpoint before the question); on `oracle`, the 20 questions on the new core with the three small models; with what is left of the cap, a few `S` questions on one model; the report committed. Ablations only within the cap, said in the report.
     - Verify: the report under `evals/reports/`; criterion 12; the total spent stated.
 
 - [ ] **T-close — close the spec** (always the last task)
-    - Do: check every acceptance criterion against the code and the tests; set spec.md and spec.it.md to Implemented; move the folder to `specs/done/`; update the index in `specs/README.md`; README and `CLAUDE.md`; the roadmap in the private repo; spec 029 closed as replaced.
-    - Verify: `dotnet build Filum.slnx`, `dotnet test Filum.slnx`, `bash scripts/check-secrets.sh`; the private repo's commands.
+    - Do: check every acceptance criterion against the code and the tests; set spec.md and spec.it.md to Implemented; move the folder to `specs/done/`; update the index in `specs/README.md`; README and `CLAUDE.md`; spec 029 closed as replaced.
+    - Verify: `dotnet build Filum.slnx`, `dotnet test Filum.slnx`, `bash scripts/check-secrets.sh`.

@@ -97,7 +97,7 @@ Also:
 
 ### Configuration
 
-- `Consolidation:Enabled` (default false: a host opts in, as the private host will).
+- `Consolidation:Enabled` (default false: a host opts in).
 - `Consolidation:Model` (default the check model).
 - `Consolidation:QuietMinutes` (10).
 - `Consolidation:NightlyHourUtc` (3).
@@ -108,7 +108,7 @@ Also:
 - The table `memory_events`: `id` identity, `user_id`, `occurred_at`, `recorded_at`, `kind`, `source`, `conversation_id`, `message_id`, `text`, `sensitivity`, `sources bigint[]`, `revisions bigint[]`.
 - Index `(user_id, id)`.
 - No foreign key to conversations: a deleted conversation's events are removed by `ForgetConversationAsync` or kept by design.
-- A host adds its migration; the private host's comes in T12.
+- A host adds its migration (T12).
 
 ## Files touched
 
@@ -129,7 +129,6 @@ Also:
 | `src/Filum.Mcp/*` | `memory_log`, `memory_consolidate`, instructions |
 | `src/Filum.Evals/LongMemEval/*` | `--consolidate`: a pass before the question |
 | tests | contract tests for events on every store; facts; consolidation rules; turn events; forget; MCP tools; snapshots |
-| private repo | the migration of `memory_events`, `Consolidation:Enabled` in the service |
 
 ## Risks and mitigations
 
@@ -137,7 +136,7 @@ Also:
 - **Consolidation writes nonsense.** Every change is a revision by `consolidation`, undoable. It cannot create files nor overwrite the person's edits. It is off unless the host enables it.
 - **Cost of consolidation.** One cheap-model run per quiet conversation, capped at `MaxEvents`. The usage is recorded like a turn's.
 - **Hard deletion is irreversible.** It is only on the person's explicit call, removes only what came from that conversation alone, and reports what it removed.
-- **Postgres schema change.** Only a new table. Hosts pinned to v0.3.0 (Aureo) are unaffected until they upgrade and add the migration.
+- **Postgres schema change.** Only a new table. Hosts pinned to v0.3.0 are unaffected until they upgrade and add the migration.
 - **Rollback:** each task is a commit. Consolidation is off by config, and `events_search` can be left out with `Memory:ExcludedTools`.
 
 ## Test strategy

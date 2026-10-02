@@ -18,7 +18,7 @@
     - Do: the tool in `MemoryTools` over `SearchEventsAsync` (said, answered, imported; date window; private only when asked); the instructions' rule; remove `EpisodicMemory`, `AgentOptions.EpisodicMemory` and their tests; snapshot.
     - Verify: tool catalog snapshot reviewed; `EventLogTests` find a past message with dates; all suites green.
 
-- [ ] **T5 — Facts with validity**
+- [x] **T5 — Facts with validity**
     - Do: `Facts.cs`; `MemoryService.RecordFactAsync` (closes the open fact of subject and attribute, opens the new one, sources), `CurrentFactsAsync`, `FactHistoryAsync`; tools `fact_record`, `facts_current`, `facts_history`; a line in the instructions.
     - Verify: `FactsTests` (criterion 5) on memory and the local folder; snapshot.
 

@@ -18,6 +18,7 @@ public sealed class MemoryTools
     private readonly MemoryOptions _limits;
     private readonly Guid _userId;
     private readonly MemoryActor _actor;
+    private readonly IReadOnlyList<long> _sources;
     private readonly List<ToolStep> _steps = [];
     private readonly List<long> _revisions = [];
     private readonly List<string> _savedSkills = [];
@@ -25,8 +26,10 @@ public sealed class MemoryTools
     private SkillProposal? _proposal;
     private int _calls;
 
-    public MemoryTools(MemoryService memory, MemoryOptions limits, Guid userId, MemoryActor actor)
+    /// <param name="sources">The events this turn answers (the person's message), the default source of what it records.</param>
+    public MemoryTools(MemoryService memory, MemoryOptions limits, Guid userId, MemoryActor actor, IReadOnlyList<long>? sources = null)
     {
+        _sources = sources ?? [];
         _memory = memory;
         _limits = limits;
         _userId = userId;
@@ -41,6 +44,12 @@ public sealed class MemoryTools
                 $"Find the lines that contain a text (ignoring case) across the person's memory or under a folder prefix, at most {limits.MaxSearchResults}: for a detail you cannot place. Private files are left out unless includePrivate is true, which you set only when the person asks for private content now."),
             AIFunctionFactory.Create(SearchEvents, "events_search",
                 "Search everything the person said, you answered, or was imported, in every conversation, kept as it was said: each match with its date and the reply after it. Use it for details, dates, numbers and exact words the files may not have kept. Narrow by days with from and to (yyyy-MM-dd). Private messages only with includePrivate, when the person asks for them now."),
+            AIFunctionFactory.Create(RecordFact, "fact_record",
+                "Record a fact that holds for a time and can change: where someone lives, how many of something there are, a job, a status, a preference. Give the subject (who or what it is about), the attribute and the value. The fact that held before for the same subject and attribute is closed on validFrom (today when not given) and both are kept, so what held when stays known. Use it every time such a value is told or changes."),
+            AIFunctionFactory.Create(CurrentFacts, "facts_current",
+                "The facts that hold now, with the day each started and where it came from; of one subject, or all of them."),
+            AIFunctionFactory.Create(FactHistory, "facts_history",
+                "How the facts of a subject changed: every value it had, oldest first, with the days it held. Use it for questions about before, since when, or how something changed."),
             AIFunctionFactory.Create(Write, "memory_write",
                 "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes."),
             AIFunctionFactory.Create(Edit, "memory_edit",
@@ -304,6 +313,54 @@ public sealed class MemoryTools
     private static DateTimeOffset? Day(string? day) =>
         DateTimeOffset.TryParseExact(day, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var value) ? value : null;
 
+    private Task<string> RecordFact(
+        [Description("Who or what the fact is about, as the person names it: themselves, a person, a place, a thing.")] string subject,
+        [Description("What about it, in a word or two: lives in, number of plants, job.")] string attribute,
+        [Description("The value it has now.")] string value,
+        [Description("The day it started to hold, yyyy-MM-dd; today when not given.")] string? validFrom = null,
+        [Description("Anything worth keeping with it, in a few words.")] string? note = null,
+        [Description("The ids of the events it comes from, when you have them; the person's message of this turn otherwise.")] List<long>? sources = null,
+        CancellationToken cancellationToken = default) =>
+        Change("fact_record", Facts.Path, "record the fact in",
+            () => _memory.RecordFactAsync(_userId, _actor, subject, attribute, value, validFrom, note, sources is { Count: > 0 } ? sources : _sources, cancellationToken),
+            _ => $"Recorded {subject} · {attribute}: {value}",
+            _ => $"Recorded: {subject} · {attribute} is {value}; the value before, if any, is kept with the day it ended.");
+
+    private Task<string> CurrentFacts(
+        [Description("Whose facts; all of them when not given.")] string? subject = null,
+        CancellationToken cancellationToken = default) =>
+        Run("facts_current", Facts.Path, "read the facts in", async () =>
+        {
+            var outcome = await _memory.CurrentFactsAsync(_userId, subject, cancellationToken);
+            if (outcome.IsRefused)
+            {
+                return outcome.Refusal!;
+            }
+
+            var facts = outcome.Value!;
+            return new Done(facts.Count == 0 ? "No fact holds now for that." : string.Join('\n', facts.Select(Facts.Line)), ToolStep.Read, Facts.Path,
+                $"Read the current facts{(string.IsNullOrWhiteSpace(subject) ? string.Empty : $" of {subject}")}");
+        });
+
+    private Task<string> FactHistory(
+        [Description("Whose facts.")] string subject,
+        [Description("Only this attribute; all of the subject's when not given.")] string? attribute = null,
+        CancellationToken cancellationToken = default) =>
+        Run("facts_history", Facts.Path, "read the history of the facts in", async () =>
+        {
+            var outcome = await _memory.FactHistoryAsync(_userId, subject, attribute, cancellationToken);
+            if (outcome.IsRefused)
+            {
+                return outcome.Refusal!;
+            }
+
+            var facts = outcome.Value!;
+            return new Done(facts.Count == 0 ? $"No fact of {subject} is recorded." : string.Join('\n', facts.Select(Facts.Line)), ToolStep.Read, Facts.Path,
+                $"Read how the facts of {subject} changed");
+        });
+
+    private const string UseFactTools = "keeps facts that hold for a time: use fact_record; the platform closes the old value and writes the file.";
+
     private const string UseCollectionTools = "is a collection: use collection_add_rows, collection_update_rows or collection_remove_rows; the platform writes the file.";
 
     private const string UseSkillTools = "is a skill: use skill_save (with replace to change it) or skill_set_enabled; the platform writes the file.";
@@ -311,7 +368,12 @@ public sealed class MemoryTools
     private static bool IsCollection(string? path) => path?.EndsWith(".csv", StringComparison.Ordinal) == true;
 
     /// <summary>Collections and skills are written only through their own tools; the text tools refuse them.</summary>
+    /// <summary>The facts collection is changed only by fact_record, which keeps its dates right.</summary>
+    private static Task<MemoryOutcome<MemoryChange>>? FactsOnly(string path) =>
+        path == Facts.Path ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseFactTools}")) : null;
+
     private static Task<MemoryOutcome<MemoryChange>>? RefuseTyped(string path) =>
+        path == Facts.Path ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseFactTools}")) :
         Skills.IsSkillPath(path) ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseSkillTools}"))
         : IsCollection(path) ? Task.FromResult(MemoryOutcome<MemoryChange>.Refused($"{path} {UseCollectionTools}"))
         : null;
@@ -409,7 +471,7 @@ public sealed class MemoryTools
         [Description("Path of the collection, ending in .csv.")] string path,
         [Description("The rows to add, each an object of field → value.")] List<Dictionary<string, JsonElement>> rows,
         CancellationToken cancellationToken = default) =>
-        Change("collection_add_rows", path, "add rows to", () => _memory.AddRowsAsync(_userId, _actor, path, rows.Select(Values).ToList(), cancellationToken),
+        Change("collection_add_rows", path, "add rows to", () => FactsOnly(path) ?? _memory.AddRowsAsync(_userId, _actor, path, rows.Select(Values).ToList(), cancellationToken),
             c => c.Created ? $"Created {path} with {Plural(c.RowCount ?? 0, "row")}" : $"Added {Plural(Math.Max(c.Added, 0), "row")} to {path}",
             c => $"{(c.Created ? "Created" : "Added to")} {path}: {Plural(c.RowCount ?? 0, "row")} now.");
 
@@ -418,7 +480,7 @@ public sealed class MemoryTools
         [Description("Which rows: field → value, all must match (case is ignored).")] Dictionary<string, JsonElement> where,
         [Description("The new values: field → value.")] Dictionary<string, JsonElement> set,
         CancellationToken cancellationToken = default) =>
-        Change("collection_update_rows", path, "change rows of", () => _memory.UpdateRowsAsync(_userId, _actor, path, Values(where), Values(set), cancellationToken),
+        Change("collection_update_rows", path, "change rows of", () => FactsOnly(path) ?? _memory.UpdateRowsAsync(_userId, _actor, path, Values(where), Values(set), cancellationToken),
             _ => $"Changed rows of {path}",
             c => $"Changed rows of {path}: {Plural(c.RowCount ?? 0, "row")}.");
 
@@ -426,7 +488,7 @@ public sealed class MemoryTools
         [Description("Path of the collection, ending in .csv.")] string path,
         [Description("Which rows to remove: field → value, all must match (case is ignored).")] Dictionary<string, JsonElement> where,
         CancellationToken cancellationToken = default) =>
-        Change("collection_remove_rows", path, "remove rows from", () => _memory.RemoveRowsAsync(_userId, _actor, path, Values(where), cancellationToken),
+        Change("collection_remove_rows", path, "remove rows from", () => FactsOnly(path) ?? _memory.RemoveRowsAsync(_userId, _actor, path, Values(where), cancellationToken),
             c => $"Removed {Plural(Math.Max(-c.Added, 0), "row")} from {path}",
             c => $"Removed {Plural(Math.Max(-c.Added, 0), "row")} from {path}: {Plural(c.RowCount ?? 0, "row")} left.");
 
@@ -434,7 +496,7 @@ public sealed class MemoryTools
         [Description("Path of the collection, ending in .csv.")] string path,
         [Description("The name of the new field.")] string field,
         CancellationToken cancellationToken = default) =>
-        Change("collection_add_field", path, "add a field to", () => _memory.AddFieldAsync(_userId, _actor, path, field, cancellationToken),
+        Change("collection_add_field", path, "add a field to", () => FactsOnly(path) ?? _memory.AddFieldAsync(_userId, _actor, path, field, cancellationToken),
             _ => $"Added the field '{field}' to {path}",
             _ => $"Added the field '{field}' to {path}.");
 

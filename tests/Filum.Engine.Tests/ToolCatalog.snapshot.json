@@ -103,6 +103,100 @@
     }
   },
   {
+    "name": "fact_record",
+    "description": "Record a fact that holds for a time and can change: where someone lives, how many of something there are, a job, a status, a preference. Give the subject (who or what it is about), the attribute and the value. The fact that held before for the same subject and attribute is closed on validFrom (today when not given) and both are kept, so what held when stays known. Use it every time such a value is told or changes.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Who or what the fact is about, as the person names it: themselves, a person, a place, a thing.",
+          "type": "string"
+        },
+        "attribute": {
+          "description": "What about it, in a word or two: lives in, number of plants, job.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value it has now.",
+          "type": "string"
+        },
+        "validFrom": {
+          "description": "The day it started to hold, yyyy-MM-dd; today when not given.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "note": {
+          "description": "Anything worth keeping with it, in a few words.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "sources": {
+          "description": "The ids of the events it comes from, when you have them; the person's message of this turn otherwise.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "default": null
+        }
+      },
+      "required": [
+        "subject",
+        "attribute",
+        "value"
+      ]
+    }
+  },
+  {
+    "name": "facts_current",
+    "description": "The facts that hold now, with the day each started and where it came from; of one subject, or all of them.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Whose facts; all of them when not given.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      }
+    }
+  },
+  {
+    "name": "facts_history",
+    "description": "How the facts of a subject changed: every value it had, oldest first, with the days it held. Use it for questions about before, since when, or how something changed.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Whose facts.",
+          "type": "string"
+        },
+        "attribute": {
+          "description": "Only this attribute; all of the subject's when not given.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "subject"
+      ]
+    }
+  },
+  {
     "name": "memory_write",
     "description": "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes.",
     "parameters": {

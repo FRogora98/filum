@@ -224,7 +224,7 @@ public sealed class ConversationService(
 
         var core = await memoryService.EnsureCoreAsync(userId, cancellationToken);
         var index = await memoryService.BuildIndexAsync(userId, cancellationToken);
-        var tools = new MemoryTools(memoryService, memoryOptions.Value, userId, MemoryActor.Agent(conversationId, userMessage.Id));
+        var tools = new MemoryTools(memoryService, memoryOptions.Value, userId, MemoryActor.Agent(conversationId, userMessage.Id), [said.Id]);
         var skills = await memoryService.ListSkillsAsync(userId, includePrivate: false, cancellationToken);
 
         // The host's own tools, beside the engine's: each call is a step of this turn (spec 017).

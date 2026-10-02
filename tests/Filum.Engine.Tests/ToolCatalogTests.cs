@@ -44,11 +44,11 @@ public sealed class ToolCatalogTests
     {
         var catalog = MemoryTools.Catalog(new MemoryOptions());
 
-        Assert.Equal(22, catalog.Count);
+        Assert.Equal(25, catalog.Count);
         Assert.Equal(catalog.Count, catalog.Select(t => t.Name).Distinct().Count());
         Assert.All(catalog, t =>
         {
-            Assert.Matches("^(memory|collection|skill|events)_[a-z_]+$", t.Name);
+            Assert.Matches("^(memory|collection|skill|events|facts?)_[a-z_]+$", t.Name);
             Assert.True(t.Description.Length > 40, t.Name);
             Assert.Equal("object", t.JsonSchema.GetProperty("type").GetString());
         });
@@ -65,7 +65,7 @@ public sealed class ToolCatalogTests
         var tools = new MemoryTools(_memory, limits, _user, Agent);
 
         Assert.Equal(MemoryTools.Catalog(new MemoryOptions()).Select(t => t.Name).Except(["memory_delete", "collection_remove_rows"]), tools.Tools.Select(t => t.Name));
-        Assert.Equal(22, new MemoryTools(_memory, new MemoryOptions(), _user, Agent).Tools.Count);
+        Assert.Equal(25, new MemoryTools(_memory, new MemoryOptions(), _user, Agent).Tools.Count);
         await Task.CompletedTask;
     }
 

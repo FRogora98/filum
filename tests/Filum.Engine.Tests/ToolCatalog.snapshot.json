@@ -1,7 +1,7 @@
 [
   {
     "name": "memory_overview",
-    "description": "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered), the map of every file with what it holds (documents with their first line, collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one.",
+    "description": "The person's core, the map of every file and their enabled skills, in one call.",
     "parameters": {
       "type": "object",
       "properties": {}
@@ -9,12 +9,12 @@
   },
   {
     "name": "memory_read",
-    "description": "Read one file of the person's memory with line numbers, at most 500 lines per call; use fromLine and toLine to read further. Read a file only when you need its content.",
+    "description": "Read a file with line numbers, up to 500 lines; fromLine and toLine page through it.",
     "parameters": {
       "type": "object",
       "properties": {
         "path": {
-          "description": "Path of the file, for example /notes/plans.md.",
+          "description": "Path, like /notes/plans.md.",
           "type": "string"
         },
         "fromLine": {
@@ -41,7 +41,7 @@
   },
   {
     "name": "memory_search",
-    "description": "Find the lines that contain a text (ignoring case) across the person's memory or under a folder prefix, at most 50: for a detail you cannot place. Private files are left out unless includePrivate is true, which you set only when the person asks for private content now.",
+    "description": "Find the lines that contain a text across the files or under a folder, up to 50. Private files only with includePrivate.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -50,12 +50,12 @@
           "type": "string"
         },
         "prefix": {
-          "description": "Folder prefix to search under; / for everything.",
+          "description": "Folder to search under; / for all.",
           "type": "string",
           "default": "/"
         },
         "includePrivate": {
-          "description": "Also search private files; only when the person asks for them in this message.",
+          "description": "Include private files.",
           "type": "boolean",
           "default": false
         }
@@ -67,16 +67,16 @@
   },
   {
     "name": "events_search",
-    "description": "Search everything the person said, you answered, or was imported, in every conversation, kept as it was said: each match with its date and the reply after it. Use it for details, dates, numbers and exact words the files may not have kept. Narrow by days with from and to (yyyy-MM-dd). Private messages only with includePrivate, when the person asks for them now.",
+    "description": "Search what was said, answered or imported in every conversation: each match with its date and the reply after it.",
     "parameters": {
       "type": "object",
       "properties": {
         "query": {
-          "description": "Words to look for in what was said, for example a name, a thing or an event.",
+          "description": "Words to look for.",
           "type": "string"
         },
         "from": {
-          "description": "Only what was said on or after this day, yyyy-MM-dd.",
+          "description": "From this day, yyyy-MM-dd.",
           "type": [
             "string",
             "null"
@@ -84,7 +84,7 @@
           "default": null
         },
         "to": {
-          "description": "Only what was said on or before this day, yyyy-MM-dd.",
+          "description": "To this day, yyyy-MM-dd.",
           "type": [
             "string",
             "null"
@@ -92,7 +92,7 @@
           "default": null
         },
         "includePrivate": {
-          "description": "Also search private messages; only when the person asks for them in this message.",
+          "description": "Include private messages.",
           "type": "boolean",
           "default": false
         }
@@ -104,16 +104,16 @@
   },
   {
     "name": "fact_record",
-    "description": "Record a fact that holds for a time and can change: where someone lives, how many of something there are, a job, a status, a preference. Give the subject (who or what it is about), the attribute and the value. The fact that held before for the same subject and attribute is closed on validFrom (today when not given) and both are kept, so what held when stays known. Use it every time such a value is told or changes.",
+    "description": "Record a value that holds for a time. The previous value of the same subject and attribute is closed on validFrom and kept.",
     "parameters": {
       "type": "object",
       "properties": {
         "subject": {
-          "description": "Who or what the fact is about, as the person names it: themselves, a person, a place, a thing.",
+          "description": "Who or what it is about.",
           "type": "string"
         },
         "attribute": {
-          "description": "What about it, in a word or two: lives in, number of plants, job.",
+          "description": "What about it, in a word or two.",
           "type": "string"
         },
         "value": {
@@ -121,7 +121,7 @@
           "type": "string"
         },
         "validFrom": {
-          "description": "The day it started to hold, yyyy-MM-dd; today when not given.",
+          "description": "The day it started, yyyy-MM-dd; today if empty.",
           "type": [
             "string",
             "null"
@@ -129,7 +129,7 @@
           "default": null
         },
         "note": {
-          "description": "Anything worth keeping with it, in a few words.",
+          "description": "A short note.",
           "type": [
             "string",
             "null"
@@ -137,7 +137,7 @@
           "default": null
         },
         "sources": {
-          "description": "The ids of the events it comes from, when you have them; the person's message of this turn otherwise.",
+          "description": "Ids of the events it comes from.",
           "type": [
             "array",
             "null"
@@ -157,12 +157,12 @@
   },
   {
     "name": "facts_current",
-    "description": "The facts that hold now, with the day each started and where it came from; of one subject, or all of them.",
+    "description": "The facts that hold now, of one subject or all.",
     "parameters": {
       "type": "object",
       "properties": {
         "subject": {
-          "description": "Whose facts; all of them when not given.",
+          "description": "Whose; all if empty.",
           "type": [
             "string",
             "null"
@@ -174,7 +174,7 @@
   },
   {
     "name": "facts_history",
-    "description": "How the facts of a subject changed: every value it had, oldest first, with the days it held. Use it for questions about before, since when, or how something changed.",
+    "description": "Every value the facts of a subject had, oldest first, with their dates.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -183,7 +183,7 @@
           "type": "string"
         },
         "attribute": {
-          "description": "Only this attribute; all of the subject's when not given.",
+          "description": "Only this attribute.",
           "type": [
             "string",
             "null"
@@ -198,7 +198,7 @@
   },
   {
     "name": "proposal_answer",
-    "description": "Record the person's answer to a proposal listed under \"Proposals waiting for the person\": accepted true or false. Ask them first, in your answer; call it when they reply. When they accept, then create what was proposed with the usual tools.",
+    "description": "Record the person's answer to a waiting proposal.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -207,7 +207,7 @@
           "type": "integer"
         },
         "accepted": {
-          "description": "True when the person accepted it, false when they declined.",
+          "description": "Whether they accepted.",
           "type": "boolean"
         }
       },
@@ -219,7 +219,7 @@
   },
   {
     "name": "memory_write",
-    "description": "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes.",
+    "description": "Create a document (.md) or replace its whole content.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -240,7 +240,7 @@
   },
   {
     "name": "memory_edit",
-    "description": "Replace one exact occurrence of oldText with newText in a document. Fails if oldText is missing or appears more than once: then include more of the surrounding text.",
+    "description": "Replace one exact occurrence of oldText with newText in a document.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -249,11 +249,11 @@
           "type": "string"
         },
         "oldText": {
-          "description": "The exact text to replace; it must appear once.",
+          "description": "Exact text to replace, appearing once.",
           "type": "string"
         },
         "newText": {
-          "description": "The text to put in its place.",
+          "description": "Its replacement.",
           "type": "string"
         }
       },
@@ -266,7 +266,7 @@
   },
   {
     "name": "memory_append",
-    "description": "Add text at the end of a document, creating it if it does not exist. For collections use collection_add_rows.",
+    "description": "Add text at the end of a document, creating it if missing.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -275,7 +275,7 @@
           "type": "string"
         },
         "text": {
-          "description": "The lines to add at the end.",
+          "description": "Text to add.",
           "type": "string"
         }
       },
@@ -287,7 +287,7 @@
   },
   {
     "name": "collection_add_rows",
-    "description": "Add entries to a collection (a path ending in .csv): one kind of information that repeats, one row per entry, each row an object of field → value. A missing collection is created with the rows' fields. The engine writes the file; never write a collection as text.",
+    "description": "Add rows to a collection (.csv); a missing one is created with the rows' fields.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -296,7 +296,7 @@
           "type": "string"
         },
         "rows": {
-          "description": "The rows to add, each an object of field → value.",
+          "description": "Rows, each field → value.",
           "type": "array",
           "items": {
             "type": "object"
@@ -311,7 +311,7 @@
   },
   {
     "name": "collection_update_rows",
-    "description": "Change rows of a collection: every row whose fields equal all of 'where' gets the values of 'set'. Example: where {\"title\": \"X\"}, set {\"status\": \"seen\"}.",
+    "description": "Set fields of every row whose fields equal all of where.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -320,11 +320,11 @@
           "type": "string"
         },
         "where": {
-          "description": "Which rows: field → value, all must match (case is ignored).",
+          "description": "Which rows: field → value, all matching.",
           "type": "object"
         },
         "set": {
-          "description": "The new values: field → value.",
+          "description": "New values: field → value.",
           "type": "object"
         }
       },
@@ -337,7 +337,7 @@
   },
   {
     "name": "collection_remove_rows",
-    "description": "Remove the rows of a collection whose fields equal all of 'where'. Example: where {\"item\": \"bread\"}.",
+    "description": "Remove every row whose fields equal all of where.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -346,7 +346,7 @@
           "type": "string"
         },
         "where": {
-          "description": "Which rows to remove: field → value, all must match (case is ignored).",
+          "description": "Which rows: field → value, all matching.",
           "type": "object"
         }
       },
@@ -358,7 +358,7 @@
   },
   {
     "name": "collection_add_field",
-    "description": "Add a new field to a collection; existing rows get an empty value. Only when a new kind of detail is really needed.",
+    "description": "Add a field to a collection; existing rows get it empty.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -367,7 +367,7 @@
           "type": "string"
         },
         "field": {
-          "description": "The name of the new field.",
+          "description": "Name of the new field.",
           "type": "string"
         }
       },
@@ -379,7 +379,7 @@
   },
   {
     "name": "memory_delete",
-    "description": "Delete a file. It stays in the history and can be brought back with memory_undo. The core /filum.md cannot be deleted.",
+    "description": "Delete a file; it stays in the history and can be undone. Not the core.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -416,7 +416,7 @@
   },
   {
     "name": "memory_set_sensitivity",
-    "description": "Set a file's sensitivity: normal, sensitive (never brought up unprompted) or private (left out of lists and searches unless asked for).",
+    "description": "Set a file's sensitivity: normal, sensitive or private.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -437,7 +437,7 @@
   },
   {
     "name": "memory_history",
-    "description": "The history of one file, newest first: what each change did, who made it and when, with the id of each change for memory_undo.",
+    "description": "A file's changes, newest first, each with the id memory_undo takes.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -453,7 +453,7 @@
   },
   {
     "name": "memory_undo",
-    "description": "Undo one change by its id (from memory_history or from the result of the tool that made it): the file returns to how it was before. Refused when the file changed again since: undo the later change first.",
+    "description": "Undo one change by its id; refused if the file changed again since.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -469,7 +469,7 @@
   },
   {
     "name": "collection_aggregate",
-    "description": "Compute count, sum, average, min or max of a column of a collection, exactly, in code. Optionally group by a column, or by the day, week, month or year of a date column (groupBy plus period); filter rows by a column value (filterColumn plus filterValue) or by a date range (dateColumn plus from and to, as yyyy-MM-dd). Use it for every total, average or count over a collection.",
+    "description": "Count, sum, average, min or max of a column, exactly, optionally grouped and filtered.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -482,7 +482,7 @@
           "type": "string"
         },
         "column": {
-          "description": "The field to compute on; optional for count.",
+          "description": "Field to compute on.",
           "type": [
             "string",
             "null"
@@ -490,7 +490,7 @@
           "default": null
         },
         "groupBy": {
-          "description": "A field to group by; with period, a date field.",
+          "description": "Field to group by.",
           "type": [
             "string",
             "null"
@@ -498,7 +498,7 @@
           "default": null
         },
         "period": {
-          "description": "day, week, month or year: groups by that period of the groupBy date field.",
+          "description": "day, week, month or year of groupBy.",
           "type": [
             "string",
             "null"
@@ -514,7 +514,7 @@
           "default": null
         },
         "filterValue": {
-          "description": "The value filterColumn must have (ignoring case).",
+          "description": "Value filterColumn must have.",
           "type": [
             "string",
             "null"
@@ -554,12 +554,12 @@
   },
   {
     "name": "skill_list",
-    "description": "The person's skills, the procedures they keep: name, what it does, when it applies, on or off. Private skills only with includePrivate, when the person asks for them.",
+    "description": "The person's skills: name, what, when, on or off.",
     "parameters": {
       "type": "object",
       "properties": {
         "includePrivate": {
-          "description": "Also list private skills; only when the person asks for them.",
+          "description": "Include private skills.",
           "type": "boolean",
           "default": false
         }
@@ -568,12 +568,12 @@
   },
   {
     "name": "skill_use",
-    "description": "Get the full steps of one of the person's enabled skills, by name, when what they ask matches its 'when'; then follow them.",
+    "description": "The steps of one of the person's enabled skills.",
     "parameters": {
       "type": "object",
       "properties": {
         "name": {
-          "description": "The skill's name, without the '/'.",
+          "description": "Skill name.",
           "type": "string"
         }
       },
@@ -584,28 +584,28 @@
   },
   {
     "name": "skill_save",
-    "description": "Save a skill: a procedure the person wants followed again, with a short name, one line of what it does, one line of when it applies, and plain numbered steps. The engine writes the file. A new name creates it; to change an existing skill set replace to true.",
+    "description": "Save a skill; replace to change an existing one.",
     "parameters": {
       "type": "object",
       "properties": {
         "name": {
-          "description": "Short name: lowercase words joined by '-', like weekly-review.",
+          "description": "lowercase-words-joined-by-dashes.",
           "type": "string"
         },
         "description": {
-          "description": "One line: what the skill does.",
+          "description": "What it does, one line.",
           "type": "string"
         },
         "when": {
-          "description": "One line: when it applies, in the person's terms.",
+          "description": "When it applies, one line.",
           "type": "string"
         },
         "steps": {
-          "description": "The steps, plain and numbered.",
+          "description": "Numbered steps.",
           "type": "string"
         },
         "replace": {
-          "description": "True to change an existing skill with this name.",
+          "description": "Change the existing skill.",
           "type": "boolean",
           "default": false
         }
@@ -620,24 +620,24 @@
   },
   {
     "name": "skill_propose",
-    "description": "Propose a skill without saving it, when the person keeps asking for the same kind of thing and no skill covers it: the person's app, if any, shows it to them. Ask them in your answer whether to save it; save it with skill_save only when they agree.",
+    "description": "Propose a skill without saving it: the person's app shows it. Save it only when they agree.",
     "parameters": {
       "type": "object",
       "properties": {
         "name": {
-          "description": "Short name: lowercase words joined by '-', like weekly-review.",
+          "description": "lowercase-words-joined-by-dashes.",
           "type": "string"
         },
         "description": {
-          "description": "One line: what the skill does.",
+          "description": "What it does, one line.",
           "type": "string"
         },
         "when": {
-          "description": "One line: when it applies, in the person's terms.",
+          "description": "When it applies, one line.",
           "type": "string"
         },
         "steps": {
-          "description": "The steps, plain and numbered.",
+          "description": "Numbered steps.",
           "type": "string"
         }
       },
@@ -651,16 +651,16 @@
   },
   {
     "name": "skill_set_enabled",
-    "description": "Turn one of the person's skills off (it is kept but no longer used) or back on.",
+    "description": "Turn a skill off or back on.",
     "parameters": {
       "type": "object",
       "properties": {
         "name": {
-          "description": "The skill's name, without the '/'.",
+          "description": "Skill name.",
           "type": "string"
         },
         "enabled": {
-          "description": "False to turn it off, true to turn it back on.",
+          "description": "On or off.",
           "type": "boolean"
         }
       },

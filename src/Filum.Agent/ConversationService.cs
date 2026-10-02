@@ -240,7 +240,9 @@ public sealed class ConversationService(
         var skills = await memoryService.ListSkillsAsync(userId, includePrivate: false, cancellationToken);
 
         // The host's own tools, beside the engine's: each call is a step of this turn (spec 017).
+        // The overview's content is already in the instructions: a turn does not need the tool (spec 031).
         var turnTools = tools.Tools
+            .Where(t => t.Name != "memory_overview")
             .Concat((toolSources ?? [])
                 .SelectMany(source => source.Tools(turn))
                 .Where(t => !memoryOptions.Value.ExcludedTools.Contains(t.Name, StringComparer.Ordinal))

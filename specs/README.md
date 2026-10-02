@@ -20,6 +20,7 @@
 
 | # | Spec | Status | Area |
 |---|---|---|---|
+| 031 | [Lean turns](031-lean-turns/spec.md) · [Turni leggeri](031-lean-turns/spec.it.md) | Reviewed | tools, the turn |
 | 030 | [The memory core](done/030-memory-core/spec.md) · [Il nucleo della memoria](done/030-memory-core/spec.it.md) | Implemented | engine, the turn |
 | 029 | [Episodic memory](done/029-episodic-memory/spec.md) · [Memoria episodica](done/029-episodic-memory/spec.it.md) | Replaced by 030 | the turn, tools |
 | 020 | [The benchmark: LongMemEval on Filum](done/020-benchmark/spec.md) · [Il benchmark: LongMemEval su Filum](done/020-benchmark/spec.it.md) | Implemented | evals |

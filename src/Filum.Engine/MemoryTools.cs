@@ -43,59 +43,59 @@ public sealed class MemoryTools
         IEnumerable<AIFunction> all =
         [
             AIFunctionFactory.Create(Overview, "memory_overview",
-                "What the person's memory holds, in one call: their core (/filum.md: who they are, their rules, how they want to be answered), the map of every file with what it holds (documents with their first line, collections with their fields), and their enabled skills. Call it first when you start helping the person; you do not need to look through files one by one."),
+                "The person's core, the map of every file and their enabled skills, in one call."),
             AIFunctionFactory.Create(Read, "memory_read",
-                $"Read one file of the person's memory with line numbers, at most {limits.MaxReadLines} lines per call; use fromLine and toLine to read further. Read a file only when you need its content."),
+                $"Read a file with line numbers, up to {limits.MaxReadLines} lines; fromLine and toLine page through it."),
             AIFunctionFactory.Create(Search, "memory_search",
-                $"Find the lines that contain a text (ignoring case) across the person's memory or under a folder prefix, at most {limits.MaxSearchResults}: for a detail you cannot place. Private files are left out unless includePrivate is true, which you set only when the person asks for private content now."),
+                $"Find the lines that contain a text across the files or under a folder, up to {limits.MaxSearchResults}. Private files only with includePrivate."),
             AIFunctionFactory.Create(SearchEvents, "events_search",
-                "Search everything the person said, you answered, or was imported, in every conversation, kept as it was said: each match with its date and the reply after it. Use it for details, dates, numbers and exact words the files may not have kept. Narrow by days with from and to (yyyy-MM-dd). Private messages only with includePrivate, when the person asks for them now."),
+                "Search what was said, answered or imported in every conversation: each match with its date and the reply after it."),
             AIFunctionFactory.Create(RecordFact, "fact_record",
-                "Record a fact that holds for a time and can change: where someone lives, how many of something there are, a job, a status, a preference. Give the subject (who or what it is about), the attribute and the value. The fact that held before for the same subject and attribute is closed on validFrom (today when not given) and both are kept, so what held when stays known. Use it every time such a value is told or changes."),
+                "Record a value that holds for a time. The previous value of the same subject and attribute is closed on validFrom and kept."),
             AIFunctionFactory.Create(CurrentFacts, "facts_current",
-                "The facts that hold now, with the day each started and where it came from; of one subject, or all of them."),
+                "The facts that hold now, of one subject or all."),
             AIFunctionFactory.Create(FactHistory, "facts_history",
-                "How the facts of a subject changed: every value it had, oldest first, with the days it held. Use it for questions about before, since when, or how something changed."),
+                "Every value the facts of a subject had, oldest first, with their dates."),
             AIFunctionFactory.Create(AnswerProposal, "proposal_answer",
-                "Record the person's answer to a proposal listed under \"Proposals waiting for the person\": accepted true or false. Ask them first, in your answer; call it when they reply. When they accept, then create what was proposed with the usual tools."),
+                "Record the person's answer to a waiting proposal."),
             AIFunctionFactory.Create(Propose, Consolidation.ProposeTool,
                 "Propose to the person a new file or a new section that the memory needs (a collection for a new kind of entries, a document for a new topic, a skill, a section of the core): what, where, and why, in one or two sentences, with the ids of the events it comes from. Nothing is created; the person decides."),
             AIFunctionFactory.Create(Write, "memory_write",
-                "Create a document (a path ending in .md) or replace its whole content. Save what the person tells you that is worth remembering, when they say it; when they call it private or sensitive, mark the file with memory_set_sensitivity right after. For collections use the collection tools. Prefer memory_append to add to a document and memory_edit for small changes."),
+                "Create a document (.md) or replace its whole content."),
             AIFunctionFactory.Create(Edit, "memory_edit",
-                "Replace one exact occurrence of oldText with newText in a document. Fails if oldText is missing or appears more than once: then include more of the surrounding text."),
+                "Replace one exact occurrence of oldText with newText in a document."),
             AIFunctionFactory.Create(Append, "memory_append",
-                "Add text at the end of a document, creating it if it does not exist. For collections use collection_add_rows."),
+                "Add text at the end of a document, creating it if missing."),
             AIFunctionFactory.Create(AddRows, "collection_add_rows",
-                "Add entries to a collection (a path ending in .csv): one kind of information that repeats, one row per entry, each row an object of field → value. A missing collection is created with the rows' fields. The engine writes the file; never write a collection as text."),
+                "Add rows to a collection (.csv); a missing one is created with the rows' fields."),
             AIFunctionFactory.Create(UpdateRows, "collection_update_rows",
-                "Change rows of a collection: every row whose fields equal all of 'where' gets the values of 'set'. Example: where {\"title\": \"X\"}, set {\"status\": \"seen\"}."),
+                "Set fields of every row whose fields equal all of where."),
             AIFunctionFactory.Create(RemoveRows, "collection_remove_rows",
-                "Remove the rows of a collection whose fields equal all of 'where'. Example: where {\"item\": \"bread\"}."),
+                "Remove every row whose fields equal all of where."),
             AIFunctionFactory.Create(AddField, "collection_add_field",
-                "Add a new field to a collection; existing rows get an empty value. Only when a new kind of detail is really needed."),
+                "Add a field to a collection; existing rows get it empty."),
             AIFunctionFactory.Create(Delete, "memory_delete",
-                "Delete a file. It stays in the history and can be brought back with memory_undo. The core /filum.md cannot be deleted."),
+                "Delete a file; it stays in the history and can be undone. Not the core."),
             AIFunctionFactory.Create(Move, "memory_move",
                 "Rename or move a file, keeping its history."),
             AIFunctionFactory.Create(SetSensitivity, "memory_set_sensitivity",
-                "Set a file's sensitivity: normal, sensitive (never brought up unprompted) or private (left out of lists and searches unless asked for)."),
+                "Set a file's sensitivity: normal, sensitive or private."),
             AIFunctionFactory.Create(History, "memory_history",
-                "The history of one file, newest first: what each change did, who made it and when, with the id of each change for memory_undo."),
+                "A file's changes, newest first, each with the id memory_undo takes."),
             AIFunctionFactory.Create(Undo, "memory_undo",
-                "Undo one change by its id (from memory_history or from the result of the tool that made it): the file returns to how it was before. Refused when the file changed again since: undo the later change first."),
+                "Undo one change by its id; refused if the file changed again since."),
             AIFunctionFactory.Create(Aggregate, "collection_aggregate",
-                "Compute count, sum, average, min or max of a column of a collection, exactly, in code. Optionally group by a column, or by the day, week, month or year of a date column (groupBy plus period); filter rows by a column value (filterColumn plus filterValue) or by a date range (dateColumn plus from and to, as yyyy-MM-dd). Use it for every total, average or count over a collection."),
+                "Count, sum, average, min or max of a column, exactly, optionally grouped and filtered."),
             AIFunctionFactory.Create(ListSkills, "skill_list",
-                "The person's skills, the procedures they keep: name, what it does, when it applies, on or off. Private skills only with includePrivate, when the person asks for them."),
+                "The person's skills: name, what, when, on or off."),
             AIFunctionFactory.Create(UseSkill, "skill_use",
-                "Get the full steps of one of the person's enabled skills, by name, when what they ask matches its 'when'; then follow them."),
+                "The steps of one of the person's enabled skills."),
             AIFunctionFactory.Create(SaveSkill, "skill_save",
-                "Save a skill: a procedure the person wants followed again, with a short name, one line of what it does, one line of when it applies, and plain numbered steps. The engine writes the file. A new name creates it; to change an existing skill set replace to true."),
+                "Save a skill; replace to change an existing one."),
             AIFunctionFactory.Create(ProposeSkill, "skill_propose",
-                "Propose a skill without saving it, when the person keeps asking for the same kind of thing and no skill covers it: the person's app, if any, shows it to them. Ask them in your answer whether to save it; save it with skill_save only when they agree."),
+                "Propose a skill without saving it: the person's app shows it. Save it only when they agree."),
             AIFunctionFactory.Create(SetSkillEnabled, "skill_set_enabled",
-                "Turn one of the person's skills off (it is kept but no longer used) or back on.")
+                "Turn a skill off or back on.")
         ];
         var excluded = new HashSet<string>(limits.ExcludedTools, StringComparer.Ordinal);
         Tools = all
@@ -219,7 +219,7 @@ public sealed class MemoryTools
         });
 
     private Task<string> ListSkills(
-        [Description("Also list private skills; only when the person asks for them.")] bool includePrivate = false,
+        [Description("Include private skills.")] bool includePrivate = false,
         CancellationToken cancellationToken = default) =>
         Run("skill_list", Skills.Folder, "list the skills", async () =>
         {
@@ -231,7 +231,7 @@ public sealed class MemoryTools
         });
 
     private Task<string> Read(
-        [Description("Path of the file, for example /notes/plans.md.")] string path,
+        [Description("Path, like /notes/plans.md.")] string path,
         [Description("First line to read, from 1.")] int? fromLine = null,
         [Description("Last line to read.")] int? toLine = null,
         CancellationToken cancellationToken = default) =>
@@ -262,8 +262,8 @@ public sealed class MemoryTools
 
     private Task<string> Search(
         [Description("The text to look for.")] string query,
-        [Description("Folder prefix to search under; / for everything.")] string prefix = "/",
-        [Description("Also search private files; only when the person asks for them in this message.")] bool includePrivate = false,
+        [Description("Folder to search under; / for all.")] string prefix = "/",
+        [Description("Include private files.")] bool includePrivate = false,
         CancellationToken cancellationToken = default) =>
         Run("memory_search", prefix, "search", async () =>
         {
@@ -285,10 +285,10 @@ public sealed class MemoryTools
         });
 
     private Task<string> SearchEvents(
-        [Description("Words to look for in what was said, for example a name, a thing or an event.")] string query,
-        [Description("Only what was said on or after this day, yyyy-MM-dd.")] string? from = null,
-        [Description("Only what was said on or before this day, yyyy-MM-dd.")] string? to = null,
-        [Description("Also search private messages; only when the person asks for them in this message.")] bool includePrivate = false,
+        [Description("Words to look for.")] string query,
+        [Description("From this day, yyyy-MM-dd.")] string? from = null,
+        [Description("To this day, yyyy-MM-dd.")] string? to = null,
+        [Description("Include private messages.")] bool includePrivate = false,
         CancellationToken cancellationToken = default) =>
         Run("events_search", null, "search what was said", async () =>
         {
@@ -327,12 +327,12 @@ public sealed class MemoryTools
         DateTimeOffset.TryParseExact(day, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var value) ? value : null;
 
     private Task<string> RecordFact(
-        [Description("Who or what the fact is about, as the person names it: themselves, a person, a place, a thing.")] string subject,
-        [Description("What about it, in a word or two: lives in, number of plants, job.")] string attribute,
+        [Description("Who or what it is about.")] string subject,
+        [Description("What about it, in a word or two.")] string attribute,
         [Description("The value it has now.")] string value,
-        [Description("The day it started to hold, yyyy-MM-dd; today when not given.")] string? validFrom = null,
-        [Description("Anything worth keeping with it, in a few words.")] string? note = null,
-        [Description("The ids of the events it comes from, when you have them; the person's message of this turn otherwise.")] List<long>? sources = null,
+        [Description("The day it started, yyyy-MM-dd; today if empty.")] string? validFrom = null,
+        [Description("A short note.")] string? note = null,
+        [Description("Ids of the events it comes from.")] List<long>? sources = null,
         CancellationToken cancellationToken = default) =>
         Change("fact_record", Facts.Path, "record the fact in",
             () => _memory.RecordFactAsync(_userId, _actor, subject, attribute, value, validFrom, note, sources is { Count: > 0 } ? sources : _sources, cancellationToken),
@@ -340,7 +340,7 @@ public sealed class MemoryTools
             _ => $"Recorded: {subject} · {attribute} is {value}; the value before, if any, is kept with the day it ended.");
 
     private Task<string> CurrentFacts(
-        [Description("Whose facts; all of them when not given.")] string? subject = null,
+        [Description("Whose; all if empty.")] string? subject = null,
         CancellationToken cancellationToken = default) =>
         Run("facts_current", Facts.Path, "read the facts in", async () =>
         {
@@ -357,7 +357,7 @@ public sealed class MemoryTools
 
     private Task<string> FactHistory(
         [Description("Whose facts.")] string subject,
-        [Description("Only this attribute; all of the subject's when not given.")] string? attribute = null,
+        [Description("Only this attribute.")] string? attribute = null,
         CancellationToken cancellationToken = default) =>
         Run("facts_history", Facts.Path, "read the history of the facts in", async () =>
         {
@@ -374,7 +374,7 @@ public sealed class MemoryTools
 
     private Task<string> AnswerProposal(
         [Description("The id of the proposal.")] long id,
-        [Description("True when the person accepted it, false when they declined.")] bool accepted,
+        [Description("Whether they accepted.")] bool accepted,
         CancellationToken cancellationToken = default) =>
         Run("proposal_answer", null, $"record the answer to proposal {id}", async () =>
         {
@@ -455,7 +455,7 @@ public sealed class MemoryTools
         : null;
 
     private Task<string> UseSkill(
-        [Description("The skill's name, without the '/'.")] string name,
+        [Description("Skill name.")] string name,
         CancellationToken cancellationToken = default) =>
         Run("skill_use", SkillPath(name), "use the skill", async () =>
         {
@@ -480,11 +480,11 @@ public sealed class MemoryTools
         });
 
     private Task<string> SaveSkill(
-        [Description("Short name: lowercase words joined by '-', like weekly-review.")] string name,
-        [Description("One line: what the skill does.")] string description,
-        [Description("One line: when it applies, in the person's terms.")] string when,
-        [Description("The steps, plain and numbered.")] string steps,
-        [Description("True to change an existing skill with this name.")] bool replace = false,
+        [Description("lowercase-words-joined-by-dashes.")] string name,
+        [Description("What it does, one line.")] string description,
+        [Description("When it applies, one line.")] string when,
+        [Description("Numbered steps.")] string steps,
+        [Description("Change the existing skill.")] bool replace = false,
         CancellationToken cancellationToken = default) =>
         Change("skill_save", SkillPath(name), "save the skill", async () =>
             {
@@ -503,10 +503,10 @@ public sealed class MemoryTools
             c => $"Saved the skill /{Bare(name)}; it is on and listed from the next message. The person can use it by typing /{Bare(name)} or by asking.");
 
     private Task<string> ProposeSkill(
-        [Description("Short name: lowercase words joined by '-', like weekly-review.")] string name,
-        [Description("One line: what the skill does.")] string description,
-        [Description("One line: when it applies, in the person's terms.")] string when,
-        [Description("The steps, plain and numbered.")] string steps,
+        [Description("lowercase-words-joined-by-dashes.")] string name,
+        [Description("What it does, one line.")] string description,
+        [Description("When it applies, one line.")] string when,
+        [Description("Numbered steps.")] string steps,
         CancellationToken cancellationToken = default) =>
         Run("skill_propose", SkillPath(name), "propose the skill", async () =>
         {
@@ -530,8 +530,8 @@ public sealed class MemoryTools
         });
 
     private Task<string> SetSkillEnabled(
-        [Description("The skill's name, without the '/'.")] string name,
-        [Description("False to turn it off, true to turn it back on.")] bool enabled,
+        [Description("Skill name.")] string name,
+        [Description("On or off.")] bool enabled,
         CancellationToken cancellationToken = default) =>
         Change("skill_set_enabled", SkillPath(name), enabled ? "turn on the skill" : "turn off the skill",
             () => _memory.SetSkillEnabledAsync(_userId, _actor, Bare(name), enabled, cancellationToken),
@@ -545,7 +545,7 @@ public sealed class MemoryTools
 
     private Task<string> AddRows(
         [Description("Path of the collection, ending in .csv.")] string path,
-        [Description("The rows to add, each an object of field → value.")] List<Dictionary<string, JsonElement>> rows,
+        [Description("Rows, each field → value.")] List<Dictionary<string, JsonElement>> rows,
         CancellationToken cancellationToken = default) =>
         Change("collection_add_rows", path, "add rows to", () => FactsOnly(path) ?? _memory.AddRowsAsync(_userId, _actor, path, rows.Select(Values).ToList(), cancellationToken),
             c => c.Created ? $"Created {path} with {Plural(c.RowCount ?? 0, "row")}" : $"Added {Plural(Math.Max(c.Added, 0), "row")} to {path}",
@@ -553,8 +553,8 @@ public sealed class MemoryTools
 
     private Task<string> UpdateRows(
         [Description("Path of the collection, ending in .csv.")] string path,
-        [Description("Which rows: field → value, all must match (case is ignored).")] Dictionary<string, JsonElement> where,
-        [Description("The new values: field → value.")] Dictionary<string, JsonElement> set,
+        [Description("Which rows: field → value, all matching.")] Dictionary<string, JsonElement> where,
+        [Description("New values: field → value.")] Dictionary<string, JsonElement> set,
         CancellationToken cancellationToken = default) =>
         Change("collection_update_rows", path, "change rows of", () => FactsOnly(path) ?? _memory.UpdateRowsAsync(_userId, _actor, path, Values(where), Values(set), cancellationToken),
             _ => $"Changed rows of {path}",
@@ -562,7 +562,7 @@ public sealed class MemoryTools
 
     private Task<string> RemoveRows(
         [Description("Path of the collection, ending in .csv.")] string path,
-        [Description("Which rows to remove: field → value, all must match (case is ignored).")] Dictionary<string, JsonElement> where,
+        [Description("Which rows: field → value, all matching.")] Dictionary<string, JsonElement> where,
         CancellationToken cancellationToken = default) =>
         Change("collection_remove_rows", path, "remove rows from", () => FactsOnly(path) ?? _memory.RemoveRowsAsync(_userId, _actor, path, Values(where), cancellationToken),
             c => $"Removed {Plural(Math.Max(-c.Added, 0), "row")} from {path}",
@@ -570,7 +570,7 @@ public sealed class MemoryTools
 
     private Task<string> AddField(
         [Description("Path of the collection, ending in .csv.")] string path,
-        [Description("The name of the new field.")] string field,
+        [Description("Name of the new field.")] string field,
         CancellationToken cancellationToken = default) =>
         Change("collection_add_field", path, "add a field to", () => FactsOnly(path) ?? _memory.AddFieldAsync(_userId, _actor, path, field, cancellationToken),
             _ => $"Added the field '{field}' to {path}",
@@ -595,8 +595,8 @@ public sealed class MemoryTools
 
     private Task<string> Edit(
         [Description("Path of the file.")] string path,
-        [Description("The exact text to replace; it must appear once.")] string oldText,
-        [Description("The text to put in its place.")] string newText,
+        [Description("Exact text to replace, appearing once.")] string oldText,
+        [Description("Its replacement.")] string newText,
         CancellationToken cancellationToken = default) =>
         Change("memory_edit", path, "edit", () => RefuseTyped(path) ?? NewCoreSection(path, oldText, newText) ?? _memory.EditAsync(_userId, _actor, path, oldText, newText, cancellationToken),
             _ => $"Edited {path}",
@@ -604,7 +604,7 @@ public sealed class MemoryTools
 
     private Task<string> Append(
         [Description("Path of the file.")] string path,
-        [Description("The lines to add at the end.")] string text,
+        [Description("Text to add.")] string text,
         CancellationToken cancellationToken = default) =>
         Change("memory_append", path, "add to", () => RefuseTyped(path) ?? _memory.AppendAsync(_userId, _actor, path, text, cancellationToken),
             c => AddedTo(c, path),
@@ -637,11 +637,11 @@ public sealed class MemoryTools
     private Task<string> Aggregate(
         [Description("Path of the collection (.csv).")] string path,
         [Description("count, sum, average, min or max.")] string operation,
-        [Description("The field to compute on; optional for count.")] string? column = null,
-        [Description("A field to group by; with period, a date field.")] string? groupBy = null,
-        [Description("day, week, month or year: groups by that period of the groupBy date field.")] string? period = null,
+        [Description("Field to compute on.")] string? column = null,
+        [Description("Field to group by.")] string? groupBy = null,
+        [Description("day, week, month or year of groupBy.")] string? period = null,
         [Description("A field to filter on.")] string? filterColumn = null,
-        [Description("The value filterColumn must have (ignoring case).")] string? filterValue = null,
+        [Description("Value filterColumn must have.")] string? filterValue = null,
         [Description("A date field to filter by range.")] string? dateColumn = null,
         [Description("First day included, yyyy-MM-dd.")] string? from = null,
         [Description("Last day included, yyyy-MM-dd.")] string? to = null,

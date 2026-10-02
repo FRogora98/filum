@@ -49,9 +49,11 @@ public sealed class ToolCatalogTests
         Assert.All(catalog, t =>
         {
             Assert.Matches("^(memory|collection|skill|events|facts?|proposal)_[a-z_]+$", t.Name);
-            Assert.True(t.Description.Length > 40, t.Name);
+            Assert.True(t.Description.Length > 20, t.Name);
             Assert.Equal("object", t.JsonSchema.GetProperty("type").GetString());
         });
+        // What every model call of a turn carries (spec 031): names, descriptions and schemas, at most 10,000 characters.
+        Assert.True(catalog.Sum(t => System.Text.Json.JsonSerializer.Serialize(new { t.Name, t.Description, t.JsonSchema }).Length) <= 10_000);
         Assert.Contains(catalog, t => t.Name == "memory_overview");
         Assert.Contains(catalog, t => t.Name == "skill_list");
         Assert.Contains(catalog, t => t.Name == "memory_history");

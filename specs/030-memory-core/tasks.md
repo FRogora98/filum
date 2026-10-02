@@ -50,9 +50,10 @@
     - Do: the sample host creates the table with the rest (no change); hosts that keep migrations add one for `memory_events` and turn consolidation on in their own settings, outside this repository.
     - Verify: `dotnet test tests/Filum.Agent.Tests` (the sample host on Postgres).
 
-- [ ] **T13 — The measurement (cap $3)**
+- [x] **T13 — The measurement (cap $3)**
     - Do: the runner's `--consolidate` (a pass through the host's endpoint before the question); on `oracle`, the 20 questions on the new core with the three small models; with what is left of the cap, a few `S` questions on one model; the report committed. Ablations only within the cap, said in the report.
     - Verify: the report under `evals/reports/`; criterion 12; the total spent stated.
+    - Done: `evals/reports/20261002-170349/` (oracle 20 questions on Gemma and DeepSeek; S 5 questions on Gemma with the naive reference), about $2.40 with the stopped tries. The ablations did not fit in the cap and were not run.
 
 - [ ] **T-close — close the spec** (always the last task)
     - Do: check every acceptance criterion against the code and the tests; set spec.md and spec.it.md to Implemented; move the folder to `specs/done/`; update the index in `specs/README.md`; README and `CLAUDE.md`; spec 029 closed as replaced.

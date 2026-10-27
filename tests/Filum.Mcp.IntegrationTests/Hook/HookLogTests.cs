@@ -148,9 +148,17 @@ public sealed class HookLogTests : IDisposable
         }
 
         using var process = Process.Start(start)!;
-        await process.StandardInput.WriteAsync(input);
-        process.StandardInput.Close();
         var stdout = process.StandardOutput.ReadToEndAsync();
+        try
+        {
+            await process.StandardInput.WriteAsync(input);
+            process.StandardInput.Close();
+        }
+        catch (IOException)
+        {
+            // A hook that cannot open the folder answers and exits before reading its input; the pipe is closed then.
+        }
+
         var stderr = process.StandardError.ReadToEndAsync();
         Assert.True(process.WaitForExit(TimeSpan.FromSeconds(30)));
         return (process.ExitCode, await stdout, await stderr);

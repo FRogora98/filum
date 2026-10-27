@@ -24,7 +24,7 @@ Numbers 017, 019, 024, 033 and 034 are not used here. · I numeri 017, 019, 024,
 |---|---|---|---|
 | 055 | [Capture and adherence without the host's nudges](done/055-capture-and-adherence-without-nudges/spec.md) · [Memorizzare e rispettare le regole senza le spinte dell'host](done/055-capture-and-adherence-without-nudges/spec.it.md) | Implemented | engine, MCP |
 | 056 | [What the mcp suite sees, skills on request and rules in a fresh chat](done/056-what-the-mcp-suite-sees/spec.md) · [Cosa vede la suite mcp, le skill su richiesta e le regole in una chat nuova](done/056-what-the-mcp-suite-sees/spec.it.md) | Implemented | engine, MCP, evals |
-| 057 | [Counting across conversations](057-counting-across-conversations/spec.md) · [Contare attraverso le conversazioni](057-counting-across-conversations/spec.it.md) | Draft | engine, MCP |
+| 057 | [Counting across conversations](057-counting-across-conversations/spec.md) · [Contare attraverso le conversazioni](057-counting-across-conversations/spec.it.md) | Approved | engine, MCP |
 | 050 | [It knows who you are: a measure](done/050-it-knows-who-you-are/spec.md) · [Sa chi sei: una misura](done/050-it-knows-who-you-are/spec.it.md) | Implemented | evaluation |
 | 048 | [No secret is kept, and nothing passing](done/048-no-secret-is-kept/spec.md) · [Nessun segreto si tiene, e niente di passeggero](done/048-no-secret-is-kept/spec.it.md) | Implemented | engine, MCP |
 | 046 | [Rules and open items, caught even when a turn misses them](done/046-rules-and-open-items/spec.md) · [Regole e cose aperte, prese anche quando un turno le perde](done/046-rules-and-open-items/spec.it.md) | Implemented | engine, MCP |

@@ -1,6 +1,6 @@
 # Counting across conversations
 
-> Status: Draft
+> Status: Approved (the owner, 2026-10-27)
 > Area: engine, MCP
 > Author/date: federico rogora (drafted by Claude), 2026-10-27
 
@@ -88,8 +88,9 @@ and the conversation it was said in, counted once.
      questions over longer histories, so it is not new questions, and building its memories costs about ten times as
      much).
 
-## Open questions
+## Decisions (were open questions)
 
 1. `EventsListMax` 100 lines and `EventsListChars` 16,000: enough for a person's year of mentions of one category,
-   small enough for a context. Proposed as is.
-2. Should `memory_search` (the files) also get `every`? Proposed: not now; the errors are in what was said.
+   small enough for a context. Decided as is.
+2. `memory_search` (the files) does not get `every` in this version: the errors are in what was said.
+3. No fresh held-out set: the limit is declared (Acceptance 4).

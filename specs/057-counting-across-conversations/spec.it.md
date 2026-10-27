@@ -1,6 +1,6 @@
 # Contare attraverso le conversazioni
 
-> Stato: Bozza
+> Stato: Approvata (il proprietario, 2026-10-27)
 > Area: motore, MCP
 > Autore/data: federico rogora (bozza di Claude), 2026-10-27
 
@@ -90,8 +90,9 @@ conversazione in cui è stata detta, contata una volta.
      visto (LongMemEval_M fa le stesse 500 domande su storie più lunghe, quindi non sono domande nuove, e costruirne le
      memorie costa circa dieci volte tanto).
 
-## Domande aperte
+## Decisioni (erano domande aperte)
 
 1. `EventsListMax` 100 righe ed `EventsListChars` 16.000: abbastanza per un anno di menzioni di una categoria, piccolo
-   per un contesto. Proposto così.
-2. Anche `memory_search` (i file) dovrebbe avere `every`? Proposta: non ora; gli errori sono in ciò che è stato detto.
+   per un contesto. Deciso così.
+2. `memory_search` (i file) non ha `every` in questa versione: gli errori sono in ciò che è stato detto.
+3. Nessun set nuovo mai visto: il limite è dichiarato (criterio 4).

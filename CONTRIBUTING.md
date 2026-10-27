@@ -51,9 +51,8 @@ bash scripts/check-secrets.sh
 - **The benchmark harness** (`evals/bench/`) has its own tests:
   `python -m unittest discover -s evals/bench/tests`.
 
-CI is defined to run the build, the tests and the secret scan on Linux, Windows and macOS for every pull request. While
-it is paused (since 2026-10-27), the three commands above and the harness's tests are the gate: all of them pass locally
-before every push.
+CI runs the build, the tests and the secret scan on Linux, Windows and macOS for every push and pull request. Run the
+three commands above and the harness's tests locally before you push.
 
 ## What never goes in
 

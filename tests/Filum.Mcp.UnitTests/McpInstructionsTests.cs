@@ -47,6 +47,7 @@ public sealed class McpInstructionsTests : IDisposable
         Assert.Contains("offer one with skill_propose and save it only on yes", skills, StringComparison.Ordinal);
         Assert.Contains("a message starts with /<its name>, call skill_use", skills, StringComparison.Ordinal);
         Assert.Contains("Counts and totals over rows come from collection_aggregate or compute_run", McpInstructions.Text, StringComparison.Ordinal);
+        Assert.Contains("To count or add up what was said across conversations, search with every and a category | its members, and count each item once.", McpInstructions.Text, StringComparison.Ordinal);
     }
 
     [Fact]

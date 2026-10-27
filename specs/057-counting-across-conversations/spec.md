@@ -29,6 +29,9 @@ and the conversation it was said in, counted once.
 - No change to how a memory is written, to the facts file or to the folder's format.
 - No domain words in code, prompts or tests: "items", "a category and its members".
 - No tuning on the questions the measure uses (see Acceptance 4).
+- Temporal reasoning (date arithmetic) is another cause and another version.
+- No automatic switch: the engine does not guess that a question counts; the model asks for a listing (deterministic
+  and testable).
 
 ## Current behavior
 
@@ -40,9 +43,10 @@ and the conversation it was said in, counted once.
 ## Desired behavior
 
 1. **A search that lists every mention.** `events_search` gains `every` (default false). With it, the search returns
-   every matching message up to `MemoryOptions.EventsListMax` (new, default 100), ordered by day, one line each: its
-   number, day, who said it and a short excerpt around the match (about 160 characters), and a closing line with how
-   many were found and, when the cap was reached, that there may be more. No conversations are shown whole; the model
+   every matching message up to `MemoryOptions.EventsListMax` lines (new, default 100) and `EventsListChars` characters
+   (new, default 16,000), ordered by day, one line each: its number, day, who said it and an excerpt of about 160
+   characters centred on the match (not the message's start, which would lose the item or the number), and a closing
+   line with how many were found and, when a cap was reached, that there may be more. No conversations are shown whole; the model
    reads one with `events_read` when a line is not enough. The same private rules as a normal search.
 2. **Several words in one go.** The `query` of a listing search may hold several alternatives separated by `|`
    (a category and its members: "furniture | bookshelf | sofa | desk"); a message matches any of them, and is listed
@@ -51,7 +55,9 @@ and the conversation it was said in, counted once.
    the category and its likely members; keep each distinct item once (the same thing said twice is one), with its day;
    respect the time the question names; then count or add with `compute_run` when it is offered, and say the items in
    the answer.
-4. **The engine API:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` gives the listing,
+4. **A hint when a search is cut.** A normal search that had more matches than it shows ends with one line: more
+   messages match; to count or add them up, list them with `every`.
+5. **The engine API:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` gives the listing,
    so a host other than filum-mcp can use it.
 
 ## Platform check
@@ -74,12 +80,16 @@ and the conversation it was said in, counted once.
    - the spec and the code are frozen, then the test set runs once: the other rounds' questions (about 290), with two
      arms on the same memories, this version and 1.0.0;
    - **passes** if, on the test set's multi-session questions, this version answers at least 8 more than 1.0.0 with
-     exact McNemar p < 0.05, and all questions together lose nothing beyond 2 percentage points;
-   - declared limits: the test set's errors were glimpsed (a list of them was read once before this spec), and its
-     memories were built before the harness was isolated.
+     exact McNemar p < 0.05; all questions together lose nothing beyond 2 percentage points; and no category loses more
+     than 3 answers net (single-session above all, where a listing has nothing to add);
+   - during development, how often the model lists on a single-session question is reported: it should not;
+   - declared limits: the test set's errors were glimpsed (a list of them was read once before this spec); its memories
+     were built before the harness was isolated; there is no fresh held-out set (LongMemEval_M asks the same 500
+     questions over longer histories, so it is not new questions, and building its memories costs about ten times as
+     much).
 
 ## Open questions
 
-1. `EventsListMax` 100: enough for a person's year of mentions of one category, small enough for a context (about
-   16,000 characters). Proposed as is.
+1. `EventsListMax` 100 lines and `EventsListChars` 16,000: enough for a person's year of mentions of one category,
+   small enough for a context. Proposed as is.
 2. Should `memory_search` (the files) also get `every`? Proposed: not now; the errors are in what was said.

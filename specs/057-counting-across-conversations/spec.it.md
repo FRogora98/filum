@@ -29,6 +29,9 @@ conversazione in cui è stata detta, contata una volta.
 - Nessun cambio a come si scrive una memoria, al file dei fatti o al formato della cartella.
 - Nessuna parola di dominio in codice, prompt o test: "voci", "una categoria e i suoi membri".
 - Nessuna messa a punto sulle domande che la misura usa (vedi criterio 4).
+- Il ragionamento temporale (aritmetica sulle date) è un'altra causa e un'altra versione.
+- Nessuno scambio automatico: il motore non indovina che una domanda conta; è il modello a chiedere l'elenco
+  (deterministico e verificabile).
 
 ## Comportamento attuale
 
@@ -40,9 +43,11 @@ conversazione in cui è stata detta, contata una volta.
 ## Comportamento desiderato
 
 1. **Una ricerca che elenca ogni menzione.** `events_search` riceve `every` (falso di default). Con esso, la ricerca dà
-   ogni messaggio che corrisponde, fino a `MemoryOptions.EventsListMax` (nuovo, 100 di default), in ordine di giorno,
-   una riga ciascuno: numero, giorno, chi l'ha detto e un breve estratto intorno alla corrispondenza (circa 160
-   caratteri), e una riga finale con quanti ne ha trovati e, se ha raggiunto il limite, che potrebbero essercene altri.
+   ogni messaggio che corrisponde, fino a `MemoryOptions.EventsListMax` righe (nuovo, 100 di default) e
+   `EventsListChars` caratteri (nuovo, 16.000 di default), in ordine di giorno, una riga ciascuno: numero, giorno, chi
+   l'ha detto e un estratto di circa 160 caratteri centrato sulla corrispondenza (non l'inizio del messaggio, che
+   perderebbe la voce o il numero), e una riga finale con quanti ne ha trovati e, se ha raggiunto un limite, che
+   potrebbero essercene altri.
    Nessuna conversazione mostrata intera: il modello ne legge una con `events_read` quando una riga non basta. Le stesse
    regole sui messaggi privati di una ricerca normale.
 2. **Più parole in una volta.** La `query` di una ricerca a elenco può contenere più alternative separate da `|` (una
@@ -52,7 +57,9 @@ conversazione in cui è stata detta, contata una volta.
    categoria e i suoi membri probabili; tieni ogni voce distinta una volta (la stessa cosa detta due volte è una), col
    suo giorno; rispetta il periodo che la domanda nomina; poi conta o somma con `compute_run` quando è offerto, e di' le
    voci nella risposta.
-4. **L'API del motore:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` dà l'elenco,
+4. **Un suggerimento quando una ricerca è tagliata.** Una ricerca normale che aveva più corrispondenze di quelle che
+   mostra finisce con una riga: altri messaggi corrispondono; per contarli o sommarli, elencali con `every`.
+5. **L'API del motore:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` dà l'elenco,
    così anche un host diverso da filum-mcp può usarlo.
 
 ## Controllo di piattaforma
@@ -75,12 +82,16 @@ conversazione in cui è stata detta, contata una volta.
    - spec e codice si congelano, poi il set di test gira una volta: le domande degli altri turni (circa 290), con due
      bracci sulle stesse memorie, questa versione e la 1.0.0;
    - **passa** se, sulle domande multi-sessione del set di test, questa versione risponde bene ad almeno 8 domande più
-     della 1.0.0 con McNemar esatto p < 0,05, e tutte le domande insieme non perdono più di 2 punti percentuali;
+     della 1.0.0 con McNemar esatto p < 0,05; tutte le domande insieme non perdono più di 2 punti percentuali; e nessuna
+     categoria perde più di 3 risposte nette (soprattutto quelle su una sola sessione, dove un elenco non aggiunge niente);
+   - durante lo sviluppo si riporta quanto spesso il modello elenca su una domanda di una sola sessione: non dovrebbe;
    - limiti dichiarati: gli errori del set di test sono stati intravisti (un loro elenco è stato letto una volta prima
-     di questa spec), e le sue memorie sono state costruite prima che il banco fosse isolato.
+     di questa spec); le sue memorie sono state costruite prima che il banco fosse isolato; non c'è un set nuovo mai
+     visto (LongMemEval_M fa le stesse 500 domande su storie più lunghe, quindi non sono domande nuove, e costruirne le
+     memorie costa circa dieci volte tanto).
 
 ## Domande aperte
 
-1. `EventsListMax` 100: abbastanza per un anno di menzioni di una categoria, piccolo per un contesto (circa 16.000
-   caratteri). Proposto così.
+1. `EventsListMax` 100 righe ed `EventsListChars` 16.000: abbastanza per un anno di menzioni di una categoria, piccolo
+   per un contesto. Proposto così.
 2. Anche `memory_search` (i file) dovrebbe avere `every`? Proposta: non ora; gli errori sono in ciò che è stato detto.

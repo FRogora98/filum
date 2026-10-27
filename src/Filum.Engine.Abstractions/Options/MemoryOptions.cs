@@ -57,6 +57,12 @@ public sealed class MemoryOptions
     /// <summary>A search of the log of events returns at most this many events.</summary>
     public int EventsSearchMax { get; set; } = 8;
 
+    /// <summary>A listing of what was said (a search with <c>every</c>) shows at most this many messages (spec 057).</summary>
+    public int EventsListMax { get; set; } = 100;
+
+    /// <summary>A listing of what was said shows at most this many characters (spec 057).</summary>
+    public int EventsListChars { get; set; } = 16_000;
+
     /// <summary>
     /// A search of what was said shows at most this many conversations, fewer when the scores drop sooner (spec 042).
     /// </summary>

@@ -120,6 +120,9 @@ public partial interface IMemoryService
     Task<MemoryOutcome<IReadOnlyList<MemoryEventHit>>> IMemoryEvents.SearchEventsAsync( Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, CancellationToken cancellationToken) =>
         SearchEventsAsync(userId, query, from, before, includePrivate, cancellationToken);
 
+    Task<MemoryOutcome<IReadOnlyList<MemoryEvent>>> IMemoryEvents.ListEventsAsync(Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, int max, CancellationToken cancellationToken) =>
+        ListEventsAsync(userId, query, from, before, includePrivate, max, cancellationToken);
+
     Task<int> IMemoryEvents.MakeVectorsAsync(Guid userId, int max, CancellationToken cancellationToken) =>
         MakeVectorsAsync(userId, max, cancellationToken);
 

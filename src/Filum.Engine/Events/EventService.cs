@@ -36,6 +36,30 @@ internal sealed partial class EventService(IMemoryEventStore store, IEventVector
         return MemoryOutcome<IReadOnlyList<MemoryEventHit>>.Ok([.. Rerank(query, hits).Take(max)]);
     }
 
+    // Every message that mentions an alternative of the query, and the best of a normal search for the whole of it (which
+    // also finds a message by its meaning), oldest first (spec 057).
+    public async Task<MemoryOutcome<IReadOnlyList<MemoryEvent>>> ListAsync(
+        Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, int max, CancellationToken cancellationToken)
+    {
+        var searched = await SearchAsync(userId, query, from, before, includePrivate, cancellationToken);
+        if (searched.IsRefused)
+        {
+            return MemoryOutcome<IReadOnlyList<MemoryEvent>>.Refused(searched.Refusal);
+        }
+
+        var best = searched.Value;
+
+        var alternatives = EventSearch.Alternatives(query!);
+        var events = await store.EventsAsync(userId, new EventQuery(Kinds: MemoryEventKind.Spoken, From: from, Before: before, IncludePrivate: includePrivate), cancellationToken);
+        var listed = events.Where(e => alternatives.Any(a => EventSearch.Mentions(e.Text, a)))
+            .Concat(best.Select(h => h.Event))
+            .DistinctBy(e => e.Id)
+            .OrderBy(e => e.OccurredAt).ThenBy(e => e.Id)
+            .Take(Math.Max(0, max))
+            .ToList();
+        return MemoryOutcome<IReadOnlyList<MemoryEvent>>.Ok(listed);
+    }
+
     // The reranker's order when it gives one; the search's own order when there is none, it cannot score now, or it fails.
     private IReadOnlyList<MemoryEventHit> Rerank(string query, IReadOnlyList<MemoryEventHit> hits)
     {

@@ -25,6 +25,13 @@ public interface IMemoryEvents
     Task<MemoryOutcome<IReadOnlyList<MemoryEventHit>>> SearchEventsAsync(
         Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Every message said that mentions <paramref name="query"/> or one of its alternatives (separated by <c>|</c>), with
+    /// the best matches of a normal search, in the date window, oldest first, at most <paramref name="max"/> (spec 057).
+    /// </summary>
+    Task<MemoryOutcome<IReadOnlyList<MemoryEvent>>> ListEventsAsync(
+        Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, int max, CancellationToken cancellationToken);
+
     /// <summary>Makes the missing vectors of what was said, newest first, at most <paramref name="max"/>; returns how many it made.</summary>
     Task<int> MakeVectorsAsync(Guid userId, int max, CancellationToken cancellationToken);
 }

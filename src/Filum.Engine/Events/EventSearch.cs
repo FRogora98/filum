@@ -115,6 +115,44 @@ internal static partial class EventSearch
         return idf * tf * K1PlusOne / (tf + K1 * (1 - B + B * doc.Count / Math.Max(1, average)));
     }
 
+    // The alternatives of a listing's query, "a | b"; the whole query when it has none (spec 057).
+    public static IReadOnlyList<string> Alternatives(string query) =>
+        [.. query.Split(AlternativeSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Where(a => Words(a).Count > 0)];
+
+    // A text mentions an alternative when each of its words of at least MinListWord letters starts a word of the text, so
+    // a plural or a longer form still matches; from MinStemWord letters its last letter may differ ("shelf", "shelves";
+    // "battery", "batteries"). An alternative of only shorter words matches them whole.
+    public static bool Mentions(string text, string alternative)
+    {
+        var terms = Words(alternative);
+        var longer = terms.Where(t => t.Length >= MinListWord).ToList();
+        var words = Words(text);
+        return longer.Count > 0
+            ? longer.All(t => words.Any(w => w.StartsWith(t.Length >= MinStemWord ? t[..^1] : t, StringComparison.Ordinal)))
+            : terms.Count > 0 && terms.All(words.Contains);
+    }
+
+    // About length characters of the text, centred on the first word of the query it holds (spec 057).
+    public static string Around(string text, string query, int length)
+    {
+        var flat = text.ReplaceLineEndings(" ");
+        if (flat.Length <= length)
+        {
+            return flat;
+        }
+
+        var lower = flat.ToLowerInvariant();
+        var at = Words(query).Where(t => t.Length >= MinListWord).Select(t => lower.IndexOf(t, StringComparison.Ordinal)).Where(i => i >= 0).DefaultIfEmpty(0).Min();
+        var start = Math.Clamp(at - length / 2, 0, flat.Length - length);
+        return $"{(start > 0 ? "…" : string.Empty)}{flat.Substring(start, length)}{(start + length < flat.Length ? "…" : string.Empty)}";
+    }
+
+    private const char AlternativeSeparator = '|';
+
+    private const int MinListWord = 3;
+
+    private const int MinStemWord = 5;
+
     private static List<string> Words(string text) => WordPattern().Matches(text.ToLowerInvariant()).Select(m => m.Value).ToList();
 
     [GeneratedRegex(@"[\p{L}\p{N}]+")]

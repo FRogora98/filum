@@ -52,3 +52,7 @@ Filum.Engine.Abstractions.Options.MemoryOptions.BriefChars.get -> int
 Filum.Engine.Abstractions.Options.MemoryOptions.BriefChars.set -> void
 Filum.Engine.Abstractions.Options.MemoryOptions.RecallChars.get -> int
 Filum.Engine.Abstractions.Options.MemoryOptions.RecallChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsListChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsListChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsListMax.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsListMax.set -> void

@@ -29,6 +29,35 @@ public abstract partial class MemoryServiceContract
     }
 
     [Fact]
+    public async Task ListEventsAsync_WhenAnItemIsSaidInManyConversations_ShouldListEveryMentionOnceInDayOrderWithinTheCap()
+    {
+        var start = new DateTimeOffset(2026, 1, 1, 9, 0, 0, TimeSpan.Zero);
+        for (var i = 0; i < 30; i++)
+        {
+            var text = i % 3 == 0 ? $"I fixed the old bookshelf, take {i}" : $"Bought another lamp for the hall, number {i}";
+            await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, text, start.AddDays(30 - i), Guid.NewGuid()), None);
+        }
+
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "Both the lamps and a bookshelf, today", start.AddDays(40), Guid.NewGuid()), None);
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Answered, MemoryEventSource.Agent, "A lamp, noted.", start.AddDays(41)), None);
+        await _memory.RecordAsync(_user, new NewMemoryEvent(MemoryEventKind.Said, MemoryEventSource.Chat, "my private lamp", start.AddDays(42), Sensitivity: MemorySensitivity.Private), None);
+
+        var lamps = Ok(await _memory.ListEventsAsync(_user, "lamp", null, null, includePrivate: false, 100, None));
+        var either = Ok(await _memory.ListEventsAsync(_user, "bookshelf | lamp", null, null, includePrivate: false, 100, None));
+        var capped = Ok(await _memory.ListEventsAsync(_user, "bookshelf | lamp", null, null, includePrivate: false, 5, None));
+
+        Assert.Equal(22, lamps.Count);
+        Assert.Contains(lamps, e => e.Kind == MemoryEventKind.Answered);
+        Assert.Equal(lamps.OrderBy(e => e.OccurredAt).Select(e => e.Id), lamps.Select(e => e.Id));
+        Assert.Equal(32, either.Count);
+        Assert.Equal(either.Count, either.Select(e => e.Id).Distinct().Count());
+        Assert.DoesNotContain(either, e => e.Kind == MemoryEventKind.Derived || e.Sensitivity == MemorySensitivity.Private);
+        Assert.Equal(either.Take(5).Select(e => e.Id), capped.Select(e => e.Id));
+        Assert.Single(Ok(await _memory.ListEventsAsync(_user, "lamp", null, null, includePrivate: true, 100, None)), e => e.Sensitivity == MemorySensitivity.Private);
+        Assert.Contains("between 1 and 200", Refused(await _memory.ListEventsAsync(_user, " ", null, null, false, 10, None)));
+    }
+
+    [Fact]
     public async Task SearchEventsAsync_WhenWordsMatch_ShouldRankWhatWasSaidAndGiveTheReplyAfterIt()
     {
         var chat = Guid.NewGuid();

@@ -138,6 +138,10 @@ internal sealed class MemoryService(
         Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, CancellationToken cancellationToken) =>
         events.SearchAsync(userId, query, from, before, includePrivate, cancellationToken);
 
+    public Task<MemoryOutcome<IReadOnlyList<MemoryEvent>>> ListEventsAsync(
+        Guid userId, string? query, DateTimeOffset? from, DateTimeOffset? before, bool includePrivate, int max, CancellationToken cancellationToken) =>
+        events.ListAsync(userId, query, from, before, includePrivate, max, cancellationToken);
+
     public Task<int> MakeVectorsAsync(Guid userId, int max, CancellationToken cancellationToken) => vectors.MakeAsync(userId, max, cancellationToken);
 
     public Task<MemoryOutcome<MemoryChange>> RecordFactAsync(

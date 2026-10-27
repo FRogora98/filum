@@ -4,6 +4,7 @@ using System.Text;
 using Filum.Engine.Abstractions.Constants;
 using Filum.Engine.Abstractions.Events;
 using Filum.Engine.Abstractions.Tools;
+using Filum.Engine.Events;
 using Filum.Engine.Memory.Contracts;
 using Microsoft.Extensions.AI;
 using static Filum.Engine.Tools.ToolText;
@@ -109,10 +110,16 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
         [Description("From the day it was said, yyyy-MM-dd.")] string? from = null,
         [Description("To the day it was said, yyyy-MM-dd.")] string? to = null,
         [Description("Include private messages.")] bool includePrivate = false,
+        [Description("To count or add up what was said across conversations: list every message that mentions it, oldest first. Give a category and its members as alternatives, \"furniture | bookshelf | sofa\"; count each distinct item once, keep to the time asked, then count or add (with compute_run when offered).")] bool every = false,
         CancellationToken cancellationToken = default) =>
         Run(ToolNames.EventsSearch, null, "search what was said", async () =>
         {
             var withPrivate = includePrivate && !Session.IsConsolidation;
+            if (every)
+            {
+                return await ListAsync(query, from, to, withPrivate, cancellationToken);
+            }
+
             var outcome = await EventLog.SearchEventsAsync(UserId, query, Day(from), Day(to)?.AddDays(1), withPrivate, cancellationToken);
             if (outcome.Refuses(out var refusal, out var hits))
             {
@@ -133,11 +140,49 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
                 found = $"{facts}\n\n{found}";
             }
 
+            if (hits.Count >= Session.Limits.EventsSearchMax)
+            {
+                found += "\n\nMore messages may match: to count or add them up, list them with every.";
+            }
+
             var shown = sessions.Select(s => Conversations.KeyOf(s.Anchor)).ToList();
             var ordered = hits.Where(h => shown.Contains(Conversations.KeyOf(h.Event))).OrderBy(h => shown.IndexOf(Conversations.KeyOf(h.Event))).ToList();
             return new ToolDone(found, ToolStep.Searched, null,
                 $"Searched what was said for \"{query}\" · {Plural(hits.Count, "match", "matches")}", Structured: ToolData.Matches(ordered));
         });
+
+    // Every mention, one line each within the listing's caps, oldest first (spec 057).
+    private async Task<object> ListAsync(string query, string? from, string? to, bool withPrivate, CancellationToken cancellationToken)
+    {
+        var outcome = await EventLog.ListEventsAsync(UserId, query, Day(from), Day(to)?.AddDays(1), withPrivate, Session.Limits.EventsListMax + 1, cancellationToken);
+        if (outcome.Refuses(out var refusal, out var listed))
+        {
+            return refusal;
+        }
+
+        var text = new StringBuilder().Append(CultureInfo.InvariantCulture, $"Every message said that mentions \"{query}\", oldest first:\n");
+        var shown = 0;
+        foreach (var e in listed.Take(Session.Limits.EventsListMax))
+        {
+            var line = $"- {e.OccurredAt.UtcDateTime.ToString(EngineConstants.Dates.Day, CultureInfo.InvariantCulture)} #{e.Id} {Who(e)}: {EventSearch.Around(e.Text, query, ListExcerpt)}\n";
+            if (text.Length + line.Length > Session.Limits.EventsListChars)
+            {
+                break;
+            }
+
+            text.Append(line);
+            shown++;
+        }
+
+        text.Append(shown == 0 ? "Nothing that was said matches."
+            : shown < listed.Count ? $"{Plural(shown, "message", "messages")} listed; there may be more: narrow the words or the days."
+            : $"{Plural(shown, "message", "messages")} listed: all that match.");
+        return new ToolDone(text.ToString(), ToolStep.Searched, null, $"Listed what was said about \"{query}\" · {Plural(shown, "message", "messages")}",
+            Structured: ToolData.Matches(listed.Take(shown).Select(e => new MemoryEventHit(e, null, 0))));
+    }
+
+    // About this many characters of each listed message, around the match.
+    private const int ListExcerpt = 160;
 
     // The conversations to show: those where the best facts were said first, then the best by their turns' scores.
     private async Task<List<RecallPage.Session>> SessionsAsync(IReadOnlyList<MemoryEventHit> hits, List<Abstractions.Facts.Fact> facts, bool withPrivate, CancellationToken cancellationToken)

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The local folder's own logic with no disk: its lines, its layout, its state rebuilt from revisions in memory
+       (CODING-STANDARD SOL-05, TEST-03). The folder itself is tested in Filum.Engine.Storage.LocalFolder.IntegrationTests. -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="FsCheck.Xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

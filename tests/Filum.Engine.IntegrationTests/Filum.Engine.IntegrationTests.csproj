@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The engine's tests that touch the disk: packages, the standalone sample and the snapshots read from the sources.
+       No database, no Docker, no model (CODING-STANDARD TEST-03). -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Engine\Filum.Engine.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+    <ProjectReference Include="..\Filum.Engine.Testing\Filum.Engine.Testing.csproj" />
+    <ProjectReference Include="..\..\samples\Filum.Standalone\Filum.Standalone.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Filum.Engine" />
+  </ItemGroup>
+
+</Project>

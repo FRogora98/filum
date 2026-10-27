@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Run by hand, never by dotnet test or CI: it plays scenarios against a running host of the engine (or a real agent
+       with filum-mcp) with real models, and costs real money or the agent's own subscription. See the README, "Evals". -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>filum-evals</AssemblyName>
+    <RootNamespace>Filum.Evals</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
+    <PackageReference Include="OpenAI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Embeddings\Filum.Embeddings.csproj" />
+    <ProjectReference Include="..\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+    <ProjectReference Include="..\Filum.Engine.Storage.InMemory\Filum.Engine.Storage.InMemory.csproj" />
+  </ItemGroup>
+
+  <!-- A tool, not a library (SDK-01): every type is internal, seen only by its own tests. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Filum.Evals.UnitTests" />
+    <InternalsVisibleTo Include="Filum.Evals.IntegrationTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\evals\scenarios\*.json" CopyToOutputDirectory="PreserveNewest" LinkBase="scenarios" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+    <Using Include="Filum.Engine.Collections" />
+    <Using Include="Filum.Engine.Memory" />
+    <Using Include="Filum.Engine.Skills" />
+    <Using Include="Filum.Engine.Storage.InMemory" />
+    <Using Include="Filum.Engine.Storage.LocalFolder" />
+    <Using Include="Filum.Engine.Abstractions.Collections" />
+    <Using Include="Filum.Engine.Abstractions.Constants" />
+    <Using Include="Filum.Engine.Abstractions.Events" />
+    <Using Include="Filum.Engine.Abstractions.Facts" />
+    <Using Include="Filum.Engine.Abstractions.Imports" />
+    <Using Include="Filum.Engine.Abstractions.Memory" />
+    <Using Include="Filum.Engine.Abstractions.Options" />
+    <Using Include="Filum.Engine.Abstractions.Search" />
+    <Using Include="Filum.Engine.Abstractions.Skills" />
+    <Using Include="Filum.Engine.Abstractions.Storage" />
+    <Using Include="Filum.Engine.Abstractions.Tools" />
+  </ItemGroup>
+
+</Project>

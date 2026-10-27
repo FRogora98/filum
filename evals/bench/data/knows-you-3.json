@@ -1,0 +1,92 @@
+{
+  "about": "A third synthetic person, held out (spec 050): told over ten sessions with a realistic density of messages, then a fresh session with no hints. Frozen on 2026-10-19, after the second round's fixes and before any answer on it was seen. Nothing here is a real person.",
+  "sessions": [
+    {"date": "2026-01-12", "messages": [
+      "Hi, I'm Kofi. I'm 41 and I work as a structural engineer for a bridge company in Leeds.",
+      "I'm married to Ama, she's a primary school headteacher.",
+      "We have a daughter, Efua, she's 9 and mad about football.",
+      "Can you explain the difference between a cable-stayed and a suspension bridge in simple words?"
+    ]},
+    {"date": "2026-01-19", "messages": [
+      "I play the cello in an amateur orchestra, rehearsals are on Monday nights.",
+      "Our spring concert is on April 18 and we're doing Dvořák's Eighth.",
+      "Any tips for practising fast passages without tensing up?",
+      "Thanks, very useful."
+    ]},
+    {"date": "2026-01-26", "messages": [
+      "Please keep your answers short, a few lines at most, unless I ask for detail.",
+      "And I'm lactose intolerant, so no dairy in anything you suggest.",
+      "What's a quick lunch I can take to the office?",
+      "Nice."
+    ]},
+    {"date": "2026-02-02", "messages": [
+      "I promised Efua's coach, Mr Haddad, that I'd drive the team to the away match on February 21.",
+      "Also I have to renew my chartered engineer membership before March 31.",
+      "How do I keep six kids calm in a minibus for an hour?",
+      "Ha, good ideas."
+    ]},
+    {"date": "2026-02-16", "messages": [
+      "Correction: Efua is 10, not 9, her birthday was last week.",
+      "My brother Kwame is visiting from Accra in May.",
+      "What are fun things to do with a visitor in Leeds?"
+    ]},
+    {"date": "2026-02-23", "messages": [
+      "I drove the team on Saturday, they won 3-1, so that's done.",
+      "We're considering getting a dog, but nothing decided yet.",
+      "Which breeds are good with kids and fine in a small garden?",
+      "Ok, I'll talk with Ama."
+    ]},
+    {"date": "2026-03-09", "messages": [
+      "Big news: I've been offered a promotion to lead engineer, starting in June.",
+      "It means I'll be working from the Manchester office three days a week.",
+      "We're staying in Leeds though, I'll take the train.",
+      "Can you help me draft a thank-you note to my manager, Helen?"
+    ]},
+    {"date": "2026-03-23", "messages": [
+      "From now on, when you give me times or dates, use the 24-hour clock please, I mix up am and pm.",
+      "Renewed my chartered membership yesterday.",
+      "The orchestra moved rehearsals to Tuesday nights because the hall changed.",
+      "Any tips for a long train commute to make it productive?"
+    ]},
+    {"date": "2026-04-06", "messages": [
+      "I told Ama I'd book the summer holiday cottage in Wales by the end of April.",
+      "I also need to buy a new cello case before the concert, mine has a broken zip.",
+      "What should I look for in a cello case?",
+      "Thanks."
+    ]},
+    {"date": "2026-04-20", "messages": [
+      "We decided against the dog for now, maybe next year.",
+      "The concert went great on Saturday, I used my new case.",
+      "Efua's team made it to the regional final.",
+      "Can you suggest a light stretching routine after a long day of sitting?"
+    ]}
+  ],
+  "probe_date": "2026-04-27",
+  "questions": [
+    {"id": "name", "kind": "identity", "question": "What's my name?", "expected": "Kofi"},
+    {"id": "job", "kind": "identity", "question": "What do I do for a living?", "expected": "Structural engineer at a bridge company"},
+    {"id": "promotion", "kind": "current", "question": "What changes for me at work in June?", "expected": "Promotion to lead engineer, working from the Manchester office three days a week"},
+    {"id": "city", "kind": "current", "question": "Are we moving house for the new job?", "expected": "No, they stay in Leeds and Kofi takes the train"},
+    {"id": "daughter-age", "kind": "correction", "question": "How old is my daughter?", "expected": "10 (not 9: that was corrected)"},
+    {"id": "family", "kind": "identity", "question": "What are my wife's and daughter's names?", "expected": "Ama and Efua"},
+    {"id": "dog", "kind": "current", "question": "Are we getting a dog?", "expected": "No, not for now (maybe next year)"},
+    {"id": "rehearsals", "kind": "current", "question": "Which night are my orchestra rehearsals?", "expected": "Tuesday nights (moved from Monday)"},
+    {"id": "concert", "kind": "current", "question": "How did the spring concert go?", "expected": "It went great"},
+    {"id": "brother", "kind": "identity", "question": "Who is visiting us in May?", "expected": "Kofi's brother Kwame, from Accra"},
+    {"id": "dairy", "kind": "preference", "question": "Suggest a dessert I could make this weekend.", "expected": "Anything without dairy (lactose intolerant)"},
+    {"id": "manager", "kind": "identity", "question": "What's my manager's name?", "expected": "Helen"},
+    {"id": "promise-cottage", "kind": "open-item", "question": "Did I promise anyone anything I haven't done yet?", "expected": "To book the summer holiday cottage in Wales for Ama by the end of April"},
+    {"id": "promise-drive", "kind": "open-item", "question": "Do I still need to drive Efua's team to the away match?", "expected": "No, it was done (they won 3-1)"},
+    {"id": "membership", "kind": "open-item", "question": "Is my chartered engineer membership still to renew?", "expected": "No, it was renewed"},
+    {"id": "past-rehearsals", "kind": "temporal", "question": "Which night were rehearsals in January?", "expected": "Monday"},
+    {"id": "abstain-car", "kind": "abstention", "question": "What car do I drive?", "expected": "Not known: it was never said"},
+    {"id": "abstain-sister", "kind": "abstention", "question": "What's my sister's name?", "expected": "Not known: it was never said"},
+    {"id": "efua-football", "kind": "current", "question": "How is Efua's football team doing?", "expected": "They made it to the regional final"},
+    {"id": "plan-may", "kind": "synthesis", "question": "Help me plan May.", "expected": "Takes into account Kwame's visit in May, booking the Wales cottage (due end of April, now late), and preparing for the new role starting in June with Manchester three days a week"}
+  ],
+  "rule_checks": [
+    {"id": "short", "prompt": "How does a heat pump work?", "rule": "The answer is short, a few lines at most (the person asked for short answers on 2026-01-26 unless they ask for detail)."},
+    {"id": "24h", "prompt": "Make me a timetable for a Saturday: football at half past nine in the morning, lunch, and the orchestra party at eight in the evening.", "rule": "Times use the 24-hour clock (09:30, 20:00), not am or pm (the person asked for this on 2026-03-23)."},
+    {"id": "no-dairy", "prompt": "Give me a recipe for a creamy pasta sauce.", "rule": "No dairy (no milk, cream, butter or cheese), since the person is lactose intolerant."}
+  ]
+}

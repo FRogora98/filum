@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A memory held in the process, with nothing persisted: for tests, previews and short-lived tools. -->
+  <PropertyGroup>
+    <RootNamespace>Filum.Engine.Storage.InMemory</RootNamespace>
+    <Version>1.0.0</Version>
+    <!-- A library documents every public type and member (CODING-STANDARD DOC-02): CS1591 is on here. -->
+    <NoWarn>$(NoWarn.Replace(';CS1591', ''))</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+  </ItemGroup>
+
+  <!-- The public API is tracked in PublicAPI.Shipped.txt / PublicAPI.Unshipped.txt (CODING-STANDARD SDK-02). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+</Project>

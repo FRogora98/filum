@@ -1,0 +1,51 @@
+{
+  "id": "row-remove-it",
+  "language": "it",
+  "description": "Una voce viene tolta da una collezione.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Fammi la lista della spesa: latte, pane, uova.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "spesa",
+            "shopping",
+            "grocer",
+            "compr",
+            "lista"
+          ],
+          "count": 3
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Ho comprato il pane, toglilo dalla lista.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "spesa",
+            "shopping",
+            "grocer",
+            "compr",
+            "lista"
+          ],
+          "count": 2,
+          "contain": [
+            "latte",
+            "uova"
+          ]
+        }
+      ]
+    }
+  ]
+}

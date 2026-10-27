@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The seam "bring your own model": the engine's tools given to any IChatClient (Microsoft.Extensions.AI), on a local
+       memory folder. It ships no provider and no key: plug in the client of the model you use. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Filum.Standalone</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Engine\Filum.Engine.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+  </ItemGroup>
+
+</Project>

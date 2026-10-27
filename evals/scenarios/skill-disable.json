@@ -1,0 +1,48 @@
+{
+  "id": "skill-disable",
+  "language": "en",
+  "description": "A skill turned off stays in memory, off, and is not used by name.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Create a skill named daily-word: when I ask for the word of the day, answer with one uncommon English word and its meaning.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "skill",
+          "name_any": [
+            "daily-word"
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Turn off the daily-word skill, I don't need it for now.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "skill",
+          "name_any": [
+            "daily-word"
+          ],
+          "enabled": false
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "/daily-word",
+      "expect": [
+        {
+          "type": "no_write"
+        }
+      ]
+    }
+  ]
+}

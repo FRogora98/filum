@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The standard's architecture rules, checked on the built assemblies (CODING-STANDARD TEST-05). -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="NetArchTest.Rules" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <!-- filum-mcp raises it; the same pin as its own tests. -->
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" VersionOverride="10.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Engine\Filum.Engine.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Abstractions\Filum.Engine.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.InMemory\Filum.Engine.Storage.InMemory.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Embeddings\Filum.Embeddings.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Mcp\Filum.Mcp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

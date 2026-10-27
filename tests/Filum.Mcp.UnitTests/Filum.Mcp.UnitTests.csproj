@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- filum-mcp's logic with no process, no disk and no network: the settings, the hook's input, the tools and their
+       adapters over an engine in memory, and the background work. The real server over stdio is in
+       Filum.Mcp.IntegrationTests. -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" VersionOverride="10.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Mcp\Filum.Mcp.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.InMemory\Filum.Engine.Storage.InMemory.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Filum.Engine" />
+  </ItemGroup>
+
+</Project>

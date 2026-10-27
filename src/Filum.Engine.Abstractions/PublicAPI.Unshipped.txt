@@ -1,0 +1,54 @@
+#nullable enable
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxCollectionBytes.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxCollectionBytes.set -> void
+const Filum.Engine.Abstractions.Constants.ToolNames.EventsRead = "events_read" -> string!
+Filum.Engine.Abstractions.Search.IEmbedder.ModelId.get -> string?
+Filum.Engine.Abstractions.Storage.IMemoryVectorModels
+Filum.Engine.Abstractions.Storage.IMemoryVectorModels.SetVectorModelAsync(System.Guid userId, string! modelId, bool dropVectors, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+Filum.Engine.Abstractions.Storage.IMemoryVectorModels.VectorModelAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!
+Filum.Engine.Abstractions.Tools.ToolTraits
+Filum.Engine.Abstractions.Tools.ToolTraits.<Clone>$() -> Filum.Engine.Abstractions.Tools.ToolTraits!
+Filum.Engine.Abstractions.Tools.ToolTraits.Deconstruct(out bool ReadOnly, out bool Destructive, out bool Idempotent) -> void
+Filum.Engine.Abstractions.Tools.ToolTraits.Destructive.get -> bool
+Filum.Engine.Abstractions.Tools.ToolTraits.Destructive.init -> void
+Filum.Engine.Abstractions.Tools.ToolTraits.Equals(Filum.Engine.Abstractions.Tools.ToolTraits? other) -> bool
+Filum.Engine.Abstractions.Tools.ToolTraits.Idempotent.get -> bool
+Filum.Engine.Abstractions.Tools.ToolTraits.Idempotent.init -> void
+Filum.Engine.Abstractions.Tools.ToolTraits.ReadOnly.get -> bool
+Filum.Engine.Abstractions.Tools.ToolTraits.ReadOnly.init -> void
+Filum.Engine.Abstractions.Tools.ToolTraits.ToolTraits(bool ReadOnly, bool Destructive, bool Idempotent) -> void
+override Filum.Engine.Abstractions.Tools.ToolTraits.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Tools.ToolTraits.GetHashCode() -> int
+override Filum.Engine.Abstractions.Tools.ToolTraits.ToString() -> string!
+static Filum.Engine.Abstractions.Tools.ToolTraits.Of(string! tool) -> Filum.Engine.Abstractions.Tools.ToolTraits?
+static Filum.Engine.Abstractions.Tools.ToolTraits.operator !=(Filum.Engine.Abstractions.Tools.ToolTraits? left, Filum.Engine.Abstractions.Tools.ToolTraits? right) -> bool
+static Filum.Engine.Abstractions.Tools.ToolTraits.operator ==(Filum.Engine.Abstractions.Tools.ToolTraits? left, Filum.Engine.Abstractions.Tools.ToolTraits? right) -> bool
+Filum.Engine.Abstractions.Facts.Fact.Author.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Author.init -> void
+Filum.Engine.Abstractions.Facts.Fact.Ended.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Ended.init -> void
+Filum.Engine.Abstractions.Facts.Fact.HeldOn(string! day) -> bool
+Filum.Engine.Abstractions.Facts.Fact.NeverHeld.get -> bool
+Filum.Engine.Abstractions.Facts.Fact.Quote.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Quote.init -> void
+Filum.Engine.Abstractions.Facts.Fact.RecordedAt.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.RecordedAt.init -> void
+Filum.Engine.Abstractions.Facts.FactEnding
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Unchanged = "unchanged" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.FactEnd = "fact_end" -> string!
+const Filum.Engine.Abstractions.Facts.FactEnding.Changed = "changed" -> string!
+const Filum.Engine.Abstractions.Facts.FactEnding.Corrected = "corrected" -> string!
+const Filum.Engine.Abstractions.Facts.FactEnding.Ended = "ended" -> string!
+const Filum.Engine.Abstractions.Facts.FactEnding.Retracted = "retracted" -> string!
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallBudgetChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallBudgetChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallSessionsMax.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallSessionsMax.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.RerankDepth.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.RerankDepth.set -> void
+Filum.Engine.Abstractions.Search.IReranker
+Filum.Engine.Abstractions.Search.IReranker.Score(string! query, System.Collections.Generic.IReadOnlyList<string!>! texts) -> System.Collections.Generic.IReadOnlyList<float>?
+Filum.Engine.Abstractions.Options.MemoryOptions.BriefChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.BriefChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.RecallChars.set -> void

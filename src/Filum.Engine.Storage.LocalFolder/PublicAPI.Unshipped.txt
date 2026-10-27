@@ -1,0 +1,3 @@
+#nullable enable
+Filum.Engine.Storage.LocalFolder.LocalFolderStore.SetVectorModelAsync(System.Guid userId, string! modelId, bool dropVectors, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+Filum.Engine.Storage.LocalFolder.LocalFolderStore.VectorModelAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<string?>!

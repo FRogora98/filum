@@ -1,0 +1,29 @@
+#nullable enable
+const Filum.Embeddings.E5Embedder.MaxTokens = 256 -> int
+const Filum.Embeddings.ModelFiles.Model = "model_quantized.onnx" -> string!
+const Filum.Embeddings.ModelFiles.Name = "multilingual-e5-small" -> string!
+const Filum.Embeddings.ModelFiles.Revision = "761b726dd34fb83930e26aab4e9ac3899aa1fa78" -> string!
+const Filum.Embeddings.ModelFiles.Tokenizer = "sentencepiece.bpe.model" -> string!
+Filum.Embeddings.E5Embedder
+Filum.Embeddings.E5Embedder.Dispose() -> void
+Filum.Embeddings.E5Embedder.E5Embedder(string! folder) -> void
+Filum.Embeddings.E5Embedder.Embed(System.Collections.Generic.IReadOnlyList<string!>! texts, bool query) -> System.Collections.Generic.IReadOnlyList<float[]!>!
+Filum.Embeddings.E5Embedder.Ids(string! text) -> long[]!
+Filum.Embeddings.E5EngineBuilderExtensions
+Filum.Embeddings.KeepGate
+Filum.Embeddings.KeepGate.Bias.get -> float
+Filum.Embeddings.KeepGate.Keep(float[]! vector) -> bool
+Filum.Embeddings.KeepGate.KeepGate(float[]! weights, float bias, float threshold) -> void
+Filum.Embeddings.KeepGate.Score(float[]! vector) -> float
+Filum.Embeddings.KeepGate.Threshold.get -> float
+Filum.Embeddings.KeepGate.ToJson() -> string!
+Filum.Embeddings.KeepGate.Weights.get -> float[]!
+Filum.Embeddings.ModelFiles
+static Filum.Embeddings.E5Embedder.TryLoad(string! folder) -> Filum.Embeddings.E5Embedder?
+static Filum.Embeddings.E5EngineBuilderExtensions.UseE5Embeddings(this Filum.Engine.DependencyInjection.FilumEngineBuilder! engine, string! folder) -> Filum.Engine.DependencyInjection.FilumEngineBuilder!
+static Filum.Embeddings.KeepGate.FromJson(string! json) -> Filum.Embeddings.KeepGate!
+static Filum.Embeddings.KeepGate.Shipped() -> Filum.Embeddings.KeepGate?
+static Filum.Embeddings.KeepGate.Train(System.Collections.Generic.IReadOnlyList<(float[]! Vector, bool Keep)>! examples, System.Collections.Generic.IReadOnlyList<float[]!>! mustKeep, double recall = 0.98, int epochs = 600, float rate = 2, float l2 = 0.0001) -> Filum.Embeddings.KeepGate!
+static Filum.Embeddings.ModelFiles.EnsureAsync(string! folder, System.Net.Http.HttpClient! http, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+static Filum.Embeddings.ModelFiles.Present(string! folder) -> bool
+static readonly Filum.Embeddings.ModelFiles.Files -> System.Collections.Generic.IReadOnlyDictionary<string!, (string! Url, string! Sha256)>!

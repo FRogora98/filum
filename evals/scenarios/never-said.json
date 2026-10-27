@@ -1,0 +1,37 @@
+{
+  "id": "never-said",
+  "language": "en",
+  "description": "Asked about something never said, Filum says it does not know and invents nothing.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "What's my sister's name?",
+      "expect": [
+        {
+          "type": "no_write"
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "don't know",
+            "do not know",
+            "not sure",
+            "haven't told",
+            "have not told",
+            "don't have",
+            "no record",
+            "not mentioned",
+            "haven't mentioned",
+            "didn't tell",
+            "not told",
+            "don't have any",
+            "no information",
+            "not in my memory",
+            "not saved"
+          ],
+          "rule": true
+        }
+      ]
+    }
+  ]
+}

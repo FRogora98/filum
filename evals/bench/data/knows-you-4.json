@@ -1,0 +1,86 @@
+{
+  "about": "A fourth synthetic person, held out (spec 055): ten sessions, then a fresh session with no hints. It holds what spec 055 names: two abstention probes, a planned change against the current value, a closure trap (an event that looks like done and is not) and a list the person asked to keep. Frozen on 2026-10-19, after spec 055 was implemented and before any run on it. Nothing here is a real person.",
+  "sessions": [
+    {"date": "2026-02-02", "messages": [
+      "Hi! I'm Ines, 37, an architect at a small studio in Porto.",
+      "My husband Marco is a chef.",
+      "Our son Tiago is 6 and just started swimming lessons.",
+      "Can you suggest a name for a small architecture newsletter?"
+    ]},
+    {"date": "2026-02-09", "messages": [
+      "I go rock climbing on Tuesday evenings at a gym near the river.",
+      "I'm training for a bouldering competition on May 16.",
+      "How should I warm up before climbing?",
+      "Thanks."
+    ]},
+    {"date": "2026-02-16", "messages": [
+      "Please always give temperatures in Celsius.",
+      "And I'm allergic to shellfish.",
+      "What can I cook for a quick dinner?",
+      "Great."
+    ]},
+    {"date": "2026-02-23", "messages": [
+      "Can you keep a list of books I want to read? Pachinko, The Overstory and Klara and the Sun.",
+      "I promised my sister Rita I'd send her the photos from her wedding by the end of March.",
+      "What's a good way to organise lots of photos?"
+    ]},
+    {"date": "2026-03-09", "messages": [
+      "Correction: Tiago is 7, not 6, his birthday was in January.",
+      "From now on please don't use emojis in your answers.",
+      "Ideas for a 7-year-old's weekend?"
+    ]},
+    {"date": "2026-03-23", "messages": [
+      "I picked the best 50 wedding photos for Rita, I still need to edit them before sending.",
+      "Add Piranesi to my reading list.",
+      "Which free photo editors are good?"
+    ]},
+    {"date": "2026-04-06", "messages": [
+      "Big news: our studio is moving to Lisbon, and I'll work from the Lisbon office from September 1.",
+      "We'll keep living in Porto for now, I'll commute twice a week.",
+      "How long is the train from Porto to Lisbon?"
+    ]},
+    {"date": "2026-04-20", "messages": [
+      "One more preference: start every answer with a one-line summary.",
+      "The climbing gym changed its schedule, so I climb on Friday evenings now.",
+      "Any tips for climbing on tired days?"
+    ]},
+    {"date": "2026-05-18", "messages": [
+      "The competition was on Saturday, I came third!",
+      "Marco opened his own restaurant last week, it's called Maré.",
+      "How can I help promote a new restaurant?"
+    ]},
+    {"date": "2026-05-25", "messages": [
+      "I need to renew Tiago's passport before our trip in August.",
+      "Tiago swims twice a week now.",
+      "Any good stretches for climbers?"
+    ]}
+  ],
+  "probe_date": "2026-06-08",
+  "questions": [
+    {"id": "name", "kind": "identity", "question": "What's my name?", "expected": "Ines"},
+    {"id": "job", "kind": "identity", "question": "What do I do for a living?", "expected": "Architect at a small studio"},
+    {"id": "work-now", "kind": "current", "question": "Which city's office do I work from right now?", "expected": "Porto (the move to the Lisbon office is only from September 1)"},
+    {"id": "work-september", "kind": "current", "question": "Where will I work from September?", "expected": "The Lisbon office, commuting twice a week while still living in Porto"},
+    {"id": "son-age", "kind": "correction", "question": "How old is my son?", "expected": "7 (not 6: that was corrected)"},
+    {"id": "family", "kind": "identity", "question": "What are my husband's and my son's names?", "expected": "Marco and Tiago"},
+    {"id": "climbing", "kind": "current", "question": "Which evening do I go climbing?", "expected": "Friday evenings (moved from Tuesday)"},
+    {"id": "past-climbing", "kind": "temporal", "question": "Which evening did I climb in February?", "expected": "Tuesday"},
+    {"id": "competition", "kind": "current", "question": "How did my bouldering competition go?", "expected": "Ines came third"},
+    {"id": "restaurant", "kind": "current", "question": "What's my husband's restaurant called?", "expected": "Maré"},
+    {"id": "allergy", "kind": "preference", "question": "Suggest a starter for a dinner party I'm hosting.", "expected": "Anything without shellfish (shellfish allergy)"},
+    {"id": "reading-list", "kind": "list", "question": "What's on my reading list?", "expected": "Pachinko, The Overstory, Klara and the Sun, and Piranesi"},
+    {"id": "photos-sent", "kind": "open-item", "question": "Did I send Rita her wedding photos?", "expected": "No: 50 photos were picked but still needed editing; they were not sent (promised by the end of March)"},
+    {"id": "promise", "kind": "open-item", "question": "Did I promise anyone anything I haven't done yet?", "expected": "To send Rita the wedding photos, promised by the end of March and not done yet"},
+    {"id": "to-do-trip", "kind": "open-item", "question": "What do I need to do before our August trip?", "expected": "Renew Tiago's passport"},
+    {"id": "sister", "kind": "identity", "question": "What's my sister's name?", "expected": "Rita"},
+    {"id": "abstain-brother", "kind": "abstention", "question": "What's my brother's name?", "expected": "Not known: it was never said"},
+    {"id": "abstain-blood", "kind": "abstention", "question": "What's my blood type?", "expected": "Not known: it was never said"},
+    {"id": "swimming", "kind": "current", "question": "How often does Tiago swim now?", "expected": "Twice a week"},
+    {"id": "plan-summer", "kind": "synthesis", "question": "Help me plan the summer.", "expected": "Takes into account renewing Tiago's passport before the August trip, starting at the Lisbon office on September 1 (commuting), and the wedding photos still owed to Rita"}
+  ],
+  "rule_checks": [
+    {"id": "celsius", "prompt": "What's the weather usually like in Porto in July?", "rule": "Temperatures are in Celsius, not Fahrenheit (the person asked for this on 2026-02-16)."},
+    {"id": "no-emoji", "prompt": "Write me a short birthday message for Marco.", "rule": "The answer has no emojis (the person asked for this on 2026-03-09)."},
+    {"id": "summary-first", "prompt": "Give me tips to recover after a climbing competition.", "rule": "The answer starts with a one-line summary (the person asked for this on 2026-04-20)."}
+  ]
+}

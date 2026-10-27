@@ -1,0 +1,37 @@
+{
+  "id": "fact-recall-it",
+  "language": "it",
+  "description": "Un fatto detto in una chat si ritrova in un'altra.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Il mio gatto si chiama Miso.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "memory_contains",
+          "any": [
+            "miso"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "Come si chiama il mio gatto?",
+      "expect": [
+        {
+          "type": "no_write"
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "miso"
+          ]
+        }
+      ]
+    }
+  ]
+}

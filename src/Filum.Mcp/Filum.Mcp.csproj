@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- filum-mcp: the engine as an MCP server on stdio, for one person, over a local folder. No key; the only network
+       call is the search model's download. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>filum-mcp</AssemblyName>
+    <RootNamespace>Filum.Mcp</RootNamespace>
+    <Version>1.0.0</Version>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <!-- The SDK needs a newer Microsoft.Extensions.AI.Abstractions than the engine asks for; only this program raises
+         it, so the engine's minimum (and its hosts' pins) stay where they are. -->
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" VersionOverride="10.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+    <ProjectReference Include="..\Filum.Engine.Storage.LocalFolder\Filum.Engine.Storage.LocalFolder.csproj" />
+    <ProjectReference Include="..\Filum.Embeddings\Filum.Embeddings.csproj" />
+  </ItemGroup>
+
+  <!-- An app, not a library (SDK-01): every type is internal, seen by its own tests and by the engine's architecture
+       tests. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Filum.Mcp.UnitTests" />
+    <InternalsVisibleTo Include="Filum.Mcp.IntegrationTests" />
+    <InternalsVisibleTo Include="Filum.Engine.ArchitectureTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Filum.Engine" />
+  </ItemGroup>
+
+</Project>

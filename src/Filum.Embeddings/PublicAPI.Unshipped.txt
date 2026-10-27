@@ -1,0 +1,18 @@
+#nullable enable
+Filum.Embeddings.E5Embedder.ModelId.get -> string!
+Filum.Embeddings.BgeReranker
+Filum.Embeddings.BgeReranker.BgeReranker(string! folder) -> void
+Filum.Embeddings.BgeReranker.Dispose() -> void
+Filum.Embeddings.BgeReranker.PairIds(string! query, string! text) -> long[]!
+Filum.Embeddings.BgeReranker.Score(string! query, System.Collections.Generic.IReadOnlyList<string!>! texts) -> System.Collections.Generic.IReadOnlyList<float>?
+Filum.Embeddings.RerankerFiles
+const Filum.Embeddings.BgeReranker.MaxTokens = 256 -> int
+const Filum.Embeddings.RerankerFiles.Model = "model_quantized.onnx" -> string!
+const Filum.Embeddings.RerankerFiles.ModelRevision = "6f5ff65298512715a1e669753bc754d2bc8f367b" -> string!
+const Filum.Embeddings.RerankerFiles.Name = "bge-reranker-v2-m3" -> string!
+const Filum.Embeddings.RerankerFiles.Tokenizer = "sentencepiece.bpe.model" -> string!
+const Filum.Embeddings.RerankerFiles.TokenizerRevision = "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e" -> string!
+static Filum.Embeddings.BgeReranker.TryLoad(string! folder) -> Filum.Embeddings.BgeReranker?
+static Filum.Embeddings.RerankerFiles.EnsureAsync(string! folder, System.Net.Http.HttpClient! http, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+static Filum.Embeddings.RerankerFiles.Present(string! folder) -> bool
+static readonly Filum.Embeddings.RerankerFiles.Files -> System.Collections.Generic.IReadOnlyDictionary<string!, (string! Url, string! Sha256)>!

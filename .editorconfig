@@ -1,0 +1,42 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{csproj,props,targets,json,yml,yaml}]
+indent_size = 2
+
+[*.cs]
+# CODING-STANDARD CS-02: one namespace per file, at file level.
+csharp_style_namespace_declarations = file_scoped:error
+dotnet_diagnostic.IDE0161.severity = error
+
+# CS-09: no unused usings, private members or parameters.
+dotnet_diagnostic.IDE0005.severity = error
+dotnet_diagnostic.IDE0051.severity = error
+dotnet_diagnostic.IDE0052.severity = error
+dotnet_diagnostic.IDE0060.severity = error
+
+# Generic results (MemoryOutcome<T>.Ok/Refused) are the standard's Result pattern (ERR-01): static factories on the
+# generic type are the point.
+dotnet_diagnostic.CA1000.severity = none
+
+# The libraries are consumed from C# only: Visual Basic's keywords (next, Imports…) are not reserved for them.
+dotnet_diagnostic.CA1716.severity = none
+
+# The standard asks to depend on abstractions (SVC-07): a private method may return IReadOnlyList<T> over List<T>.
+dotnet_diagnostic.CA1859.severity = none
+
+[src/Filum.Evals/**.cs]
+# The evals read the hosts' JSON settings by their property names, which are not names of this code.
+dotnet_diagnostic.CA1507.severity = none
+
+[tests/**.cs]
+# TEST-02 names tests Method_WhenCondition_ShouldResult: underscores are the convention.
+dotnet_diagnostic.CA1707.severity = none
+# Test data written inline reads better than a field per array.
+dotnet_diagnostic.CA1861.severity = none

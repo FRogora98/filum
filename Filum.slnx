@@ -1,0 +1,30 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Filum.Standalone/Filum.Standalone.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Filum.Engine.Abstractions/Filum.Engine.Abstractions.csproj" />
+    <Project Path="src/Filum.Engine.Storage.InMemory/Filum.Engine.Storage.InMemory.csproj" />
+    <Project Path="src/Filum.Engine.Storage.LocalFolder/Filum.Engine.Storage.LocalFolder.csproj" />
+    <Project Path="src/Filum.Engine/Filum.Engine.csproj" />
+    <Project Path="src/Filum.Embeddings/Filum.Embeddings.csproj" />
+    <Project Path="src/Filum.Evals/Filum.Evals.csproj" />
+    <Project Path="src/Filum.Mcp/Filum.Mcp.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Filum.Embeddings.IntegrationTests/Filum.Embeddings.IntegrationTests.csproj" />
+    <Project Path="tests/Filum.Embeddings.UnitTests/Filum.Embeddings.UnitTests.csproj" />
+    <Project Path="tests/Filum.Engine.Abstractions.UnitTests/Filum.Engine.Abstractions.UnitTests.csproj" />
+    <Project Path="tests/Filum.Engine.ArchitectureTests/Filum.Engine.ArchitectureTests.csproj" />
+    <Project Path="tests/Filum.Engine.IntegrationTests/Filum.Engine.IntegrationTests.csproj" />
+    <Project Path="tests/Filum.Engine.Storage.InMemory.UnitTests/Filum.Engine.Storage.InMemory.UnitTests.csproj" />
+    <Project Path="tests/Filum.Engine.Storage.LocalFolder.IntegrationTests/Filum.Engine.Storage.LocalFolder.IntegrationTests.csproj" />
+    <Project Path="tests/Filum.Engine.Storage.LocalFolder.UnitTests/Filum.Engine.Storage.LocalFolder.UnitTests.csproj" />
+    <Project Path="tests/Filum.Engine.Testing/Filum.Engine.Testing.csproj" />
+    <Project Path="tests/Filum.Engine.UnitTests/Filum.Engine.UnitTests.csproj" />
+    <Project Path="tests/Filum.Evals.IntegrationTests/Filum.Evals.IntegrationTests.csproj" />
+    <Project Path="tests/Filum.Evals.UnitTests/Filum.Evals.UnitTests.csproj" />
+    <Project Path="tests/Filum.Mcp.IntegrationTests/Filum.Mcp.IntegrationTests.csproj" />
+    <Project Path="tests/Filum.Mcp.UnitTests/Filum.Mcp.UnitTests.csproj" />
+  </Folder>
+</Solution>

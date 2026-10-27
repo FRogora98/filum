@@ -1,0 +1,47 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+*.binlog
+
+# Node
+node_modules/
+
+# IDE
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Secrets and local state: never commit
+.env
+.env.*
+*.pfx
+*.key
+appsettings.*.local.json
+memory/
+# ...except the memory a package starts from, which is part of the package
+!packs/**/memory/
+# ...and the engine's code folder Memory/ (git matches without case on Windows)
+!/src/Filum.Engine/Memory/
+!/src/Filum.Engine.Abstractions/Memory/
+!/tests/Filum.Engine.UnitTests/Memory/
+# Local data at the root only: code folders named Data/ are part of the source (git matches without case on Windows).
+/data/
+
+# Claude Code: personal instructions and local settings
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Eval reports are written locally; publishing one is a deliberate commit elsewhere
+evals/results/
+# LongMemEval's files, downloaded by scripts/longmemeval-download.sh
+evals/longmemeval/data/
+
+# The benchmark harness (spec 043): downloaded data, memories and results stay local
+evals/data/
+evals/work/
+__pycache__/

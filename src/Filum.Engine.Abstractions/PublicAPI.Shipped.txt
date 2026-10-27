@@ -1,0 +1,854 @@
+#nullable enable
+const Filum.Engine.Abstractions.Constants.ImportFormat.Csv = "csv" -> string!
+const Filum.Engine.Abstractions.Constants.ImportFormat.Ics = "ics" -> string!
+const Filum.Engine.Abstractions.Constants.ImportFormat.Mbox = "mbox" -> string!
+const Filum.Engine.Abstractions.Constants.ImportFormat.WhatsApp = "whatsapp" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryAuthor.Agent = "agent" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryAuthor.Consolidation = "consolidation" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryAuthor.Person = "person" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryAuthor.Platform = "platform" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Append = "append" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.CreateCore = "create_core" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Delete = "delete" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Edit = "edit" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Move = "move" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Outside = "outside" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Restore = "restore" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Rollback = "rollback" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Sensitivity = "sensitivity" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Undo = "undo" -> string!
+const Filum.Engine.Abstractions.Constants.MemoryOperation.Write = "write" -> string!
+const Filum.Engine.Abstractions.Constants.MemorySensitivity.Normal = "normal" -> string!
+const Filum.Engine.Abstractions.Constants.MemorySensitivity.Private = "private" -> string!
+const Filum.Engine.Abstractions.Constants.MemorySensitivity.Sensitive = "sensitive" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionAddField = "collection_add_field" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionAddRows = "collection_add_rows" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionAggregate = "collection_aggregate" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionRemoveRows = "collection_remove_rows" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionTrend = "collection_trend" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.CollectionUpdateRows = "collection_update_rows" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.ComputeRun = "compute_run" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.EventsSearch = "events_search" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.FactRecord = "fact_record" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.FactsCurrent = "facts_current" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.FactsHistory = "facts_history" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryAppend = "memory_append" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryDelete = "memory_delete" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryEdit = "memory_edit" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryHistory = "memory_history" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryMove = "memory_move" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryOverview = "memory_overview" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryPropose = "memory_propose" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryRead = "memory_read" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemorySearch = "memory_search" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemorySetSensitivity = "memory_set_sensitivity" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryUndo = "memory_undo" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.MemoryWrite = "memory_write" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.ProposalAnswer = "proposal_answer" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.SkillList = "skill_list" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.SkillPropose = "skill_propose" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.SkillSave = "skill_save" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.SkillSetEnabled = "skill_set_enabled" -> string!
+const Filum.Engine.Abstractions.Constants.ToolNames.SkillUse = "skill_use" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Answered = "answered" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Corrected = "corrected" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Derived = "derived" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Imported = "imported" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Proposed = "proposed" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Said = "said" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventKind.Told = "told" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Agent = "agent" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.App = "app" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Chat = "chat" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Connector = "connector" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Consolidation = "consolidation" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Host = "host" -> string!
+const Filum.Engine.Abstractions.Events.MemoryEventSource.Import = "import" -> string!
+const Filum.Engine.Abstractions.Options.MemoryOptions.SectionName = "Memory" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Asked = "asked" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Computed = "computed" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Failed = "failed" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Listed = "listed" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Read = "read" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Searched = "searched" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Used = "used" -> string!
+const Filum.Engine.Abstractions.Tools.ToolStep.Wrote = "wrote" -> string!
+Filum.Engine.Abstractions.Collections.CsvRecord
+Filum.Engine.Abstractions.Collections.CsvRecord.<Clone>$() -> Filum.Engine.Abstractions.Collections.CsvRecord!
+Filum.Engine.Abstractions.Collections.CsvRecord.CsvRecord(int Line, System.Collections.Generic.IReadOnlyList<string!>! Fields) -> void
+Filum.Engine.Abstractions.Collections.CsvRecord.Deconstruct(out int Line, out System.Collections.Generic.IReadOnlyList<string!>! Fields) -> void
+Filum.Engine.Abstractions.Collections.CsvRecord.Equals(Filum.Engine.Abstractions.Collections.CsvRecord? other) -> bool
+Filum.Engine.Abstractions.Collections.CsvRecord.Fields.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Filum.Engine.Abstractions.Collections.CsvRecord.Fields.init -> void
+Filum.Engine.Abstractions.Collections.CsvRecord.Line.get -> int
+Filum.Engine.Abstractions.Collections.CsvRecord.Line.init -> void
+Filum.Engine.Abstractions.Collections.CsvTable
+Filum.Engine.Abstractions.Collections.CsvTable.<Clone>$() -> Filum.Engine.Abstractions.Collections.CsvTable!
+Filum.Engine.Abstractions.Collections.CsvTable.CsvTable(System.Collections.Generic.IReadOnlyList<string!>! Header, System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Collections.CsvRecord!>! Rows, string? Error) -> void
+Filum.Engine.Abstractions.Collections.CsvTable.Deconstruct(out System.Collections.Generic.IReadOnlyList<string!>! Header, out System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Collections.CsvRecord!>! Rows, out string? Error) -> void
+Filum.Engine.Abstractions.Collections.CsvTable.Equals(Filum.Engine.Abstractions.Collections.CsvTable? other) -> bool
+Filum.Engine.Abstractions.Collections.CsvTable.Error.get -> string?
+Filum.Engine.Abstractions.Collections.CsvTable.Error.init -> void
+Filum.Engine.Abstractions.Collections.CsvTable.Header.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Filum.Engine.Abstractions.Collections.CsvTable.Header.init -> void
+Filum.Engine.Abstractions.Collections.CsvTable.IsValid.get -> bool
+Filum.Engine.Abstractions.Collections.CsvTable.Rows.get -> System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Collections.CsvRecord!>!
+Filum.Engine.Abstractions.Collections.CsvTable.Rows.init -> void
+Filum.Engine.Abstractions.Constants.ImportFormat
+Filum.Engine.Abstractions.Constants.MemoryAuthor
+Filum.Engine.Abstractions.Constants.MemoryOperation
+Filum.Engine.Abstractions.Constants.MemorySensitivity
+Filum.Engine.Abstractions.Constants.ToolNames
+Filum.Engine.Abstractions.Events.EventQuery
+Filum.Engine.Abstractions.Events.EventQuery.<Clone>$() -> Filum.Engine.Abstractions.Events.EventQuery!
+Filum.Engine.Abstractions.Events.EventQuery.AfterId.get -> long?
+Filum.Engine.Abstractions.Events.EventQuery.AfterId.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.Before.get -> System.DateTimeOffset?
+Filum.Engine.Abstractions.Events.EventQuery.Before.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.EventQuery.ConversationId.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.Deconstruct(out long? AfterId, out System.Collections.Generic.IReadOnlyCollection<string!>? Kinds, out System.Guid? ConversationId, out System.DateTimeOffset? From, out System.DateTimeOffset? Before, out bool IncludePrivate, out System.Guid? MessageId) -> void
+Filum.Engine.Abstractions.Events.EventQuery.Equals(Filum.Engine.Abstractions.Events.EventQuery? other) -> bool
+Filum.Engine.Abstractions.Events.EventQuery.EventQuery(long? AfterId = null, System.Collections.Generic.IReadOnlyCollection<string!>? Kinds = null, System.Guid? ConversationId = null, System.DateTimeOffset? From = null, System.DateTimeOffset? Before = null, bool IncludePrivate = true, System.Guid? MessageId = null) -> void
+Filum.Engine.Abstractions.Events.EventQuery.From.get -> System.DateTimeOffset?
+Filum.Engine.Abstractions.Events.EventQuery.From.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.IncludePrivate.get -> bool
+Filum.Engine.Abstractions.Events.EventQuery.IncludePrivate.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.Kinds.get -> System.Collections.Generic.IReadOnlyCollection<string!>?
+Filum.Engine.Abstractions.Events.EventQuery.Kinds.init -> void
+Filum.Engine.Abstractions.Events.EventQuery.Matches(Filum.Engine.Abstractions.Events.MemoryEvent! e) -> bool
+Filum.Engine.Abstractions.Events.EventQuery.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.EventQuery.MessageId.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent
+Filum.Engine.Abstractions.Events.MemoryEvent.<Clone>$() -> Filum.Engine.Abstractions.Events.MemoryEvent!
+Filum.Engine.Abstractions.Events.MemoryEvent.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.MemoryEvent.ConversationId.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Deconstruct(out long Id, out System.DateTimeOffset OccurredAt, out System.DateTimeOffset RecordedAt, out string! Kind, out string! Source, out System.Guid? ConversationId, out System.Guid? MessageId, out string! Text, out string! Sensitivity, out System.Collections.Generic.IReadOnlyList<long>! Sources, out System.Collections.Generic.IReadOnlyList<long>! Revisions) -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Equals(Filum.Engine.Abstractions.Events.MemoryEvent? other) -> bool
+Filum.Engine.Abstractions.Events.MemoryEvent.Id.get -> long
+Filum.Engine.Abstractions.Events.MemoryEvent.Id.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Kind.get -> string!
+Filum.Engine.Abstractions.Events.MemoryEvent.Kind.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.MemoryEvent(long Id, System.DateTimeOffset OccurredAt, System.DateTimeOffset RecordedAt, string! Kind, string! Source, System.Guid? ConversationId, System.Guid? MessageId, string! Text, string! Sensitivity, System.Collections.Generic.IReadOnlyList<long>! Sources, System.Collections.Generic.IReadOnlyList<long>! Revisions) -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.MemoryEvent.MessageId.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.OccurredAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Events.MemoryEvent.OccurredAt.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.RecordedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Events.MemoryEvent.RecordedAt.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Revisions.get -> System.Collections.Generic.IReadOnlyList<long>!
+Filum.Engine.Abstractions.Events.MemoryEvent.Revisions.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Events.MemoryEvent.Sensitivity.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Source.get -> string!
+Filum.Engine.Abstractions.Events.MemoryEvent.Source.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Sources.get -> System.Collections.Generic.IReadOnlyList<long>!
+Filum.Engine.Abstractions.Events.MemoryEvent.Sources.init -> void
+Filum.Engine.Abstractions.Events.MemoryEvent.Text.get -> string!
+Filum.Engine.Abstractions.Events.MemoryEvent.Text.init -> void
+Filum.Engine.Abstractions.Events.MemoryEventHit
+Filum.Engine.Abstractions.Events.MemoryEventHit.<Clone>$() -> Filum.Engine.Abstractions.Events.MemoryEventHit!
+Filum.Engine.Abstractions.Events.MemoryEventHit.Deconstruct(out Filum.Engine.Abstractions.Events.MemoryEvent! Event, out Filum.Engine.Abstractions.Events.MemoryEvent? Next, out double Score) -> void
+Filum.Engine.Abstractions.Events.MemoryEventHit.Equals(Filum.Engine.Abstractions.Events.MemoryEventHit? other) -> bool
+Filum.Engine.Abstractions.Events.MemoryEventHit.Event.get -> Filum.Engine.Abstractions.Events.MemoryEvent!
+Filum.Engine.Abstractions.Events.MemoryEventHit.Event.init -> void
+Filum.Engine.Abstractions.Events.MemoryEventHit.MemoryEventHit(Filum.Engine.Abstractions.Events.MemoryEvent! Event, Filum.Engine.Abstractions.Events.MemoryEvent? Next, double Score) -> void
+Filum.Engine.Abstractions.Events.MemoryEventHit.Next.get -> Filum.Engine.Abstractions.Events.MemoryEvent?
+Filum.Engine.Abstractions.Events.MemoryEventHit.Next.init -> void
+Filum.Engine.Abstractions.Events.MemoryEventHit.Score.get -> double
+Filum.Engine.Abstractions.Events.MemoryEventHit.Score.init -> void
+Filum.Engine.Abstractions.Events.MemoryEventKind
+Filum.Engine.Abstractions.Events.MemoryEvents
+Filum.Engine.Abstractions.Events.MemoryEventSource
+Filum.Engine.Abstractions.Events.NewMemoryEvent
+Filum.Engine.Abstractions.Events.NewMemoryEvent.<Clone>$() -> Filum.Engine.Abstractions.Events.NewMemoryEvent!
+Filum.Engine.Abstractions.Events.NewMemoryEvent.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.NewMemoryEvent.ConversationId.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Deconstruct(out string! Kind, out string! Source, out string! Text, out System.DateTimeOffset? OccurredAt, out System.Guid? ConversationId, out System.Guid? MessageId, out string! Sensitivity, out System.Collections.Generic.IReadOnlyList<long>? Sources, out System.Collections.Generic.IReadOnlyList<long>? Revisions) -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Equals(Filum.Engine.Abstractions.Events.NewMemoryEvent? other) -> bool
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Kind.get -> string!
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Kind.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Events.NewMemoryEvent.MessageId.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.NewMemoryEvent(string! Kind, string! Source, string! Text, System.DateTimeOffset? OccurredAt = null, System.Guid? ConversationId = null, System.Guid? MessageId = null, string! Sensitivity = "normal", System.Collections.Generic.IReadOnlyList<long>? Sources = null, System.Collections.Generic.IReadOnlyList<long>? Revisions = null) -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.OccurredAt.get -> System.DateTimeOffset?
+Filum.Engine.Abstractions.Events.NewMemoryEvent.OccurredAt.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Revisions.get -> System.Collections.Generic.IReadOnlyList<long>?
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Revisions.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Sensitivity.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Source.get -> string!
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Source.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Sources.get -> System.Collections.Generic.IReadOnlyList<long>?
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Sources.init -> void
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Text.get -> string!
+Filum.Engine.Abstractions.Events.NewMemoryEvent.Text.init -> void
+Filum.Engine.Abstractions.Facts.Fact
+Filum.Engine.Abstractions.Facts.Fact.<Clone>$() -> Filum.Engine.Abstractions.Facts.Fact!
+Filum.Engine.Abstractions.Facts.Fact.Attribute.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Attribute.init -> void
+Filum.Engine.Abstractions.Facts.Fact.Deconstruct(out string! Subject, out string! Attribute, out string! Value, out string! ValidFrom, out string! ValidTo, out System.Collections.Generic.IReadOnlyList<long>! Sources, out string! Note) -> void
+Filum.Engine.Abstractions.Facts.Fact.Equals(Filum.Engine.Abstractions.Facts.Fact? other) -> bool
+Filum.Engine.Abstractions.Facts.Fact.Fact(string! Subject, string! Attribute, string! Value, string! ValidFrom, string! ValidTo, System.Collections.Generic.IReadOnlyList<long>! Sources, string! Note) -> void
+Filum.Engine.Abstractions.Facts.Fact.IsOpen.get -> bool
+Filum.Engine.Abstractions.Facts.Fact.Note.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Note.init -> void
+Filum.Engine.Abstractions.Facts.Fact.Sources.get -> System.Collections.Generic.IReadOnlyList<long>!
+Filum.Engine.Abstractions.Facts.Fact.Sources.init -> void
+Filum.Engine.Abstractions.Facts.Fact.Subject.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Subject.init -> void
+Filum.Engine.Abstractions.Facts.Fact.ValidFrom.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.ValidFrom.init -> void
+Filum.Engine.Abstractions.Facts.Fact.ValidTo.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.ValidTo.init -> void
+Filum.Engine.Abstractions.Facts.Fact.Value.get -> string!
+Filum.Engine.Abstractions.Facts.Fact.Value.init -> void
+Filum.Engine.Abstractions.Imports.ImportItem
+Filum.Engine.Abstractions.Imports.ImportItem.<Clone>$() -> Filum.Engine.Abstractions.Imports.ImportItem!
+Filum.Engine.Abstractions.Imports.ImportItem.Deconstruct(out System.DateTimeOffset? When, out string? Who, out string! Text, out string! Identity) -> void
+Filum.Engine.Abstractions.Imports.ImportItem.Equals(Filum.Engine.Abstractions.Imports.ImportItem? other) -> bool
+Filum.Engine.Abstractions.Imports.ImportItem.Identity.get -> string!
+Filum.Engine.Abstractions.Imports.ImportItem.Identity.init -> void
+Filum.Engine.Abstractions.Imports.ImportItem.ImportItem(System.DateTimeOffset? When, string? Who, string! Text, string! Identity) -> void
+Filum.Engine.Abstractions.Imports.ImportItem.Text.get -> string!
+Filum.Engine.Abstractions.Imports.ImportItem.Text.init -> void
+Filum.Engine.Abstractions.Imports.ImportItem.When.get -> System.DateTimeOffset?
+Filum.Engine.Abstractions.Imports.ImportItem.When.init -> void
+Filum.Engine.Abstractions.Imports.ImportItem.Who.get -> string?
+Filum.Engine.Abstractions.Imports.ImportItem.Who.init -> void
+Filum.Engine.Abstractions.Imports.ImportParse
+Filum.Engine.Abstractions.Imports.ImportParse.<Clone>$() -> Filum.Engine.Abstractions.Imports.ImportParse!
+Filum.Engine.Abstractions.Imports.ImportParse.Deconstruct(out System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Imports.ImportItem!>! Items, out int Skipped, out string? Error) -> void
+Filum.Engine.Abstractions.Imports.ImportParse.Equals(Filum.Engine.Abstractions.Imports.ImportParse? other) -> bool
+Filum.Engine.Abstractions.Imports.ImportParse.Error.get -> string?
+Filum.Engine.Abstractions.Imports.ImportParse.Error.init -> void
+Filum.Engine.Abstractions.Imports.ImportParse.ImportParse(System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Imports.ImportItem!>! Items, int Skipped, string? Error = null) -> void
+Filum.Engine.Abstractions.Imports.ImportParse.Items.get -> System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Imports.ImportItem!>!
+Filum.Engine.Abstractions.Imports.ImportParse.Items.init -> void
+Filum.Engine.Abstractions.Imports.ImportParse.Skipped.get -> int
+Filum.Engine.Abstractions.Imports.ImportParse.Skipped.init -> void
+Filum.Engine.Abstractions.Imports.ImportRequest
+Filum.Engine.Abstractions.Imports.ImportRequest.<Clone>$() -> Filum.Engine.Abstractions.Imports.ImportRequest!
+Filum.Engine.Abstractions.Imports.ImportRequest.Content.get -> string!
+Filum.Engine.Abstractions.Imports.ImportRequest.Content.init -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.Deconstruct(out string! FileName, out string! Content, out string? Format, out string! Sensitivity, out bool Preview) -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.Equals(Filum.Engine.Abstractions.Imports.ImportRequest? other) -> bool
+Filum.Engine.Abstractions.Imports.ImportRequest.FileName.get -> string!
+Filum.Engine.Abstractions.Imports.ImportRequest.FileName.init -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.Format.get -> string?
+Filum.Engine.Abstractions.Imports.ImportRequest.Format.init -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.ImportRequest(string! FileName, string! Content, string? Format = null, string! Sensitivity = "normal", bool Preview = true) -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.Preview.get -> bool
+Filum.Engine.Abstractions.Imports.ImportRequest.Preview.init -> void
+Filum.Engine.Abstractions.Imports.ImportRequest.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Imports.ImportRequest.Sensitivity.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult
+Filum.Engine.Abstractions.Imports.ImportResult.<Clone>$() -> Filum.Engine.Abstractions.Imports.ImportResult!
+Filum.Engine.Abstractions.Imports.ImportResult.Deconstruct(out string! Format, out System.Guid SourceId, out int Items, out int New, out int Duplicates, out int Skipped, out System.Collections.Generic.IReadOnlyList<string!>! Sample, out bool Written) -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Duplicates.get -> int
+Filum.Engine.Abstractions.Imports.ImportResult.Duplicates.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Equals(Filum.Engine.Abstractions.Imports.ImportResult? other) -> bool
+Filum.Engine.Abstractions.Imports.ImportResult.Format.get -> string!
+Filum.Engine.Abstractions.Imports.ImportResult.Format.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.ImportResult(string! Format, System.Guid SourceId, int Items, int New, int Duplicates, int Skipped, System.Collections.Generic.IReadOnlyList<string!>! Sample, bool Written) -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Items.get -> int
+Filum.Engine.Abstractions.Imports.ImportResult.Items.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.New.get -> int
+Filum.Engine.Abstractions.Imports.ImportResult.New.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Sample.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Filum.Engine.Abstractions.Imports.ImportResult.Sample.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Skipped.get -> int
+Filum.Engine.Abstractions.Imports.ImportResult.Skipped.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.SourceId.get -> System.Guid
+Filum.Engine.Abstractions.Imports.ImportResult.SourceId.init -> void
+Filum.Engine.Abstractions.Imports.ImportResult.Written.get -> bool
+Filum.Engine.Abstractions.Imports.ImportResult.Written.init -> void
+Filum.Engine.Abstractions.Imports.RecordedItems
+Filum.Engine.Abstractions.Imports.RecordedItems.<Clone>$() -> Filum.Engine.Abstractions.Imports.RecordedItems!
+Filum.Engine.Abstractions.Imports.RecordedItems.Deconstruct(out int New) -> void
+Filum.Engine.Abstractions.Imports.RecordedItems.Equals(Filum.Engine.Abstractions.Imports.RecordedItems? other) -> bool
+Filum.Engine.Abstractions.Imports.RecordedItems.New.get -> int
+Filum.Engine.Abstractions.Imports.RecordedItems.New.init -> void
+Filum.Engine.Abstractions.Imports.RecordedItems.RecordedItems(int New) -> void
+Filum.Engine.Abstractions.Memory.ForgetResult
+Filum.Engine.Abstractions.Memory.ForgetResult.<Clone>$() -> Filum.Engine.Abstractions.Memory.ForgetResult!
+Filum.Engine.Abstractions.Memory.ForgetResult.Deconstruct(out int Events, out int Files, out int FactRows) -> void
+Filum.Engine.Abstractions.Memory.ForgetResult.Equals(Filum.Engine.Abstractions.Memory.ForgetResult? other) -> bool
+Filum.Engine.Abstractions.Memory.ForgetResult.Events.get -> int
+Filum.Engine.Abstractions.Memory.ForgetResult.Events.init -> void
+Filum.Engine.Abstractions.Memory.ForgetResult.FactRows.get -> int
+Filum.Engine.Abstractions.Memory.ForgetResult.FactRows.init -> void
+Filum.Engine.Abstractions.Memory.ForgetResult.Files.get -> int
+Filum.Engine.Abstractions.Memory.ForgetResult.Files.init -> void
+Filum.Engine.Abstractions.Memory.ForgetResult.ForgetResult(int Events, int Files, int FactRows) -> void
+Filum.Engine.Abstractions.Memory.LineChange
+Filum.Engine.Abstractions.Memory.LineChange.<Clone>$() -> Filum.Engine.Abstractions.Memory.LineChange!
+Filum.Engine.Abstractions.Memory.LineChange.At.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Memory.LineChange.At.init -> void
+Filum.Engine.Abstractions.Memory.LineChange.Before.get -> string!
+Filum.Engine.Abstractions.Memory.LineChange.Before.init -> void
+Filum.Engine.Abstractions.Memory.LineChange.Deconstruct(out string! Before, out System.DateTimeOffset At) -> void
+Filum.Engine.Abstractions.Memory.LineChange.Equals(Filum.Engine.Abstractions.Memory.LineChange? other) -> bool
+Filum.Engine.Abstractions.Memory.LineChange.LineChange(string! Before, System.DateTimeOffset At) -> void
+Filum.Engine.Abstractions.Memory.MemoryActor
+Filum.Engine.Abstractions.Memory.MemoryActor.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryActor!
+Filum.Engine.Abstractions.Memory.MemoryActor.Author.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryActor.Author.init -> void
+Filum.Engine.Abstractions.Memory.MemoryActor.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Memory.MemoryActor.ConversationId.init -> void
+Filum.Engine.Abstractions.Memory.MemoryActor.Deconstruct(out string! Author, out System.Guid? ConversationId, out System.Guid? MessageId) -> void
+Filum.Engine.Abstractions.Memory.MemoryActor.Equals(Filum.Engine.Abstractions.Memory.MemoryActor? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryActor.MemoryActor(string! Author, System.Guid? ConversationId = null, System.Guid? MessageId = null) -> void
+Filum.Engine.Abstractions.Memory.MemoryActor.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Memory.MemoryActor.MessageId.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange
+Filum.Engine.Abstractions.Memory.MemoryChange.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryChange!
+Filum.Engine.Abstractions.Memory.MemoryChange.Added.get -> int
+Filum.Engine.Abstractions.Memory.MemoryChange.Added.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Created.get -> bool
+Filum.Engine.Abstractions.Memory.MemoryChange.Created.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Deconstruct(out long RevisionId, out string! Path, out string! Operation, out bool Created, out int LineCount, out int? RowCount, out int Added, out string? FromPath, out string? Sensitivity) -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Equals(Filum.Engine.Abstractions.Memory.MemoryChange? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryChange.FromPath.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryChange.FromPath.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.LineCount.get -> int
+Filum.Engine.Abstractions.Memory.MemoryChange.LineCount.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.MemoryChange(long RevisionId, string! Path, string! Operation, bool Created, int LineCount, int? RowCount, int Added, string? FromPath = null, string? Sensitivity = null) -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Operation.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryChange.Operation.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryChange.Path.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.RevisionId.get -> long
+Filum.Engine.Abstractions.Memory.MemoryChange.RevisionId.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.RowCount.get -> int?
+Filum.Engine.Abstractions.Memory.MemoryChange.RowCount.init -> void
+Filum.Engine.Abstractions.Memory.MemoryChange.Sensitivity.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryChange.Sensitivity.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileContent
+Filum.Engine.Abstractions.Memory.MemoryFileContent.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryFileContent!
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Content.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Content.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Deconstruct(out Filum.Engine.Abstractions.Memory.MemoryFileInfo! Info, out string! Content) -> void
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Equals(Filum.Engine.Abstractions.Memory.MemoryFileContent? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Info.get -> Filum.Engine.Abstractions.Memory.MemoryFileInfo!
+Filum.Engine.Abstractions.Memory.MemoryFileContent.Info.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileContent.MemoryFileContent(Filum.Engine.Abstractions.Memory.MemoryFileInfo! Info, string! Content) -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryFileInfo!
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Deconstruct(out string! Path, out int SizeBytes, out int LineCount, out string! Sensitivity, out System.DateTimeOffset UpdatedAt, out string? Header, out int? RowCount) -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Equals(Filum.Engine.Abstractions.Memory.MemoryFileInfo? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Header.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Header.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.LineCount.get -> int
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.LineCount.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.MemoryFileInfo(string! Path, int SizeBytes, int LineCount, string! Sensitivity, System.DateTimeOffset UpdatedAt, string? Header, int? RowCount) -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Path.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.RowCount.get -> int?
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.RowCount.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.Sensitivity.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.SizeBytes.get -> int
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.SizeBytes.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.UpdatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Memory.MemoryFileInfo.UpdatedAt.init -> void
+Filum.Engine.Abstractions.Memory.MemoryFileKind
+Filum.Engine.Abstractions.Memory.MemoryFileKind.Collection = 1 -> Filum.Engine.Abstractions.Memory.MemoryFileKind
+Filum.Engine.Abstractions.Memory.MemoryFileKind.Document = 0 -> Filum.Engine.Abstractions.Memory.MemoryFileKind
+Filum.Engine.Abstractions.Memory.MemoryOrigin
+Filum.Engine.Abstractions.Memory.MemoryOrigin.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryOrigin!
+Filum.Engine.Abstractions.Memory.MemoryOrigin.Author.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryOrigin.Author.init -> void
+Filum.Engine.Abstractions.Memory.MemoryOrigin.ConversationTitle.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryOrigin.ConversationTitle.init -> void
+Filum.Engine.Abstractions.Memory.MemoryOrigin.CreatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Memory.MemoryOrigin.CreatedAt.init -> void
+Filum.Engine.Abstractions.Memory.MemoryOrigin.Deconstruct(out string! Author, out string? ConversationTitle, out System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Memory.MemoryOrigin.Equals(Filum.Engine.Abstractions.Memory.MemoryOrigin? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryOrigin.MemoryOrigin(string! Author, string? ConversationTitle, System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Deconstruct(out T? Value, out string? Refusal, out bool IsMissing) -> void
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.IsMissing.get -> bool
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.IsMissing.init -> void
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.IsRefused.get -> bool
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.MemoryOutcome(T? Value, string? Refusal, bool IsMissing = false) -> void
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Refusal.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Refusal.init -> void
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Value.get -> T?
+Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Value.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult
+Filum.Engine.Abstractions.Memory.MemoryReadResult.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryReadResult!
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Deconstruct(out string! Path, out string! Sensitivity, out int FromLine, out int ToLine, out int TotalLines, out System.Collections.Generic.IReadOnlyList<string!>! Lines) -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Equals(Filum.Engine.Abstractions.Memory.MemoryReadResult? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryReadResult.FromLine.get -> int
+Filum.Engine.Abstractions.Memory.MemoryReadResult.FromLine.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Lines.get -> System.Collections.Generic.IReadOnlyList<string!>!
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Lines.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.MemoryReadResult(string! Path, string! Sensitivity, int FromLine, int ToLine, int TotalLines, System.Collections.Generic.IReadOnlyList<string!>! Lines) -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Path.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryReadResult.Sensitivity.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.ToLine.get -> int
+Filum.Engine.Abstractions.Memory.MemoryReadResult.ToLine.init -> void
+Filum.Engine.Abstractions.Memory.MemoryReadResult.TotalLines.get -> int
+Filum.Engine.Abstractions.Memory.MemoryReadResult.TotalLines.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryRevisionInfo!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Author.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Author.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.ConversationId.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.ConversationTitle.get -> string?
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.ConversationTitle.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.CreatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.CreatedAt.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Deconstruct(out long Id, out string! Path, out string! Operation, out string! Author, out System.Guid? ConversationId, out System.Guid? MessageId, out bool Deleted, out string! Sensitivity, out long? UndoesRevisionId, out System.DateTimeOffset CreatedAt, out string! Summary, out string? ConversationTitle) -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Deleted.get -> bool
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Deleted.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Equals(Filum.Engine.Abstractions.Memory.MemoryRevisionInfo? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Id.get -> long
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Id.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.MemoryRevisionInfo(long Id, string! Path, string! Operation, string! Author, System.Guid? ConversationId, System.Guid? MessageId, bool Deleted, string! Sensitivity, long? UndoesRevisionId, System.DateTimeOffset CreatedAt, string! Summary = "", string? ConversationTitle = null) -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.MessageId.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Operation.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Operation.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Path.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Sensitivity.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Summary.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Summary.init -> void
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.UndoesRevisionId.get -> long?
+Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.UndoesRevisionId.init -> void
+Filum.Engine.Abstractions.Memory.MemorySearchHit
+Filum.Engine.Abstractions.Memory.MemorySearchHit.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemorySearchHit!
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Deconstruct(out string! Path, out int Line, out string! Text) -> void
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Equals(Filum.Engine.Abstractions.Memory.MemorySearchHit? other) -> bool
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Line.get -> int
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Line.init -> void
+Filum.Engine.Abstractions.Memory.MemorySearchHit.MemorySearchHit(string! Path, int Line, string! Text) -> void
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Path.init -> void
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Text.get -> string!
+Filum.Engine.Abstractions.Memory.MemorySearchHit.Text.init -> void
+Filum.Engine.Abstractions.Memory.MemorySearchResult
+Filum.Engine.Abstractions.Memory.MemorySearchResult.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemorySearchResult!
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Deconstruct(out System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Memory.MemorySearchHit!>! Hits, out bool Truncated) -> void
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Equals(Filum.Engine.Abstractions.Memory.MemorySearchResult? other) -> bool
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Hits.get -> System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Memory.MemorySearchHit!>!
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Hits.init -> void
+Filum.Engine.Abstractions.Memory.MemorySearchResult.MemorySearchResult(System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Memory.MemorySearchHit!>! Hits, bool Truncated) -> void
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Truncated.get -> bool
+Filum.Engine.Abstractions.Memory.MemorySearchResult.Truncated.init -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion
+Filum.Engine.Abstractions.Memory.MemoryVersion.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryVersion!
+Filum.Engine.Abstractions.Memory.MemoryVersion.Content.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryVersion.Content.init -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.CreatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Memory.MemoryVersion.CreatedAt.init -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.Deconstruct(out long Id, out string! Path, out string! Content, out bool Deleted, out System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.Deleted.get -> bool
+Filum.Engine.Abstractions.Memory.MemoryVersion.Deleted.init -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.Equals(Filum.Engine.Abstractions.Memory.MemoryVersion? other) -> bool
+Filum.Engine.Abstractions.Memory.MemoryVersion.Id.get -> long
+Filum.Engine.Abstractions.Memory.MemoryVersion.Id.init -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.MemoryVersion(long Id, string! Path, string! Content, bool Deleted, System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Memory.MemoryVersion.Path.get -> string!
+Filum.Engine.Abstractions.Memory.MemoryVersion.Path.init -> void
+Filum.Engine.Abstractions.Options.MemoryOptions
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsSearchMax.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.EventsSearchMax.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.ExcludedTools.get -> string![]!
+Filum.Engine.Abstractions.Options.MemoryOptions.ExcludedTools.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.IndexMaxChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.IndexMaxChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.IndexMaxFiles.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.IndexMaxFiles.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxCoreChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxCoreChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxFileBytes.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxFileBytes.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxFilesPerUser.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxFilesPerUser.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxHistoryChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxHistoryChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxImportBytes.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxImportBytes.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxImportItems.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxImportItems.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxReadLines.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxReadLines.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxSearchResults.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxSearchResults.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxSkillChars.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxSkillChars.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxToolCallsPerTurn.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.MaxToolCallsPerTurn.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.MemoryOptions() -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.SkillListMax.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.SkillListMax.set -> void
+Filum.Engine.Abstractions.Options.MemoryOptions.VectorsPerSearch.get -> int
+Filum.Engine.Abstractions.Options.MemoryOptions.VectorsPerSearch.set -> void
+Filum.Engine.Abstractions.Search.IEmbedder
+Filum.Engine.Abstractions.Search.IEmbedder.Embed(System.Collections.Generic.IReadOnlyList<string!>! texts, bool query) -> System.Collections.Generic.IReadOnlyList<float[]!>!
+Filum.Engine.Abstractions.Search.IEventGate
+Filum.Engine.Abstractions.Search.IEventGate.Keep(float[]! vector) -> bool
+Filum.Engine.Abstractions.Skills.Skill
+Filum.Engine.Abstractions.Skills.Skill.<Clone>$() -> Filum.Engine.Abstractions.Skills.Skill!
+Filum.Engine.Abstractions.Skills.Skill.Deconstruct(out string! Name, out string! Description, out string! When, out bool Enabled, out string! Steps) -> void
+Filum.Engine.Abstractions.Skills.Skill.Description.get -> string!
+Filum.Engine.Abstractions.Skills.Skill.Description.init -> void
+Filum.Engine.Abstractions.Skills.Skill.Enabled.get -> bool
+Filum.Engine.Abstractions.Skills.Skill.Enabled.init -> void
+Filum.Engine.Abstractions.Skills.Skill.Equals(Filum.Engine.Abstractions.Skills.Skill? other) -> bool
+Filum.Engine.Abstractions.Skills.Skill.Name.get -> string!
+Filum.Engine.Abstractions.Skills.Skill.Name.init -> void
+Filum.Engine.Abstractions.Skills.Skill.Skill(string! Name, string! Description, string! When, bool Enabled, string! Steps) -> void
+Filum.Engine.Abstractions.Skills.Skill.Steps.get -> string!
+Filum.Engine.Abstractions.Skills.Skill.Steps.init -> void
+Filum.Engine.Abstractions.Skills.Skill.When.get -> string!
+Filum.Engine.Abstractions.Skills.Skill.When.init -> void
+Filum.Engine.Abstractions.Skills.SkillFile
+Filum.Engine.Abstractions.Skills.SkillFile.<Clone>$() -> Filum.Engine.Abstractions.Skills.SkillFile!
+Filum.Engine.Abstractions.Skills.SkillFile.Deconstruct(out Filum.Engine.Abstractions.Skills.Skill! Skill, out string! Path, out string! Sensitivity, out System.DateTimeOffset UpdatedAt) -> void
+Filum.Engine.Abstractions.Skills.SkillFile.Equals(Filum.Engine.Abstractions.Skills.SkillFile? other) -> bool
+Filum.Engine.Abstractions.Skills.SkillFile.Path.get -> string!
+Filum.Engine.Abstractions.Skills.SkillFile.Path.init -> void
+Filum.Engine.Abstractions.Skills.SkillFile.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Skills.SkillFile.Sensitivity.init -> void
+Filum.Engine.Abstractions.Skills.SkillFile.Skill.get -> Filum.Engine.Abstractions.Skills.Skill!
+Filum.Engine.Abstractions.Skills.SkillFile.Skill.init -> void
+Filum.Engine.Abstractions.Skills.SkillFile.SkillFile(Filum.Engine.Abstractions.Skills.Skill! Skill, string! Path, string! Sensitivity, System.DateTimeOffset UpdatedAt) -> void
+Filum.Engine.Abstractions.Skills.SkillFile.UpdatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Skills.SkillFile.UpdatedAt.init -> void
+Filum.Engine.Abstractions.Skills.SkillProposal
+Filum.Engine.Abstractions.Skills.SkillProposal.<Clone>$() -> Filum.Engine.Abstractions.Skills.SkillProposal!
+Filum.Engine.Abstractions.Skills.SkillProposal.Deconstruct(out string! Name, out string! Description, out string! When, out string! Steps) -> void
+Filum.Engine.Abstractions.Skills.SkillProposal.Description.get -> string!
+Filum.Engine.Abstractions.Skills.SkillProposal.Description.init -> void
+Filum.Engine.Abstractions.Skills.SkillProposal.Equals(Filum.Engine.Abstractions.Skills.SkillProposal? other) -> bool
+Filum.Engine.Abstractions.Skills.SkillProposal.Name.get -> string!
+Filum.Engine.Abstractions.Skills.SkillProposal.Name.init -> void
+Filum.Engine.Abstractions.Skills.SkillProposal.SkillProposal(string! Name, string! Description, string! When, string! Steps) -> void
+Filum.Engine.Abstractions.Skills.SkillProposal.Steps.get -> string!
+Filum.Engine.Abstractions.Skills.SkillProposal.Steps.init -> void
+Filum.Engine.Abstractions.Skills.SkillProposal.When.get -> string!
+Filum.Engine.Abstractions.Skills.SkillProposal.When.init -> void
+Filum.Engine.Abstractions.Storage.FileState
+Filum.Engine.Abstractions.Storage.FileState.<Clone>$() -> Filum.Engine.Abstractions.Storage.FileState!
+Filum.Engine.Abstractions.Storage.FileState.Content.get -> string!
+Filum.Engine.Abstractions.Storage.FileState.Content.init -> void
+Filum.Engine.Abstractions.Storage.FileState.Deconstruct(out string! Path, out string! Content, out string! Sensitivity, out bool Deleted, out int SizeBytes, out int LineCount, out string? Header, out int? RowCount) -> void
+Filum.Engine.Abstractions.Storage.FileState.Deleted.get -> bool
+Filum.Engine.Abstractions.Storage.FileState.Deleted.init -> void
+Filum.Engine.Abstractions.Storage.FileState.Equals(Filum.Engine.Abstractions.Storage.FileState? other) -> bool
+Filum.Engine.Abstractions.Storage.FileState.FileState(string! Path, string! Content, string! Sensitivity, bool Deleted, int SizeBytes, int LineCount, string? Header, int? RowCount) -> void
+Filum.Engine.Abstractions.Storage.FileState.Header.get -> string?
+Filum.Engine.Abstractions.Storage.FileState.Header.init -> void
+Filum.Engine.Abstractions.Storage.FileState.LineCount.get -> int
+Filum.Engine.Abstractions.Storage.FileState.LineCount.init -> void
+Filum.Engine.Abstractions.Storage.FileState.Path.get -> string!
+Filum.Engine.Abstractions.Storage.FileState.Path.init -> void
+Filum.Engine.Abstractions.Storage.FileState.RowCount.get -> int?
+Filum.Engine.Abstractions.Storage.FileState.RowCount.init -> void
+Filum.Engine.Abstractions.Storage.FileState.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Storage.FileState.Sensitivity.init -> void
+Filum.Engine.Abstractions.Storage.FileState.SizeBytes.get -> int
+Filum.Engine.Abstractions.Storage.FileState.SizeBytes.init -> void
+Filum.Engine.Abstractions.Storage.IConversationDirectory
+Filum.Engine.Abstractions.Storage.IConversationDirectory.ConversationTitlesAsync(System.Guid userId, System.Collections.Generic.IReadOnlyCollection<System.Guid>! conversationIds, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<System.Guid, string!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryEventStore
+Filum.Engine.Abstractions.Storage.IMemoryEventStore.AppendEventAsync(System.Guid userId, Filum.Engine.Abstractions.Events.NewMemoryEvent! next, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Filum.Engine.Abstractions.Events.MemoryEvent!>!
+Filum.Engine.Abstractions.Storage.IMemoryEventStore.AppendEventsAsync(System.Guid userId, System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Events.NewMemoryEvent!>! next, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Events.MemoryEvent!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryEventStore.EventsAsync(System.Guid userId, Filum.Engine.Abstractions.Events.EventQuery! query, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Events.MemoryEvent!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.CountLiveAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<int>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.FindAsync(System.Guid userId, System.Guid fileId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Filum.Engine.Abstractions.Storage.StoredFile?>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.FindLiveAsync(System.Guid userId, string! path, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Filum.Engine.Abstractions.Storage.StoredFile?>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.IsPathTakenAsync(System.Guid userId, string! path, System.Guid? exceptFileId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<bool>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.ListLiveAsync(System.Guid userId, string? prefix, bool includePrivate, bool withContent, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Storage.StoredFile!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.SaveAsync(System.Guid userId, Filum.Engine.Abstractions.Storage.StoredFile? current, Filum.Engine.Abstractions.Storage.FileState! next, Filum.Engine.Abstractions.Memory.MemoryActor! actor, string! operation, long? undoesRevisionId, System.DateTimeOffset now, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Filum.Engine.Abstractions.Storage.SavedChange?>!
+Filum.Engine.Abstractions.Storage.IMemoryFileStore.SearchAsync(System.Guid userId, string! text, string? prefix, bool includePrivate, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Storage.StoredFile!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryRevisionStore
+Filum.Engine.Abstractions.Storage.IMemoryRevisionStore.GetRevisionAsync(System.Guid userId, long revisionId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<Filum.Engine.Abstractions.Storage.StoredRevision?>!
+Filum.Engine.Abstractions.Storage.IMemoryRevisionStore.RevisionsAsync(System.Guid userId, System.Collections.Generic.IReadOnlyCollection<long>! revisionIds, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Storage.StoredRevision!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryRevisionStore.RevisionsOfFileAsync(System.Guid userId, System.Guid fileId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<Filum.Engine.Abstractions.Storage.StoredRevision!>!>!
+Filum.Engine.Abstractions.Storage.IMemoryRevisionStore.UndoneAmongAsync(System.Guid userId, System.Collections.Generic.IReadOnlyCollection<long>! revisionIds, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlySet<long>!>!
+Filum.Engine.Abstractions.Storage.IMemoryStore
+Filum.Engine.Abstractions.Storage.IMemoryStore.ForgetAsync(System.Guid userId, System.Collections.Generic.IReadOnlyCollection<long>! eventIds, System.Collections.Generic.IReadOnlyCollection<System.Guid>! fileIds, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+Filum.Engine.Abstractions.Storage.IMemoryVectorStore
+Filum.Engine.Abstractions.Storage.IMemoryVectorStore.SaveVectorsAsync(System.Guid userId, System.Collections.Generic.IReadOnlyList<(long EventId, float[]! Vector)>! vectors, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task!
+Filum.Engine.Abstractions.Storage.IMemoryVectorStore.VectorsAsync(System.Guid userId, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<long, float[]!>!>!
+Filum.Engine.Abstractions.Storage.SavedChange
+Filum.Engine.Abstractions.Storage.SavedChange.<Clone>$() -> Filum.Engine.Abstractions.Storage.SavedChange!
+Filum.Engine.Abstractions.Storage.SavedChange.Deconstruct(out long RevisionId, out System.Guid FileId) -> void
+Filum.Engine.Abstractions.Storage.SavedChange.Equals(Filum.Engine.Abstractions.Storage.SavedChange? other) -> bool
+Filum.Engine.Abstractions.Storage.SavedChange.FileId.get -> System.Guid
+Filum.Engine.Abstractions.Storage.SavedChange.FileId.init -> void
+Filum.Engine.Abstractions.Storage.SavedChange.RevisionId.get -> long
+Filum.Engine.Abstractions.Storage.SavedChange.RevisionId.init -> void
+Filum.Engine.Abstractions.Storage.SavedChange.SavedChange(long RevisionId, System.Guid FileId) -> void
+Filum.Engine.Abstractions.Storage.StoredFile
+Filum.Engine.Abstractions.Storage.StoredFile.<Clone>$() -> Filum.Engine.Abstractions.Storage.StoredFile!
+Filum.Engine.Abstractions.Storage.StoredFile.Content.get -> string!
+Filum.Engine.Abstractions.Storage.StoredFile.Content.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.CreatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Storage.StoredFile.CreatedAt.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Deconstruct(out System.Guid Id, out string! Path, out string! Content, out string! Sensitivity, out int SizeBytes, out int LineCount, out string? Header, out int? RowCount, out int Version, out long LatestRevisionId, out System.DateTimeOffset CreatedAt, out System.DateTimeOffset UpdatedAt, out System.DateTimeOffset? DeletedAt) -> void
+Filum.Engine.Abstractions.Storage.StoredFile.DeletedAt.get -> System.DateTimeOffset?
+Filum.Engine.Abstractions.Storage.StoredFile.DeletedAt.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Equals(Filum.Engine.Abstractions.Storage.StoredFile? other) -> bool
+Filum.Engine.Abstractions.Storage.StoredFile.Header.get -> string?
+Filum.Engine.Abstractions.Storage.StoredFile.Header.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Id.get -> System.Guid
+Filum.Engine.Abstractions.Storage.StoredFile.Id.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.IsLive.get -> bool
+Filum.Engine.Abstractions.Storage.StoredFile.LatestRevisionId.get -> long
+Filum.Engine.Abstractions.Storage.StoredFile.LatestRevisionId.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.LineCount.get -> int
+Filum.Engine.Abstractions.Storage.StoredFile.LineCount.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Path.get -> string!
+Filum.Engine.Abstractions.Storage.StoredFile.Path.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.RowCount.get -> int?
+Filum.Engine.Abstractions.Storage.StoredFile.RowCount.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Storage.StoredFile.Sensitivity.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.SizeBytes.get -> int
+Filum.Engine.Abstractions.Storage.StoredFile.SizeBytes.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.StoredFile(System.Guid Id, string! Path, string! Content, string! Sensitivity, int SizeBytes, int LineCount, string? Header, int? RowCount, int Version, long LatestRevisionId, System.DateTimeOffset CreatedAt, System.DateTimeOffset UpdatedAt, System.DateTimeOffset? DeletedAt) -> void
+Filum.Engine.Abstractions.Storage.StoredFile.UpdatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Storage.StoredFile.UpdatedAt.init -> void
+Filum.Engine.Abstractions.Storage.StoredFile.Version.get -> int
+Filum.Engine.Abstractions.Storage.StoredFile.Version.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision
+Filum.Engine.Abstractions.Storage.StoredRevision.<Clone>$() -> Filum.Engine.Abstractions.Storage.StoredRevision!
+Filum.Engine.Abstractions.Storage.StoredRevision.Author.get -> string!
+Filum.Engine.Abstractions.Storage.StoredRevision.Author.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Content.get -> string!
+Filum.Engine.Abstractions.Storage.StoredRevision.Content.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.ConversationId.get -> System.Guid?
+Filum.Engine.Abstractions.Storage.StoredRevision.ConversationId.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.CreatedAt.get -> System.DateTimeOffset
+Filum.Engine.Abstractions.Storage.StoredRevision.CreatedAt.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Deconstruct(out long Id, out System.Guid FileId, out string! Path, out string! Content, out string! Sensitivity, out bool Deleted, out string! Operation, out string! Author, out System.Guid? ConversationId, out System.Guid? MessageId, out long? UndoesRevisionId, out System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Deleted.get -> bool
+Filum.Engine.Abstractions.Storage.StoredRevision.Deleted.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Equals(Filum.Engine.Abstractions.Storage.StoredRevision? other) -> bool
+Filum.Engine.Abstractions.Storage.StoredRevision.FileId.get -> System.Guid
+Filum.Engine.Abstractions.Storage.StoredRevision.FileId.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Id.get -> long
+Filum.Engine.Abstractions.Storage.StoredRevision.Id.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.MessageId.get -> System.Guid?
+Filum.Engine.Abstractions.Storage.StoredRevision.MessageId.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Operation.get -> string!
+Filum.Engine.Abstractions.Storage.StoredRevision.Operation.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Path.get -> string!
+Filum.Engine.Abstractions.Storage.StoredRevision.Path.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.Sensitivity.get -> string!
+Filum.Engine.Abstractions.Storage.StoredRevision.Sensitivity.init -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.StoredRevision(long Id, System.Guid FileId, string! Path, string! Content, string! Sensitivity, bool Deleted, string! Operation, string! Author, System.Guid? ConversationId, System.Guid? MessageId, long? UndoesRevisionId, System.DateTimeOffset CreatedAt) -> void
+Filum.Engine.Abstractions.Storage.StoredRevision.UndoesRevisionId.get -> long?
+Filum.Engine.Abstractions.Storage.StoredRevision.UndoesRevisionId.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep
+Filum.Engine.Abstractions.Tools.ToolStep.<Clone>$() -> Filum.Engine.Abstractions.Tools.ToolStep!
+Filum.Engine.Abstractions.Tools.ToolStep.Data.get -> System.Text.Json.JsonElement?
+Filum.Engine.Abstractions.Tools.ToolStep.Data.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Deconstruct(out string! Kind, out string! Tool, out string? Path, out string! Description, out int DurationMs, out long? RevisionId, out string? Error, out int? Rows, out System.Text.Json.JsonElement? Data) -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Description.get -> string!
+Filum.Engine.Abstractions.Tools.ToolStep.Description.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.DurationMs.get -> int
+Filum.Engine.Abstractions.Tools.ToolStep.DurationMs.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Equals(Filum.Engine.Abstractions.Tools.ToolStep? other) -> bool
+Filum.Engine.Abstractions.Tools.ToolStep.Error.get -> string?
+Filum.Engine.Abstractions.Tools.ToolStep.Error.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Kind.get -> string!
+Filum.Engine.Abstractions.Tools.ToolStep.Kind.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Path.get -> string?
+Filum.Engine.Abstractions.Tools.ToolStep.Path.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.RevisionId.get -> long?
+Filum.Engine.Abstractions.Tools.ToolStep.RevisionId.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Rows.get -> int?
+Filum.Engine.Abstractions.Tools.ToolStep.Rows.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.Tool.get -> string!
+Filum.Engine.Abstractions.Tools.ToolStep.Tool.init -> void
+Filum.Engine.Abstractions.Tools.ToolStep.ToolStep(string! Kind, string! Tool, string? Path, string! Description, int DurationMs, long? RevisionId, string? Error = null, int? Rows = null, System.Text.Json.JsonElement? Data = null) -> void
+override Filum.Engine.Abstractions.Collections.CsvRecord.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Collections.CsvRecord.GetHashCode() -> int
+override Filum.Engine.Abstractions.Collections.CsvRecord.ToString() -> string!
+override Filum.Engine.Abstractions.Collections.CsvTable.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Collections.CsvTable.GetHashCode() -> int
+override Filum.Engine.Abstractions.Collections.CsvTable.ToString() -> string!
+override Filum.Engine.Abstractions.Events.EventQuery.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Events.EventQuery.GetHashCode() -> int
+override Filum.Engine.Abstractions.Events.EventQuery.ToString() -> string!
+override Filum.Engine.Abstractions.Events.MemoryEvent.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Events.MemoryEvent.GetHashCode() -> int
+override Filum.Engine.Abstractions.Events.MemoryEvent.ToString() -> string!
+override Filum.Engine.Abstractions.Events.MemoryEventHit.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Events.MemoryEventHit.GetHashCode() -> int
+override Filum.Engine.Abstractions.Events.MemoryEventHit.ToString() -> string!
+override Filum.Engine.Abstractions.Events.NewMemoryEvent.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Events.NewMemoryEvent.GetHashCode() -> int
+override Filum.Engine.Abstractions.Events.NewMemoryEvent.ToString() -> string!
+override Filum.Engine.Abstractions.Facts.Fact.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Facts.Fact.GetHashCode() -> int
+override Filum.Engine.Abstractions.Facts.Fact.ToString() -> string!
+override Filum.Engine.Abstractions.Imports.ImportItem.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Imports.ImportItem.GetHashCode() -> int
+override Filum.Engine.Abstractions.Imports.ImportItem.ToString() -> string!
+override Filum.Engine.Abstractions.Imports.ImportParse.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Imports.ImportParse.GetHashCode() -> int
+override Filum.Engine.Abstractions.Imports.ImportParse.ToString() -> string!
+override Filum.Engine.Abstractions.Imports.ImportRequest.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Imports.ImportRequest.GetHashCode() -> int
+override Filum.Engine.Abstractions.Imports.ImportRequest.ToString() -> string!
+override Filum.Engine.Abstractions.Imports.ImportResult.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Imports.ImportResult.GetHashCode() -> int
+override Filum.Engine.Abstractions.Imports.ImportResult.ToString() -> string!
+override Filum.Engine.Abstractions.Imports.RecordedItems.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Imports.RecordedItems.GetHashCode() -> int
+override Filum.Engine.Abstractions.Imports.RecordedItems.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.ForgetResult.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.ForgetResult.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.ForgetResult.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.LineChange.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.LineChange.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.LineChange.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryActor.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryActor.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryActor.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryChange.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryChange.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryChange.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryFileContent.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryFileContent.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryFileContent.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryFileInfo.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryFileInfo.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryFileInfo.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryOrigin.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryOrigin.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryOrigin.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryReadResult.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryReadResult.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryReadResult.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemorySearchHit.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemorySearchHit.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemorySearchHit.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemorySearchResult.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemorySearchResult.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemorySearchResult.ToString() -> string!
+override Filum.Engine.Abstractions.Memory.MemoryVersion.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Memory.MemoryVersion.GetHashCode() -> int
+override Filum.Engine.Abstractions.Memory.MemoryVersion.ToString() -> string!
+override Filum.Engine.Abstractions.Skills.Skill.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Skills.Skill.GetHashCode() -> int
+override Filum.Engine.Abstractions.Skills.Skill.ToString() -> string!
+override Filum.Engine.Abstractions.Skills.SkillFile.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Skills.SkillFile.GetHashCode() -> int
+override Filum.Engine.Abstractions.Skills.SkillFile.ToString() -> string!
+override Filum.Engine.Abstractions.Skills.SkillProposal.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Skills.SkillProposal.GetHashCode() -> int
+override Filum.Engine.Abstractions.Skills.SkillProposal.ToString() -> string!
+override Filum.Engine.Abstractions.Storage.FileState.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Storage.FileState.GetHashCode() -> int
+override Filum.Engine.Abstractions.Storage.FileState.ToString() -> string!
+override Filum.Engine.Abstractions.Storage.SavedChange.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Storage.SavedChange.GetHashCode() -> int
+override Filum.Engine.Abstractions.Storage.SavedChange.ToString() -> string!
+override Filum.Engine.Abstractions.Storage.StoredFile.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Storage.StoredFile.GetHashCode() -> int
+override Filum.Engine.Abstractions.Storage.StoredFile.ToString() -> string!
+override Filum.Engine.Abstractions.Storage.StoredRevision.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Storage.StoredRevision.GetHashCode() -> int
+override Filum.Engine.Abstractions.Storage.StoredRevision.ToString() -> string!
+override Filum.Engine.Abstractions.Tools.ToolStep.Equals(object? obj) -> bool
+override Filum.Engine.Abstractions.Tools.ToolStep.GetHashCode() -> int
+override Filum.Engine.Abstractions.Tools.ToolStep.ToString() -> string!
+static Filum.Engine.Abstractions.Collections.CsvRecord.operator !=(Filum.Engine.Abstractions.Collections.CsvRecord? left, Filum.Engine.Abstractions.Collections.CsvRecord? right) -> bool
+static Filum.Engine.Abstractions.Collections.CsvRecord.operator ==(Filum.Engine.Abstractions.Collections.CsvRecord? left, Filum.Engine.Abstractions.Collections.CsvRecord? right) -> bool
+static Filum.Engine.Abstractions.Collections.CsvTable.operator !=(Filum.Engine.Abstractions.Collections.CsvTable? left, Filum.Engine.Abstractions.Collections.CsvTable? right) -> bool
+static Filum.Engine.Abstractions.Collections.CsvTable.operator ==(Filum.Engine.Abstractions.Collections.CsvTable? left, Filum.Engine.Abstractions.Collections.CsvTable? right) -> bool
+static Filum.Engine.Abstractions.Events.EventQuery.operator !=(Filum.Engine.Abstractions.Events.EventQuery? left, Filum.Engine.Abstractions.Events.EventQuery? right) -> bool
+static Filum.Engine.Abstractions.Events.EventQuery.operator ==(Filum.Engine.Abstractions.Events.EventQuery? left, Filum.Engine.Abstractions.Events.EventQuery? right) -> bool
+static Filum.Engine.Abstractions.Events.MemoryEvent.operator !=(Filum.Engine.Abstractions.Events.MemoryEvent? left, Filum.Engine.Abstractions.Events.MemoryEvent? right) -> bool
+static Filum.Engine.Abstractions.Events.MemoryEvent.operator ==(Filum.Engine.Abstractions.Events.MemoryEvent? left, Filum.Engine.Abstractions.Events.MemoryEvent? right) -> bool
+static Filum.Engine.Abstractions.Events.MemoryEventHit.operator !=(Filum.Engine.Abstractions.Events.MemoryEventHit? left, Filum.Engine.Abstractions.Events.MemoryEventHit? right) -> bool
+static Filum.Engine.Abstractions.Events.MemoryEventHit.operator ==(Filum.Engine.Abstractions.Events.MemoryEventHit? left, Filum.Engine.Abstractions.Events.MemoryEventHit? right) -> bool
+static Filum.Engine.Abstractions.Events.MemoryEvents.From(long id, Filum.Engine.Abstractions.Events.NewMemoryEvent! next, System.DateTimeOffset now) -> Filum.Engine.Abstractions.Events.MemoryEvent!
+static Filum.Engine.Abstractions.Events.NewMemoryEvent.operator !=(Filum.Engine.Abstractions.Events.NewMemoryEvent? left, Filum.Engine.Abstractions.Events.NewMemoryEvent? right) -> bool
+static Filum.Engine.Abstractions.Events.NewMemoryEvent.operator ==(Filum.Engine.Abstractions.Events.NewMemoryEvent? left, Filum.Engine.Abstractions.Events.NewMemoryEvent? right) -> bool
+static Filum.Engine.Abstractions.Facts.Fact.operator !=(Filum.Engine.Abstractions.Facts.Fact? left, Filum.Engine.Abstractions.Facts.Fact? right) -> bool
+static Filum.Engine.Abstractions.Facts.Fact.operator ==(Filum.Engine.Abstractions.Facts.Fact? left, Filum.Engine.Abstractions.Facts.Fact? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportItem.operator !=(Filum.Engine.Abstractions.Imports.ImportItem? left, Filum.Engine.Abstractions.Imports.ImportItem? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportItem.operator ==(Filum.Engine.Abstractions.Imports.ImportItem? left, Filum.Engine.Abstractions.Imports.ImportItem? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportParse.operator !=(Filum.Engine.Abstractions.Imports.ImportParse? left, Filum.Engine.Abstractions.Imports.ImportParse? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportParse.operator ==(Filum.Engine.Abstractions.Imports.ImportParse? left, Filum.Engine.Abstractions.Imports.ImportParse? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportRequest.operator !=(Filum.Engine.Abstractions.Imports.ImportRequest? left, Filum.Engine.Abstractions.Imports.ImportRequest? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportRequest.operator ==(Filum.Engine.Abstractions.Imports.ImportRequest? left, Filum.Engine.Abstractions.Imports.ImportRequest? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportResult.operator !=(Filum.Engine.Abstractions.Imports.ImportResult? left, Filum.Engine.Abstractions.Imports.ImportResult? right) -> bool
+static Filum.Engine.Abstractions.Imports.ImportResult.operator ==(Filum.Engine.Abstractions.Imports.ImportResult? left, Filum.Engine.Abstractions.Imports.ImportResult? right) -> bool
+static Filum.Engine.Abstractions.Imports.RecordedItems.operator !=(Filum.Engine.Abstractions.Imports.RecordedItems? left, Filum.Engine.Abstractions.Imports.RecordedItems? right) -> bool
+static Filum.Engine.Abstractions.Imports.RecordedItems.operator ==(Filum.Engine.Abstractions.Imports.RecordedItems? left, Filum.Engine.Abstractions.Imports.RecordedItems? right) -> bool
+static Filum.Engine.Abstractions.Memory.ForgetResult.operator !=(Filum.Engine.Abstractions.Memory.ForgetResult? left, Filum.Engine.Abstractions.Memory.ForgetResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.ForgetResult.operator ==(Filum.Engine.Abstractions.Memory.ForgetResult? left, Filum.Engine.Abstractions.Memory.ForgetResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.LineChange.operator !=(Filum.Engine.Abstractions.Memory.LineChange? left, Filum.Engine.Abstractions.Memory.LineChange? right) -> bool
+static Filum.Engine.Abstractions.Memory.LineChange.operator ==(Filum.Engine.Abstractions.Memory.LineChange? left, Filum.Engine.Abstractions.Memory.LineChange? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryActor.Agent(System.Guid conversationId, System.Guid messageId) -> Filum.Engine.Abstractions.Memory.MemoryActor!
+static Filum.Engine.Abstractions.Memory.MemoryActor.Consolidation.get -> Filum.Engine.Abstractions.Memory.MemoryActor!
+static Filum.Engine.Abstractions.Memory.MemoryActor.operator !=(Filum.Engine.Abstractions.Memory.MemoryActor? left, Filum.Engine.Abstractions.Memory.MemoryActor? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryActor.operator ==(Filum.Engine.Abstractions.Memory.MemoryActor? left, Filum.Engine.Abstractions.Memory.MemoryActor? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryActor.Person.get -> Filum.Engine.Abstractions.Memory.MemoryActor!
+static Filum.Engine.Abstractions.Memory.MemoryActor.Platform.get -> Filum.Engine.Abstractions.Memory.MemoryActor!
+static Filum.Engine.Abstractions.Memory.MemoryChange.operator !=(Filum.Engine.Abstractions.Memory.MemoryChange? left, Filum.Engine.Abstractions.Memory.MemoryChange? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryChange.operator ==(Filum.Engine.Abstractions.Memory.MemoryChange? left, Filum.Engine.Abstractions.Memory.MemoryChange? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryFileContent.operator !=(Filum.Engine.Abstractions.Memory.MemoryFileContent? left, Filum.Engine.Abstractions.Memory.MemoryFileContent? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryFileContent.operator ==(Filum.Engine.Abstractions.Memory.MemoryFileContent? left, Filum.Engine.Abstractions.Memory.MemoryFileContent? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryFileInfo.operator !=(Filum.Engine.Abstractions.Memory.MemoryFileInfo? left, Filum.Engine.Abstractions.Memory.MemoryFileInfo? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryFileInfo.operator ==(Filum.Engine.Abstractions.Memory.MemoryFileInfo? left, Filum.Engine.Abstractions.Memory.MemoryFileInfo? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryOrigin.operator !=(Filum.Engine.Abstractions.Memory.MemoryOrigin? left, Filum.Engine.Abstractions.Memory.MemoryOrigin? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryOrigin.operator ==(Filum.Engine.Abstractions.Memory.MemoryOrigin? left, Filum.Engine.Abstractions.Memory.MemoryOrigin? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Missing(string! reason) -> Filum.Engine.Abstractions.Memory.MemoryOutcome<T!>!
+static Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Ok(T! value) -> Filum.Engine.Abstractions.Memory.MemoryOutcome<T!>!
+static Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Refused(string! reason) -> Filum.Engine.Abstractions.Memory.MemoryOutcome<T!>!
+static Filum.Engine.Abstractions.Memory.MemoryReadResult.operator !=(Filum.Engine.Abstractions.Memory.MemoryReadResult? left, Filum.Engine.Abstractions.Memory.MemoryReadResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryReadResult.operator ==(Filum.Engine.Abstractions.Memory.MemoryReadResult? left, Filum.Engine.Abstractions.Memory.MemoryReadResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.operator !=(Filum.Engine.Abstractions.Memory.MemoryRevisionInfo? left, Filum.Engine.Abstractions.Memory.MemoryRevisionInfo? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryRevisionInfo.operator ==(Filum.Engine.Abstractions.Memory.MemoryRevisionInfo? left, Filum.Engine.Abstractions.Memory.MemoryRevisionInfo? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemorySearchHit.operator !=(Filum.Engine.Abstractions.Memory.MemorySearchHit? left, Filum.Engine.Abstractions.Memory.MemorySearchHit? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemorySearchHit.operator ==(Filum.Engine.Abstractions.Memory.MemorySearchHit? left, Filum.Engine.Abstractions.Memory.MemorySearchHit? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemorySearchResult.operator !=(Filum.Engine.Abstractions.Memory.MemorySearchResult? left, Filum.Engine.Abstractions.Memory.MemorySearchResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemorySearchResult.operator ==(Filum.Engine.Abstractions.Memory.MemorySearchResult? left, Filum.Engine.Abstractions.Memory.MemorySearchResult? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryVersion.operator !=(Filum.Engine.Abstractions.Memory.MemoryVersion? left, Filum.Engine.Abstractions.Memory.MemoryVersion? right) -> bool
+static Filum.Engine.Abstractions.Memory.MemoryVersion.operator ==(Filum.Engine.Abstractions.Memory.MemoryVersion? left, Filum.Engine.Abstractions.Memory.MemoryVersion? right) -> bool
+static Filum.Engine.Abstractions.Skills.Skill.operator !=(Filum.Engine.Abstractions.Skills.Skill? left, Filum.Engine.Abstractions.Skills.Skill? right) -> bool
+static Filum.Engine.Abstractions.Skills.Skill.operator ==(Filum.Engine.Abstractions.Skills.Skill? left, Filum.Engine.Abstractions.Skills.Skill? right) -> bool
+static Filum.Engine.Abstractions.Skills.SkillFile.operator !=(Filum.Engine.Abstractions.Skills.SkillFile? left, Filum.Engine.Abstractions.Skills.SkillFile? right) -> bool
+static Filum.Engine.Abstractions.Skills.SkillFile.operator ==(Filum.Engine.Abstractions.Skills.SkillFile? left, Filum.Engine.Abstractions.Skills.SkillFile? right) -> bool
+static Filum.Engine.Abstractions.Skills.SkillProposal.operator !=(Filum.Engine.Abstractions.Skills.SkillProposal? left, Filum.Engine.Abstractions.Skills.SkillProposal? right) -> bool
+static Filum.Engine.Abstractions.Skills.SkillProposal.operator ==(Filum.Engine.Abstractions.Skills.SkillProposal? left, Filum.Engine.Abstractions.Skills.SkillProposal? right) -> bool
+static Filum.Engine.Abstractions.Storage.FileState.operator !=(Filum.Engine.Abstractions.Storage.FileState? left, Filum.Engine.Abstractions.Storage.FileState? right) -> bool
+static Filum.Engine.Abstractions.Storage.FileState.operator ==(Filum.Engine.Abstractions.Storage.FileState? left, Filum.Engine.Abstractions.Storage.FileState? right) -> bool
+static Filum.Engine.Abstractions.Storage.SavedChange.operator !=(Filum.Engine.Abstractions.Storage.SavedChange? left, Filum.Engine.Abstractions.Storage.SavedChange? right) -> bool
+static Filum.Engine.Abstractions.Storage.SavedChange.operator ==(Filum.Engine.Abstractions.Storage.SavedChange? left, Filum.Engine.Abstractions.Storage.SavedChange? right) -> bool
+static Filum.Engine.Abstractions.Storage.StoredFile.operator !=(Filum.Engine.Abstractions.Storage.StoredFile? left, Filum.Engine.Abstractions.Storage.StoredFile? right) -> bool
+static Filum.Engine.Abstractions.Storage.StoredFile.operator ==(Filum.Engine.Abstractions.Storage.StoredFile? left, Filum.Engine.Abstractions.Storage.StoredFile? right) -> bool
+static Filum.Engine.Abstractions.Storage.StoredRevision.operator !=(Filum.Engine.Abstractions.Storage.StoredRevision? left, Filum.Engine.Abstractions.Storage.StoredRevision? right) -> bool
+static Filum.Engine.Abstractions.Storage.StoredRevision.operator ==(Filum.Engine.Abstractions.Storage.StoredRevision? left, Filum.Engine.Abstractions.Storage.StoredRevision? right) -> bool
+static Filum.Engine.Abstractions.Tools.ToolStep.operator !=(Filum.Engine.Abstractions.Tools.ToolStep? left, Filum.Engine.Abstractions.Tools.ToolStep? right) -> bool
+static Filum.Engine.Abstractions.Tools.ToolStep.operator ==(Filum.Engine.Abstractions.Tools.ToolStep? left, Filum.Engine.Abstractions.Tools.ToolStep? right) -> bool
+static readonly Filum.Engine.Abstractions.Constants.ImportFormat.All -> System.Collections.Generic.IReadOnlyList<string!>!
+static readonly Filum.Engine.Abstractions.Constants.MemorySensitivity.All -> System.Collections.Generic.IReadOnlyList<string!>!
+static readonly Filum.Engine.Abstractions.Events.MemoryEventKind.Spoken -> System.Collections.Generic.IReadOnlyList<string!>!
+~Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.<Clone>$() -> Filum.Engine.Abstractions.Memory.MemoryOutcome<T>!
+~Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.Equals(Filum.Engine.Abstractions.Memory.MemoryOutcome<T>? other) -> bool
+~static Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.operator !=(Filum.Engine.Abstractions.Memory.MemoryOutcome<T>? left, Filum.Engine.Abstractions.Memory.MemoryOutcome<T>? right) -> bool
+~static Filum.Engine.Abstractions.Memory.MemoryOutcome<T>.operator ==(Filum.Engine.Abstractions.Memory.MemoryOutcome<T>? left, Filum.Engine.Abstractions.Memory.MemoryOutcome<T>? right) -> bool

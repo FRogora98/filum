@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Contract tests every store of the engine must pass, and the builders the engine's tests share (Builders/); run by
+       Filum.Engine.UnitTests (in memory) and Filum.Engine.IntegrationTests (on a local folder)
+       and by the tests of any other store. Not a test project itself. -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Engine\Filum.Engine.csproj" />
+    <ProjectReference Include="..\..\src\Filum.Engine.Storage.InMemory\Filum.Engine.Storage.InMemory.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

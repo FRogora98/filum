@@ -1,0 +1,92 @@
+{
+  "about": "A second synthetic person, held out (spec 050): told over ten sessions with a realistic density of messages, then a fresh session with no hints. Frozen on 2026-10-19 before any answer on it was seen. Nothing here is a real person.",
+  "sessions": [
+    {"date": "2026-02-02", "messages": [
+      "Hello! Quick intro since you'll be helping me a lot: I'm Noor, 34, I teach chemistry at a secondary school in Utrecht.",
+      "I live with my partner Tomás, he's a sound engineer.",
+      "We have two cats, Miso and Ravioli.",
+      "Can you suggest a name for a chemistry club? Something fun for 15-year-olds."
+    ]},
+    {"date": "2026-02-09", "messages": [
+      "I'm learning Japanese, I have lessons on Wednesday evenings.",
+      "My goal is to pass the JLPT N4 exam in July.",
+      "What's a good way to memorise kanji?",
+      "Thanks, I'll try spaced repetition."
+    ]},
+    {"date": "2026-02-16", "messages": [
+      "One thing for the future: please always give me measurements in metric units, never cups or ounces.",
+      "Also, I'm allergic to peanuts, it's serious.",
+      "Can you give me a recipe for a quick weeknight curry?",
+      "Looks good, thanks."
+    ]},
+    {"date": "2026-02-23", "messages": [
+      "I told my colleague Pieter I would review his lab safety slides before March 6.",
+      "He's the head of the science department.",
+      "Can you remind me what the usual sections of a lab safety briefing are?",
+      "Great, that helps."
+    ]},
+    {"date": "2026-03-02", "messages": [
+      "Small correction: Tomás is a lighting engineer, not a sound engineer. I mixed it up because his old job was sound.",
+      "We're thinking about adopting a third cat but nothing decided.",
+      "What should we consider before adding a third cat?"
+    ]},
+    {"date": "2026-03-09", "messages": [
+      "I sent Pieter my comments on the slides yesterday, so that's done.",
+      "My mother's birthday is on March 28, I want to get her a pottery class.",
+      "Do you know what usually makes a good beginner pottery class?",
+      "Ok, I'll look for one near Amersfoort, that's where she lives."
+    ]},
+    {"date": "2026-03-23", "messages": [
+      "News: I accepted a job offer! From August I'll teach at an international school in Rotterdam.",
+      "We'll move to Rotterdam in July, right after my JLPT exam.",
+      "Tomás can keep his job, he works mostly remotely.",
+      "Can you help me write a polite resignation email to my current principal, Mrs. de Vries?"
+    ]},
+    {"date": "2026-04-06", "messages": [
+      "From now on, please answer me in English even if I write in Dutch: I want to keep practising for the new school.",
+      "Ravioli had a tooth pulled at the vet last week, he's fine now.",
+      "Booked the pottery class for my mum, she's excited.",
+      "What's a good gift card message for her?"
+    ]},
+    {"date": "2026-04-20", "messages": [
+      "I promised Tomás I'd find a moving company by the end of May.",
+      "Also I need to register at the Rotterdam municipality after the move.",
+      "My JLPT exam is on July 5.",
+      "Any tips for the last months of exam preparation?"
+    ]},
+    {"date": "2026-05-04", "messages": [
+      "We decided not to adopt a third cat after all, two is enough with the move.",
+      "I switched my Japanese lessons to Thursday evenings because of a staff meeting.",
+      "What's a good stretching routine for someone who sits a lot?",
+      "Thanks!"
+    ]}
+  ],
+  "probe_date": "2026-05-11",
+  "questions": [
+    {"id": "name", "kind": "identity", "question": "What's my name?", "expected": "Noor"},
+    {"id": "job", "kind": "identity", "question": "What do I teach?", "expected": "Chemistry (at a secondary school)"},
+    {"id": "new-job", "kind": "current", "question": "Where will I be working from August?", "expected": "At an international school in Rotterdam"},
+    {"id": "city", "kind": "current", "question": "Which city do I live in right now?", "expected": "Utrecht (moving to Rotterdam in July)"},
+    {"id": "partner-job", "kind": "correction", "question": "What does my partner do for work?", "expected": "Tomás is a lighting engineer (not sound: that was corrected)"},
+    {"id": "cats", "kind": "identity", "question": "What are my cats called?", "expected": "Miso and Ravioli"},
+    {"id": "third-cat", "kind": "current", "question": "Are we getting a third cat?", "expected": "No, they decided not to"},
+    {"id": "cat-health", "kind": "current", "question": "How is Ravioli doing?", "expected": "Fine now, after having a tooth pulled at the vet"},
+    {"id": "lessons", "kind": "current", "question": "When are my Japanese lessons?", "expected": "Thursday evenings (moved from Wednesday)"},
+    {"id": "exam", "kind": "identity", "question": "Which exam am I preparing and when is it?", "expected": "JLPT N4, on July 5"},
+    {"id": "allergy", "kind": "preference", "question": "Suggest a snack I can bring to a staff meeting.", "expected": "Anything without peanuts (serious peanut allergy)"},
+    {"id": "mother-city", "kind": "identity", "question": "Where does my mother live?", "expected": "Amersfoort"},
+    {"id": "mother-gift", "kind": "current", "question": "What did I get my mother for her birthday?", "expected": "A pottery class"},
+    {"id": "promise-movers", "kind": "open-item", "question": "Did I promise anyone anything I haven't done yet?", "expected": "To find a moving company for Tomás by the end of May"},
+    {"id": "promise-slides", "kind": "open-item", "question": "Do I still need to review Pieter's slides?", "expected": "No, the comments were sent: it is done"},
+    {"id": "to-do-move", "kind": "open-item", "question": "What do I need to do after the move?", "expected": "Register at the Rotterdam municipality"},
+    {"id": "past-lessons", "kind": "temporal", "question": "Which evening did I have Japanese lessons in February?", "expected": "Wednesday"},
+    {"id": "abstain-car", "kind": "abstention", "question": "What colour is my car?", "expected": "Not known: it was never said"},
+    {"id": "abstain-sibling", "kind": "abstention", "question": "What's my brother's name?", "expected": "Not known: it was never said"},
+    {"id": "plan-summer", "kind": "synthesis", "question": "Help me plan June and July.", "expected": "Takes into account the JLPT exam on July 5, the move to Rotterdam in July, finding movers by end of May, registering at the municipality, and the new job from August"}
+  ],
+  "rule_checks": [
+    {"id": "metric", "prompt": "Give me a recipe for pancakes.", "rule": "Metric measurements only, no cups or ounces, and no peanuts (the person asked for metric on 2026-02-16 and is allergic to peanuts)."},
+    {"id": "english-in-dutch", "prompt": "Kun je me drie tips geven om beter te slapen?", "rule": "The answer is in English, although the request is in Dutch (the person asked for this on 2026-04-06)."},
+    {"id": "metric-2", "prompt": "How much water and flour do I need for a simple bread loaf?", "rule": "Metric measurements only, no cups or ounces (the person asked for this on 2026-02-16)."}
+  ]
+}

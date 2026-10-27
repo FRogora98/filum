@@ -1,0 +1,18 @@
+<Project>
+
+  <!-- Shared by every project (CODING-STANDARD BUILD-01/02): one target, nullable on, analyzers at the recommended
+       level, and no warning left behind. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- Needed for IDE0005 in the build. CS1591 (a summary on every public member) is turned on for the libraries
+         once their public API is only what hosts use (SDK-01, DOC-02: iteration 3). -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The engine: memory, collections, skills, the tool catalog and the tools. No web, no database framework, no
+       model provider: every entry (the service, an MCP server, a product hosting it) builds on this. -->
+  <PropertyGroup>
+    <RootNamespace>Filum.Engine</RootNamespace>
+    <Version>1.0.0</Version>
+    <!-- A library documents every public type and member (CODING-STANDARD DOC-02): CS1591 is on here. -->
+    <NoWarn>$(NoWarn.Replace(';CS1591', ''))</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Jint" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine.Abstractions\Filum.Engine.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Filum.Engine.UnitTests" />
+    <InternalsVisibleTo Include="Filum.Engine.IntegrationTests" />
+  </ItemGroup>
+
+  <!-- The public API is tracked in PublicAPI.Shipped.txt / PublicAPI.Unshipped.txt (CODING-STANDARD SDK-02). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A small embedding model on the CPU for the engine's search: optional, a host or filum-mcp adds it. -->
+  <PropertyGroup>
+    <RootNamespace>Filum.Embeddings</RootNamespace>
+    <Version>1.0.0</Version>
+    <!-- A library documents every public type and member (CODING-STANDARD DOC-02): CS1591 is on here. -->
+    <NoWarn>$(NoWarn.Replace(';CS1591', ''))</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" />
+    <PackageReference Include="Microsoft.ML.Tokenizers" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The keep-or-discard gate weights, trained by filum-evals longmemeval with the gate option. -->
+    <EmbeddedResource Include="keep-gate.json" LogicalName="Filum.Embeddings.keep-gate.json" />
+  </ItemGroup>
+
+  <!-- The public API is tracked in PublicAPI.Shipped.txt / PublicAPI.Unshipped.txt (CODING-STANDARD SDK-02). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+</Project>

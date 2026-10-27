@@ -1,0 +1,833 @@
+[
+  {
+    "name": "memory_overview",
+    "description": "The person's core, the map of every file and their enabled skills, in one call.",
+    "parameters": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "memory_read",
+    "description": "Read a file with line numbers, up to 500 lines; fromLine and toLine page through it.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path, like /notes/plans.md.",
+          "type": "string"
+        },
+        "fromLine": {
+          "description": "First line to read, from 1.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        },
+        "toLine": {
+          "description": "Last line to read.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_search",
+    "description": "Find the lines that contain a text across the files or under a folder, up to 50, and what was said that matches, newest first. Private content only with includePrivate.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "The text to look for.",
+          "type": "string"
+        },
+        "prefix": {
+          "description": "Folder to search under; / for all.",
+          "type": "string",
+          "default": "/"
+        },
+        "includePrivate": {
+          "description": "Include private files.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "events_search",
+    "description": "Search what was said, answered or imported: each match with its date and the reply after it.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "description": "Words to look for.",
+          "type": "string"
+        },
+        "from": {
+          "description": "From the day it was said, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "to": {
+          "description": "To the day it was said, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "includePrivate": {
+          "description": "Include private messages.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "events_read",
+    "description": "Read the whole conversation of an event number from events_search, in order.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "event"
+      ]
+    }
+  },
+  {
+    "name": "fact_record",
+    "description": "Record a value that holds for a time; the previous one of the same subject and attribute is closed on validFrom and kept.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Who or what it is about.",
+          "type": "string"
+        },
+        "attribute": {
+          "description": "What about it, in a word or two.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value it has now.",
+          "type": "string"
+        },
+        "validFrom": {
+          "description": "The day it started, yyyy-MM-dd; today if empty.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "note": {
+          "description": "A short note.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "sources": {
+          "description": "Ids of the events it comes from.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "default": null
+        },
+        "correction": {
+          "description": "True when the current value was wrong.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "subject",
+        "attribute",
+        "value"
+      ]
+    }
+  },
+  {
+    "name": "fact_end",
+    "description": "End a fact that no longer holds, with nothing in its place.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Who or what it is about.",
+          "type": "string"
+        },
+        "attribute": {
+          "description": "What about it.",
+          "type": "string"
+        },
+        "on": {
+          "description": "The day it ended, yyyy-MM-dd; today if empty.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "retract": {
+          "description": "True when it never held.",
+          "type": "boolean",
+          "default": false
+        },
+        "value": {
+          "description": "Which value, when the attribute holds several (rule, open).",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "sources": {
+          "description": "Ids of the events that say it ended.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "default": null
+        }
+      },
+      "required": [
+        "subject",
+        "attribute"
+      ]
+    }
+  },
+  {
+    "name": "facts_current",
+    "description": "The facts that hold now, or on a day, of one subject or all.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Whose; all if empty.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "on": {
+          "description": "A past day, yyyy-MM-dd; now if empty.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      }
+    }
+  },
+  {
+    "name": "facts_history",
+    "description": "Every value the facts of a subject had, oldest first, with their dates.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "description": "Whose facts.",
+          "type": "string"
+        },
+        "attribute": {
+          "description": "Only this attribute.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "subject"
+      ]
+    }
+  },
+  {
+    "name": "proposal_answer",
+    "description": "Record the person's answer to a waiting proposal.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the proposal.",
+          "type": "integer"
+        },
+        "accepted": {
+          "description": "Whether they accepted.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "accepted"
+      ]
+    }
+  },
+  {
+    "name": "memory_write",
+    "description": "Create a document (.md) or replace its whole content.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the document, ending in .md.",
+          "type": "string"
+        },
+        "content": {
+          "description": "The whole content of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    }
+  },
+  {
+    "name": "memory_edit",
+    "description": "Replace one exact occurrence of oldText with newText in a document.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "oldText": {
+          "description": "Exact text to replace, appearing once.",
+          "type": "string"
+        },
+        "newText": {
+          "description": "Its replacement.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "oldText",
+        "newText"
+      ]
+    }
+  },
+  {
+    "name": "memory_append",
+    "description": "Add text at the end of a document, creating it if missing.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text to add.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "text"
+      ]
+    }
+  },
+  {
+    "name": "collection_add_rows",
+    "description": "Add rows to a collection (.csv); a missing one is created with the rows' fields.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Rows, each field → value.",
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "path",
+        "rows"
+      ]
+    }
+  },
+  {
+    "name": "collection_update_rows",
+    "description": "Set fields of every row whose fields equal all of where.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "where": {
+          "description": "Which rows: field → value, all matching.",
+          "type": "object"
+        },
+        "set": {
+          "description": "New values: field → value.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "where",
+        "set"
+      ]
+    }
+  },
+  {
+    "name": "collection_remove_rows",
+    "description": "Remove every row whose fields equal all of where.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "where": {
+          "description": "Which rows: field → value, all matching.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "path",
+        "where"
+      ]
+    }
+  },
+  {
+    "name": "collection_add_field",
+    "description": "Add a field to a collection; existing rows get it empty.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection, ending in .csv.",
+          "type": "string"
+        },
+        "field": {
+          "description": "Name of the new field.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "field"
+      ]
+    }
+  },
+  {
+    "name": "memory_delete",
+    "description": "Delete a file; it stays in the history and can be undone. Not the core.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_move",
+    "description": "Rename or move a file, keeping its history.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "Current path of the file.",
+          "type": "string"
+        },
+        "to": {
+          "description": "New path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ]
+    }
+  },
+  {
+    "name": "memory_set_sensitivity",
+    "description": "Set a file's sensitivity: normal, sensitive or private.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        },
+        "level": {
+          "description": "normal, sensitive or private.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "level"
+      ]
+    }
+  },
+  {
+    "name": "memory_history",
+    "description": "A file's changes, newest first, each with the id memory_undo takes.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the file.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  },
+  {
+    "name": "memory_undo",
+    "description": "Undo one change by its id; refused if the file changed again since.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "description": "The id of the change to undo.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "revisionId"
+      ]
+    }
+  },
+  {
+    "name": "collection_aggregate",
+    "description": "Count, sum, average, min or max of a column, exactly, optionally grouped and filtered.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection (.csv).",
+          "type": "string"
+        },
+        "operation": {
+          "description": "count, sum, average, min or max.",
+          "type": "string"
+        },
+        "column": {
+          "description": "Field to compute on.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "groupBy": {
+          "description": "Field to group by.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "period": {
+          "description": "day, week, month or year of groupBy.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "filterColumn": {
+          "description": "A field to filter on.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "filterValue": {
+          "description": "Value filterColumn must have.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "dateColumn": {
+          "description": "A date field to filter by range.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "from": {
+          "description": "First day included, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "to": {
+          "description": "Last day included, yyyy-MM-dd.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "path",
+        "operation"
+      ]
+    }
+  },
+  {
+    "name": "compute_run",
+    "description": "Run a JavaScript function body on collections, read-only: data[path] is an array of rows; return a value; print() adds output.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "The body of a JavaScript function; it returns the result.",
+          "type": "string"
+        },
+        "collections": {
+          "description": "Collection paths to read, as data[path].",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "default": null
+        },
+        "includePrivate": {
+          "description": "Allow private collections.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "code"
+      ]
+    }
+  },
+  {
+    "name": "collection_trend",
+    "description": "A column over time: a forecast, its error on the past, and what stands out. Estimates.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path of the collection (.csv).",
+          "type": "string"
+        },
+        "dateColumn": {
+          "description": "Date field.",
+          "type": "string"
+        },
+        "column": {
+          "description": "Number field; none counts rows.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "operation": {
+          "description": "sum, count or average.",
+          "type": "string",
+          "default": "sum"
+        },
+        "period": {
+          "description": "day, week, month or year.",
+          "type": "string",
+          "default": "month"
+        },
+        "horizon": {
+          "description": "Periods ahead.",
+          "type": "integer",
+          "default": 3
+        }
+      },
+      "required": [
+        "path",
+        "dateColumn"
+      ]
+    }
+  },
+  {
+    "name": "skill_list",
+    "description": "The person's skills: name, what, when, on or off.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "includePrivate": {
+          "description": "Include private skills.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  },
+  {
+    "name": "skill_use",
+    "description": "The steps of one of the person's enabled skills.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Skill name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  {
+    "name": "skill_save",
+    "description": "Save a skill; replace to change an existing one.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "lowercase-words-joined-by-dashes.",
+          "type": "string"
+        },
+        "description": {
+          "description": "What it does, one line.",
+          "type": "string"
+        },
+        "when": {
+          "description": "When it applies, one line.",
+          "type": "string"
+        },
+        "steps": {
+          "description": "Numbered steps.",
+          "type": "string"
+        },
+        "replace": {
+          "description": "Change the existing skill.",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "when",
+        "steps"
+      ]
+    }
+  },
+  {
+    "name": "skill_propose",
+    "description": "Propose a skill without saving it: the person's app shows it. Save it only when they agree.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "lowercase-words-joined-by-dashes.",
+          "type": "string"
+        },
+        "description": {
+          "description": "What it does, one line.",
+          "type": "string"
+        },
+        "when": {
+          "description": "When it applies, one line.",
+          "type": "string"
+        },
+        "steps": {
+          "description": "Numbered steps.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "when",
+        "steps"
+      ]
+    }
+  },
+  {
+    "name": "skill_set_enabled",
+    "description": "Turn a skill off or back on.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Skill name.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "On or off.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "enabled"
+      ]
+    }
+  }
+]

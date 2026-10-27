@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The eval runner's logic, with no model, no key, no network and no disk: the checks on recorded turns, the runners
+       against a host answered in memory, the estimates, the command line, the benchmark's reader, references and
+       scoring, and the growth test's configuration and agent output. Fakes/ and Builders/ are shared with
+       Filum.Evals.IntegrationTests. -->
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Filum.Evals\Filum.Evals.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="Filum.Engine" />
+    <Using Include="Filum.Engine.Collections" />
+    <Using Include="Filum.Engine.Memory" />
+    <Using Include="Filum.Engine.Skills" />
+    <Using Include="Filum.Engine.Storage.InMemory" />
+    <Using Include="Filum.Engine.Storage.LocalFolder" />
+    <Using Include="Filum.Engine.Abstractions.Collections" />
+    <Using Include="Filum.Engine.Abstractions.Constants" />
+    <Using Include="Filum.Engine.Abstractions.Events" />
+    <Using Include="Filum.Engine.Abstractions.Facts" />
+    <Using Include="Filum.Engine.Abstractions.Imports" />
+    <Using Include="Filum.Engine.Abstractions.Memory" />
+    <Using Include="Filum.Engine.Abstractions.Options" />
+    <Using Include="Filum.Engine.Abstractions.Search" />
+    <Using Include="Filum.Engine.Abstractions.Skills" />
+    <Using Include="Filum.Engine.Abstractions.Storage" />
+    <Using Include="Filum.Engine.Abstractions.Tools" />
+    <Using Include="Filum.Evals" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,64 @@
+{
+  "about": "A synthetic person told over eight sessions, then a fresh session with no hints (spec 050). Frozen on 2026-10-19 before specs 046-049 were built. Nothing here is a real person.",
+  "sessions": [
+    {"date": "2026-03-02", "messages": [
+      "Hi! I'm Sam, I work as a nurse in the cardiology ward of a hospital in Lyon.",
+      "I live with my dog, a beagle called Pixel. My sister Ana lives in Porto."
+    ]},
+    {"date": "2026-03-09", "messages": [
+      "I'm training for a half marathon in May, my first one.",
+      "I run on Tuesday and Thursday mornings before my shift, and a long run on Sundays."
+    ]},
+    {"date": "2026-03-16", "messages": [
+      "Correction about something I told you: my sister Ana lives in Braga, not Porto. I got it wrong.",
+      "And from now on please keep your answers short, in bullet points: I read them on my phone during breaks."
+    ]},
+    {"date": "2026-03-23", "messages": [
+      "I've been vegetarian since January, so no meat or fish in any suggestion.",
+      "Also I really can't stand cilantro."
+    ]},
+    {"date": "2026-04-06", "messages": [
+      "Big news: we moved from Lyon to Grenoble last week. Pixel loves the mountains.",
+      "At the new hospital I switched to night shifts, three nights a week."
+    ]},
+    {"date": "2026-04-13", "messages": [
+      "I promised Ana I would send her the photos from our cousin's wedding by Friday.",
+      "My passport expires in June, I need to renew it before the summer trip to Braga."
+    ]},
+    {"date": "2026-04-27", "messages": [
+      "Pixel had surgery on his back leg on Monday. The vet says he must rest for six weeks, short walks only."
+    ]},
+    {"date": "2026-05-11", "messages": [
+      "The half marathon was moved to June 14 because of the floods.",
+      "Good news: I picked up the new passport yesterday, that's done."
+    ]}
+  ],
+  "probe_date": "2026-05-18",
+  "questions": [
+    {"id": "name", "kind": "identity", "question": "What's my name?", "expected": "Sam"},
+    {"id": "job", "kind": "identity", "question": "What do I do for work?", "expected": "A nurse, in a cardiology ward"},
+    {"id": "city", "kind": "current", "question": "Which city do I live in?", "expected": "Grenoble (moved from Lyon at the start of April 2026)"},
+    {"id": "past-city", "kind": "temporal", "question": "Where did I live in February?", "expected": "Lyon"},
+    {"id": "sister-city", "kind": "correction", "question": "Where does my sister live?", "expected": "Braga (not Porto: that was corrected)"},
+    {"id": "sister-name", "kind": "identity", "question": "What's my sister's name?", "expected": "Ana"},
+    {"id": "dog", "kind": "identity", "question": "What's my dog called and what breed is he?", "expected": "Pixel, a beagle"},
+    {"id": "dog-health", "kind": "current", "question": "How is my dog doing these days?", "expected": "Recovering from surgery on his back leg; resting for six weeks, short walks only"},
+    {"id": "diet", "kind": "preference", "question": "Can you suggest a dinner for me tonight?", "expected": "A vegetarian dinner (no meat or fish) without cilantro"},
+    {"id": "dislike", "kind": "preference", "question": "Is there an ingredient I don't like?", "expected": "Cilantro"},
+    {"id": "race-date", "kind": "current", "question": "When is my half marathon?", "expected": "June 14 (moved from May)"},
+    {"id": "run-days", "kind": "identity", "question": "Which days do I usually run?", "expected": "Tuesday and Thursday mornings, plus a long run on Sundays"},
+    {"id": "shifts", "kind": "current", "question": "What shifts do I work now?", "expected": "Night shifts, three nights a week"},
+    {"id": "promise", "kind": "open-item", "question": "Did I promise anyone anything recently?", "expected": "To send Ana the photos from the cousin's wedding"},
+    {"id": "passport", "kind": "open-item", "question": "Do I still need to renew my passport?", "expected": "No, it is done: the new passport was picked up"},
+    {"id": "trip", "kind": "current", "question": "Where am I going this summer?", "expected": "To Braga (to see Ana)"},
+    {"id": "first-race", "kind": "identity", "question": "Have I ever run a half marathon before?", "expected": "No, this is the first one"},
+    {"id": "abstain-movie", "kind": "abstention", "question": "What's my favourite movie?", "expected": "Not known: it was never said"},
+    {"id": "abstain-car", "kind": "abstention", "question": "What car do I drive?", "expected": "Not known: it was never said"},
+    {"id": "plan-week", "kind": "synthesis", "question": "Help me plan my week.", "expected": "Takes into account night shifts, running Tuesday/Thursday and Sunday, training for June 14, Pixel's rest (short walks), and the photos promised to Ana"}
+  ],
+  "rule_checks": [
+    {"id": "short-bullets", "prompt": "What should I pack for the trip this summer?", "rule": "The answer is short and in bullet points (the person asked for this on 2026-03-16)."},
+    {"id": "short-bullets-2", "prompt": "Explain how I should taper before the race.", "rule": "The answer is short and in bullet points (the person asked for this on 2026-03-16)."},
+    {"id": "no-meat", "prompt": "Give me three quick lunch ideas for my night shift.", "rule": "No meat or fish and no cilantro (vegetarian since January; cilantro disliked)."}
+  ]
+}

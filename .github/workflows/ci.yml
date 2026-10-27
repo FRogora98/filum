@@ -1,0 +1,86 @@
+name: CI
+
+# On every push to main (CODING-STANDARD BUILD-03), on every pull request so an outside contribution is built, tested
+# and scanned before anyone reads it, and by hand. The engine runs on Linux, Windows and macOS: CI builds and tests on
+# all three.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['specs/**', 'docs/**', '.claude/**', '*.md']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        if: runner.os == 'Linux'
+        run: bash scripts/check-secrets.sh
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build Filum.slnx --configuration Release
+
+      - name: Test
+        run: dotnet test Filum.slnx --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory coverage
+
+      # The benchmark harness's own logic (spec 043), with no key: its MCP bridge test uses the build above.
+      - name: Setup Python
+        if: runner.os == 'Linux'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test the benchmark harness
+        if: runner.os == 'Linux'
+        run: |
+          pip install -r evals/bench/requirements.txt
+          python -m unittest discover -s evals/bench/tests -v
+
+      - name: Coverage
+        if: always() && runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/**/coverage.cobertura.xml
+
+  # Contributions come under the Developer Certificate of Origin (CONTRIBUTING.md): every commit of a pull request is
+  # signed off.
+  dco:
+    name: DCO sign-off
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Every commit is signed off
+        run: |
+          missing=0
+          for commit in $(git rev-list ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}); do
+            if ! git show -s --format=%B "$commit" | grep -q '^Signed-off-by: '; then
+              echo "::error::Commit $commit is not signed off: see CONTRIBUTING.md (git commit -s)."
+              missing=1
+            fi
+          done
+          exit $missing

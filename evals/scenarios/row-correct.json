@@ -1,0 +1,42 @@
+{
+  "id": "row-correct",
+  "language": "en",
+  "description": "A value in a row is corrected in place.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Keep a list of my plants and how often I water them: basil every 2 days, fern every 7 days.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "plant"
+          ],
+          "count": 2
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Correction: the fern needs water every 5 days.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "plant"
+          ],
+          "count": 2,
+          "contain": [
+            "5"
+          ]
+        }
+      ]
+    }
+  ]
+}

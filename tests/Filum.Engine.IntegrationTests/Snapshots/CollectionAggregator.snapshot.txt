@@ -1,0 +1,289 @@
+## AggregateRequest { Operation = count, Column = , GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count null used=12 skipped=0
+null = 12 rows=12
+## AggregateRequest { Operation = count, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count amount used=11 skipped=1
+ = 1 rows=1
+Food = 6 rows=6
+Home = 2 rows=2
+Travel = 2 rows=2
+## AggregateRequest { Operation = count, Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count amount used=10 skipped=2
+2024-12-30 = 1 rows=1
+2024-12-31 = 1 rows=1
+2025-01-01 = 2 rows=2
+2025-01-06 = 1 rows=1
+2025-02-01 = 1 rows=1
+2025-02-28 = 1 rows=1
+2025-03-15 = 1 rows=1
+2025-03-16 = 1 rows=1
+2026-01-01 = 1 rows=1
+## AggregateRequest { Operation = count, Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count amount used=10 skipped=2
+2025-W01 = 4 rows=4
+2025-W02 = 1 rows=1
+2025-W05 = 1 rows=1
+2025-W09 = 1 rows=1
+2025-W11 = 2 rows=2
+2026-W01 = 1 rows=1
+## AggregateRequest { Operation = count, Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count amount used=10 skipped=2
+2024-12 = 2 rows=2
+2025-01 = 3 rows=3
+2025-02 = 2 rows=2
+2025-03 = 2 rows=2
+2026-01 = 1 rows=1
+## AggregateRequest { Operation = count, Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count amount used=10 skipped=2
+2024 = 2 rows=2
+2025 = 7 rows=7
+2026 = 1 rows=1
+## AggregateRequest { Operation = count, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+count amount used=6 skipped=1
+null = 6 rows=6
+## AggregateRequest { Operation = count, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+count amount used=5 skipped=2
+Food = 1 rows=1
+Home = 2 rows=2
+Travel = 2 rows=2
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=9 skipped=3
+null = 1000105.9583343 rows=9
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=9 skipped=3
+ = 7 rows=1
+Food = 18.750 rows=4
+Home = 1000000.3333343 rows=2
+Travel = 79.875 rows=2
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024-12-30 = 10.50 rows=1
+2024-12-31 = 4.25 rows=1
+2025-01-01 = 79.875 rows=2
+2025-02-01 = 1000000.000001 rows=1
+2025-02-28 = 0.3333333 rows=1
+2025-03-15 = 7 rows=1
+2025-03-16 = 1.000 rows=1
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2025-W01 = 94.625 rows=4
+2025-W05 = 1000000.000001 rows=1
+2025-W09 = 0.3333333 rows=1
+2025-W11 = 8.000 rows=2
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024-12 = 14.75 rows=2
+2025-01 = 79.875 rows=2
+2025-02 = 1000000.3333343 rows=2
+2025-03 = 8.000 rows=2
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024 = 14.75 rows=2
+2025 = 1000088.2083343 rows=6
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+sum amount used=4 skipped=3
+null = 18.750 rows=4
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+sum amount used=4 skipped=3
+Home = 1000000.3333343 rows=2
+Travel = 79.875 rows=2
+## AggregateRequest { Operation = average, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=9 skipped=3
+null = 111122.884259 rows=9
+## AggregateRequest { Operation = average, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=9 skipped=3
+ = 7 rows=1
+Food = 4.6875 rows=4
+Home = 500000.166667 rows=2
+Travel = 39.9375 rows=2
+## AggregateRequest { Operation = average, Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=8 skipped=4
+2024-12-30 = 10.50 rows=1
+2024-12-31 = 4.25 rows=1
+2025-01-01 = 39.9375 rows=2
+2025-02-01 = 1000000.000001 rows=1
+2025-02-28 = 0.333333 rows=1
+2025-03-15 = 7 rows=1
+2025-03-16 = 1.000 rows=1
+## AggregateRequest { Operation = average, Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=8 skipped=4
+2025-W01 = 23.65625 rows=4
+2025-W05 = 1000000.000001 rows=1
+2025-W09 = 0.333333 rows=1
+2025-W11 = 4.000 rows=2
+## AggregateRequest { Operation = average, Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=8 skipped=4
+2024-12 = 7.375 rows=2
+2025-01 = 39.9375 rows=2
+2025-02 = 500000.166667 rows=2
+2025-03 = 4.000 rows=2
+## AggregateRequest { Operation = average, Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+average amount used=8 skipped=4
+2024 = 7.375 rows=2
+2025 = 166681.368056 rows=6
+## AggregateRequest { Operation = average, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+average amount used=4 skipped=3
+null = 4.6875 rows=4
+## AggregateRequest { Operation = average, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+average amount used=4 skipped=3
+Home = 500000.166667 rows=2
+Travel = 39.9375 rows=2
+## AggregateRequest { Operation = min, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=9 skipped=3
+null = -20.125 rows=9
+## AggregateRequest { Operation = min, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=9 skipped=3
+ = 7 rows=1
+Food = 1.000 rows=4
+Home = 0.3333333 rows=2
+Travel = -20.125 rows=2
+## AggregateRequest { Operation = min, Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=8 skipped=4
+2024-12-30 = 10.50 rows=1
+2024-12-31 = 4.25 rows=1
+2025-01-01 = -20.125 rows=2
+2025-02-01 = 1000000.000001 rows=1
+2025-02-28 = 0.3333333 rows=1
+2025-03-15 = 7 rows=1
+2025-03-16 = 1.000 rows=1
+## AggregateRequest { Operation = min, Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=8 skipped=4
+2025-W01 = -20.125 rows=4
+2025-W05 = 1000000.000001 rows=1
+2025-W09 = 0.3333333 rows=1
+2025-W11 = 1.000 rows=2
+## AggregateRequest { Operation = min, Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=8 skipped=4
+2024-12 = 4.25 rows=2
+2025-01 = -20.125 rows=2
+2025-02 = 0.3333333 rows=2
+2025-03 = 1.000 rows=2
+## AggregateRequest { Operation = min, Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+min amount used=8 skipped=4
+2024 = 4.25 rows=2
+2025 = -20.125 rows=6
+## AggregateRequest { Operation = min, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+min amount used=4 skipped=3
+null = 1.000 rows=4
+## AggregateRequest { Operation = min, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+min amount used=4 skipped=3
+Home = 0.3333333 rows=2
+Travel = -20.125 rows=2
+## AggregateRequest { Operation = max, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=9 skipped=3
+null = 1000000.000001 rows=9
+## AggregateRequest { Operation = max, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=9 skipped=3
+ = 7 rows=1
+Food = 10.50 rows=4
+Home = 1000000.000001 rows=2
+Travel = 100 rows=2
+## AggregateRequest { Operation = max, Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=8 skipped=4
+2024-12-30 = 10.50 rows=1
+2024-12-31 = 4.25 rows=1
+2025-01-01 = 100 rows=2
+2025-02-01 = 1000000.000001 rows=1
+2025-02-28 = 0.3333333 rows=1
+2025-03-15 = 7 rows=1
+2025-03-16 = 1.000 rows=1
+## AggregateRequest { Operation = max, Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=8 skipped=4
+2025-W01 = 100 rows=4
+2025-W05 = 1000000.000001 rows=1
+2025-W09 = 0.3333333 rows=1
+2025-W11 = 7 rows=2
+## AggregateRequest { Operation = max, Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=8 skipped=4
+2024-12 = 10.50 rows=2
+2025-01 = 100 rows=2
+2025-02 = 1000000.000001 rows=2
+2025-03 = 7 rows=2
+## AggregateRequest { Operation = max, Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+max amount used=8 skipped=4
+2024 = 10.50 rows=2
+2025 = 1000000.000001 rows=6
+## AggregateRequest { Operation = max, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+max amount used=4 skipped=3
+null = 10.50 rows=4
+## AggregateRequest { Operation = max, Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+max amount used=4 skipped=3
+Home = 1000000.000001 rows=2
+Travel = 100 rows=2
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=9 skipped=3
+null = 1000105.9583343 rows=9
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=9 skipped=3
+ = 7 rows=1
+Food = 18.750 rows=4
+Home = 1000000.3333343 rows=2
+Travel = 79.875 rows=2
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = date, Period = day, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024-12-30 = 10.50 rows=1
+2024-12-31 = 4.25 rows=1
+2025-01-01 = 79.875 rows=2
+2025-02-01 = 1000000.000001 rows=1
+2025-02-28 = 0.3333333 rows=1
+2025-03-15 = 7 rows=1
+2025-03-16 = 1.000 rows=1
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = date, Period = week, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2025-W01 = 94.625 rows=4
+2025-W05 = 1000000.000001 rows=1
+2025-W09 = 0.3333333 rows=1
+2025-W11 = 8.000 rows=2
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = date, Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024-12 = 14.75 rows=2
+2025-01 = 79.875 rows=2
+2025-02 = 1000000.3333343 rows=2
+2025-03 = 8.000 rows=2
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = date, Period = year, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+sum amount used=8 skipped=4
+2024 = 14.75 rows=2
+2025 = 1000088.2083343 rows=6
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue =  FOOD , DateColumn = , From = , To =  }
+sum amount used=4 skipped=3
+null = 18.750 rows=4
+## AggregateRequest { Operation =  SUM , Column = amount, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To = 2025-02-28 }
+sum amount used=4 skipped=3
+Home = 1000000.3333343 rows=2
+Travel = 79.875 rows=2
+## AggregateRequest { Operation = count, Column = note, GroupBy = category, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+count note used=11 skipped=1
+ = 1 rows=1
+Food = 6 rows=6
+Home = 2 rows=2
+Travel = 2 rows=2
+## AggregateRequest { Operation = count, Column = , GroupBy = date, Period =  Month , FilterColumn = , FilterValue = , DateColumn = date, From = 2025-01-01, To =  }
+count null used=9 skipped=1
+2025-01 = 4 rows=4
+2025-02 = 2 rows=2
+2025-03 = 2 rows=2
+2026-01 = 1 rows=1
+## AggregateRequest { Operation = , Column = , GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The operation must be count, sum, average, min or max.
+## AggregateRequest { Operation = median, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The operation must be count, sum, average, min or max.
+## AggregateRequest { Operation = sum, Column = , GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The operation sum needs a column.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = month, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: A period needs groupBy: the date column to group by.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = date, Period = quarter, FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The period must be day, week, month or year.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = category, FilterValue = , DateColumn = , From = , To =  }
+refused: filterColumn and filterValue go together.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = x, DateColumn = , From = , To =  }
+refused: filterColumn and filterValue go together.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = 2025-01-01, To =  }
+refused: from and to need dateColumn: the date column to filter on.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = date, From = 01/01/2025, To =  }
+refused: from must be a date written as yyyy-MM-dd, not '01/01/2025'.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = date, From = , To = tomorrow }
+refused: to must be a date written as yyyy-MM-dd, not 'tomorrow'.
+## AggregateRequest { Operation = sum, Column = price, GroupBy = , Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The collection has no field 'price'; its fields are date, category, amount, note.
+## AggregateRequest { Operation = sum, Column = amount, GroupBy = kind, Period = , FilterColumn = , FilterValue = , DateColumn = , From = , To =  }
+refused: The collection has no field 'kind'; its fields are date, category, amount, note.

@@ -1,0 +1,57 @@
+{
+  "id": "rule-withdraw-it",
+  "language": "it",
+  "description": "Una regola ritirata sparisce dal nucleo e non viene più seguita.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "D'ora in poi termina ogni risposta con la parola 'Avanti!'",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "core_contains",
+          "any": [
+            "avanti"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "a",
+      "message": "Non serve più che termini le risposte con 'Avanti!', togli quella regola.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "core_not_contains",
+          "any": [
+            "avanti"
+          ],
+          "rule": true
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "Qual è la capitale della Spagna?",
+      "expect": [
+        {
+          "type": "answer_contains",
+          "any": [
+            "madrid"
+          ]
+        },
+        {
+          "type": "answer_not_contains",
+          "any": [
+            "avanti"
+          ],
+          "rule": true
+        }
+      ]
+    }
+  ]
+}

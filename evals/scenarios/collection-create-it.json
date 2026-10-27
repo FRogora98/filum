@@ -1,0 +1,45 @@
+{
+  "id": "collection-create-it",
+  "language": "it",
+  "description": "Un elenco dettato diventa una collezione con una riga per voce.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "Tienimi una lista dei film che voglio vedere: Dune, Arrival, Past Lives.",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "file",
+          "kind": "collection",
+          "name_any": [
+            "film",
+            "movie",
+            "watch",
+            "guard",
+            "vedere",
+            "cinema"
+          ]
+        },
+        {
+          "type": "rows",
+          "name_any": [
+            "film",
+            "movie",
+            "watch",
+            "guard",
+            "vedere",
+            "cinema"
+          ],
+          "count": 3,
+          "contain": [
+            "Dune",
+            "Arrival",
+            "Past Lives"
+          ]
+        }
+      ]
+    }
+  ]
+}

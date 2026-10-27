@@ -1,0 +1,41 @@
+{
+  "id": "rule-follow",
+  "language": "en",
+  "description": "A lasting instruction is saved and followed in a new chat.",
+  "turns": [
+    {
+      "chat": "a",
+      "message": "From now on, end every answer with the word 'Onward.'",
+      "expect": [
+        {
+          "type": "wrote"
+        },
+        {
+          "type": "core_contains",
+          "any": [
+            "onward"
+          ]
+        }
+      ]
+    },
+    {
+      "chat": "b",
+      "message": "What is the capital of Portugal?",
+      "expect": [
+        {
+          "type": "answer_contains",
+          "any": [
+            "lisbon"
+          ]
+        },
+        {
+          "type": "answer_contains",
+          "any": [
+            "onward"
+          ],
+          "rule": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A person's memory in a folder on their own disk: plain files anyone can read and edit, with the history and the
+       log of events beside them in .filum/. One person per folder. -->
+  <PropertyGroup>
+    <RootNamespace>Filum.Engine.Storage.LocalFolder</RootNamespace>
+    <Version>1.0.0</Version>
+    <!-- A library documents every public type and member (CODING-STANDARD DOC-02): CS1591 is on here. -->
+    <NoWarn>$(NoWarn.Replace(';CS1591', ''))</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Filum.Engine\Filum.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Filum.Engine.Storage.LocalFolder.UnitTests" />
+    <InternalsVisibleTo Include="Filum.Engine.Storage.LocalFolder.IntegrationTests" />
+  </ItemGroup>
+
+  <!-- The public API is tracked in PublicAPI.Shipped.txt / PublicAPI.Unshipped.txt (CODING-STANDARD SDK-02). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" PrivateAssets="all" />
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+  </ItemGroup>
+
+</Project>

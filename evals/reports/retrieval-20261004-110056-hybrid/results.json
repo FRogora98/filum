@@ -1,0 +1,4702 @@
+[
+  {
+    "questionId": "6b168ec8",
+    "ability": "extraction",
+    "events": 482,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5812124,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "5d3d2817",
+    "ability": "extraction",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.0056123,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "06f04340",
+    "ability": "extraction",
+    "events": 503,
+    "at5": false,
+    "at10": false,
+    "seconds": 14.6571725,
+    "answerSessions": 1,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "1de5cff2",
+    "ability": "extraction",
+    "events": 473,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.5260734,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8e9d538c",
+    "ability": "extraction",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.5527843,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "76d63226",
+    "ability": "extraction",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7496032,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "726462e0",
+    "ability": "extraction",
+    "events": 501,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.3353768,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1e043500",
+    "ability": "extraction",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 25.4353102,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "7527f7e2",
+    "ability": "extraction",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 25.5255236,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "488d3006",
+    "ability": "extraction",
+    "events": 509,
+    "at5": true,
+    "at10": true,
+    "seconds": 27.7110743,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "4388e9dd",
+    "ability": "extraction",
+    "events": 477,
+    "at5": true,
+    "at10": true,
+    "seconds": 27.1270507,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8a2466db",
+    "ability": "extraction",
+    "events": 508,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.9993389,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "16c90bf4",
+    "ability": "extraction",
+    "events": 509,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.8954972,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "778164c6",
+    "ability": "extraction",
+    "events": 542,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.7904022,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c14c00dd",
+    "ability": "extraction",
+    "events": 492,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.0117836,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "25e5aa4f",
+    "ability": "extraction",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.8895909,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c8f1aeed",
+    "ability": "extraction",
+    "events": 504,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.3701808,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6f9b354f",
+    "ability": "extraction",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.0215564,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "d596882b",
+    "ability": "extraction",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5281227,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "311778f1",
+    "ability": "extraction",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9646591,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "118b2229",
+    "ability": "extraction",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.209385,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "19b5f2b3",
+    "ability": "extraction",
+    "events": 482,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5019435,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "853b0a1d",
+    "ability": "extraction",
+    "events": 512,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.6762273,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "65240037",
+    "ability": "extraction",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.1038795,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c4f10528",
+    "ability": "extraction",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.9263268,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "70b3e69b",
+    "ability": "extraction",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.7868724,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "fca762bc",
+    "ability": "extraction",
+    "events": 459,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.7446047,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c5e8278d",
+    "ability": "extraction",
+    "events": 469,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.3451735,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "75832dbd",
+    "ability": "extraction",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.8437849,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8a137a7f",
+    "ability": "extraction",
+    "events": 512,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1226315,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8cf51dda",
+    "ability": "extraction",
+    "events": 454,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6868376,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "95228167",
+    "ability": "extraction",
+    "events": 507,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6584175,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "561fabcd",
+    "ability": "extraction",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.3792581,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "195a1a1b",
+    "ability": "extraction",
+    "events": 515,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5466292,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "faba32e5",
+    "ability": "extraction",
+    "events": 473,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.9346151,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "545bd2b5",
+    "ability": "extraction",
+    "events": 461,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6462168,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "29f2956b",
+    "ability": "extraction",
+    "events": 496,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4966092,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8aef76bc",
+    "ability": "extraction",
+    "events": 492,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.6386922,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1faac195",
+    "ability": "extraction",
+    "events": 494,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.5784222,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "bc8a6e93",
+    "ability": "extraction",
+    "events": 537,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6260453,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "71a3fd6b",
+    "ability": "extraction",
+    "events": 439,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5433871,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a89d7624",
+    "ability": "extraction",
+    "events": 496,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2623927,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "38146c39",
+    "ability": "extraction",
+    "events": 538,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9882429,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "94f70d80",
+    "ability": "extraction",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5166897,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "3d86fd0a",
+    "ability": "extraction",
+    "events": 526,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.4418731,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c19f7a0b",
+    "ability": "extraction",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.387993,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "3f1e9474",
+    "ability": "extraction",
+    "events": 515,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.5818688,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "4baee567",
+    "ability": "extraction",
+    "events": 514,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5971178,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8752c811",
+    "ability": "extraction",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.3889174,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "18dcd5a5",
+    "ability": "extraction",
+    "events": 503,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.8415666,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "caf03d32",
+    "ability": "extraction",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6948455,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "2bf43736",
+    "ability": "extraction",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8461014,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "001be529",
+    "ability": "extraction",
+    "events": 514,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.2088226,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "ec81a493",
+    "ability": "extraction",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.7584282,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "58bf7951",
+    "ability": "extraction",
+    "events": 616,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.5911878,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1b9b7252",
+    "ability": "extraction",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.8596488,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "57f827a0",
+    "ability": "extraction",
+    "events": 495,
+    "at5": false,
+    "at10": true,
+    "seconds": 13.4599312,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b6025781",
+    "ability": "extraction",
+    "events": 460,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6226445,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "3e321797",
+    "ability": "extraction",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2468621,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6222b6eb",
+    "ability": "extraction",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9916521,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "ac031881",
+    "ability": "extraction",
+    "events": 529,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6747146,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "fea54f57",
+    "ability": "extraction",
+    "events": 527,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6936037,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "41275add",
+    "ability": "extraction",
+    "events": 531,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.1338759,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8ebdbe50",
+    "ability": "extraction",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.289512,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1d4e3b97",
+    "ability": "extraction",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6896532,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e9327a54",
+    "ability": "extraction",
+    "events": 533,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5339124,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "d24813b1",
+    "ability": "extraction",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.0614012,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8550ddae",
+    "ability": "extraction",
+    "events": 453,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4603903,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "5809eb10",
+    "ability": "extraction",
+    "events": 606,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.3026328,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8464fc84",
+    "ability": "extraction",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.8518721,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "09d032c9",
+    "ability": "extraction",
+    "events": 481,
+    "at5": false,
+    "at10": false,
+    "seconds": 19.5562821,
+    "answerSessions": 1,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "15745da0",
+    "ability": "extraction",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 24.4947804,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "3249768e",
+    "ability": "extraction",
+    "events": 475,
+    "at5": true,
+    "at10": true,
+    "seconds": 22.9329366,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "95bcc1c8",
+    "ability": "extraction",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 31.1599038,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "66f24dbb",
+    "ability": "extraction",
+    "events": 507,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.5413408,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b759caee",
+    "ability": "extraction",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.7048342,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "7e00a6cb",
+    "ability": "extraction",
+    "events": 564,
+    "at5": true,
+    "at10": true,
+    "seconds": 23.1949132,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "caf9ead2",
+    "ability": "extraction",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.1374825,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "86b68151",
+    "ability": "extraction",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.577189,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "352ab8bd",
+    "ability": "extraction",
+    "events": 539,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.4039113,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "28bcfaac",
+    "ability": "extraction",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.6747392,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6ade9755",
+    "ability": "extraction",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5369918,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e48988bc",
+    "ability": "extraction",
+    "events": 530,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.0523045,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "dccbc061",
+    "ability": "extraction",
+    "events": 505,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.4775817,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "f8c5f88b",
+    "ability": "extraction",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.9489087,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "75f70248",
+    "ability": "extraction",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9226018,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e982271f",
+    "ability": "extraction",
+    "events": 589,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.5053634,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "ccb36322",
+    "ability": "extraction",
+    "events": 471,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5944533,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "32260d93",
+    "ability": "extraction",
+    "events": 524,
+    "at5": true,
+    "at10": true,
+    "seconds": 22.9811231,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "af8d2e46",
+    "ability": "extraction",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.1195468,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "f4f1d8a4",
+    "ability": "extraction",
+    "events": 585,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.1397669,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "75499fd8",
+    "ability": "extraction",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7233195,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "eaca4986",
+    "ability": "extraction",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.6180643,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "d52b4f67",
+    "ability": "extraction",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.2085096,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "3b6f954b",
+    "ability": "extraction",
+    "events": 470,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.98809,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "21436231",
+    "ability": "extraction",
+    "events": 512,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.7163997,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "afdc33df",
+    "ability": "extraction",
+    "events": 502,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.4017662,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "fca70973",
+    "ability": "extraction",
+    "events": 442,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.2599937,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e01b8e2f",
+    "ability": "extraction",
+    "events": 523,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.0280054,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1d4da289",
+    "ability": "extraction",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7417291,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "51b23612",
+    "ability": "extraction",
+    "events": 481,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.3056658,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b0479f84",
+    "ability": "extraction",
+    "events": 502,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.8517939,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1c0ddc50",
+    "ability": "extraction",
+    "events": 548,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.1419558,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1568498a",
+    "ability": "extraction",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7452743,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1a1907b4",
+    "ability": "extraction",
+    "events": 532,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.9383626,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "07b6f563",
+    "ability": "extraction",
+    "events": 524,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.1024792,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "d6233ab6",
+    "ability": "extraction",
+    "events": 437,
+    "at5": false,
+    "at10": false,
+    "seconds": 14.6380026,
+    "answerSessions": 1,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "c960da58",
+    "ability": "extraction",
+    "events": 504,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.8803284,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a82c026e",
+    "ability": "extraction",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.1083054,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "35a27287",
+    "ability": "extraction",
+    "events": 519,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.3300443,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b86304ba",
+    "ability": "extraction",
+    "events": 456,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2590501,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8b9d4367",
+    "ability": "extraction",
+    "events": 537,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.8188745,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "60d45044",
+    "ability": "extraction",
+    "events": 541,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.0021159,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "577d4d32",
+    "ability": "extraction",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.613454,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e8a79c70",
+    "ability": "extraction",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6383741,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "58470ed2",
+    "ability": "extraction",
+    "events": 471,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6165697,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "0a34ad58",
+    "ability": "extraction",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.874405,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "86f00804",
+    "ability": "extraction",
+    "events": 503,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.3191543,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "ceb54acb",
+    "ability": "extraction",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.9942104,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "505af2f5",
+    "ability": "extraction",
+    "events": 501,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.0439199,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "dc439ea3",
+    "ability": "extraction",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.2900166,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "0862e8bf",
+    "ability": "extraction",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.768253,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "f523d9fe",
+    "ability": "extraction",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.0195156,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c8c3f81d",
+    "ability": "extraction",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.1231559,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "37d43f65",
+    "ability": "extraction",
+    "events": 533,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.5082801,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "c7cf7dfd",
+    "ability": "extraction",
+    "events": 520,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.2872229,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "4fd1909e",
+    "ability": "extraction",
+    "events": 554,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.9326194,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a40e080f",
+    "ability": "extraction",
+    "events": 529,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.538826,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "7161e7e2",
+    "ability": "extraction",
+    "events": 550,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.8751746,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "89527b6b",
+    "ability": "extraction",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.365916,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "06878be2",
+    "ability": "extraction",
+    "events": 443,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2260249,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "58ef2f1c",
+    "ability": "extraction",
+    "events": 518,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6918395,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "0edc2aef",
+    "ability": "extraction",
+    "events": 475,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.2425605,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "4c36ccef",
+    "ability": "extraction",
+    "events": 521,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.9787321,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6b7dfb22",
+    "ability": "extraction",
+    "events": 471,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.8891388,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "0e5e2d1a",
+    "ability": "extraction",
+    "events": 450,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6496919,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "7a8d0b71",
+    "ability": "extraction",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 31.080401,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "36580ce8",
+    "ability": "extraction",
+    "events": 545,
+    "at5": true,
+    "at10": true,
+    "seconds": 26.2357332,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6ae235be",
+    "ability": "extraction",
+    "events": 454,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.1040885,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "4100d0a0",
+    "ability": "extraction",
+    "events": 523,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.8899253,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "54026fce",
+    "ability": "extraction",
+    "events": 472,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.1905942,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "51a45a95",
+    "ability": "extraction",
+    "events": 529,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.3053258,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "ad7109d1",
+    "ability": "extraction",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.1211476,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e3fc4d6e",
+    "ability": "extraction",
+    "events": 519,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.0675144,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b320f3f8",
+    "ability": "extraction",
+    "events": 463,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.8575796,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "e47becba",
+    "ability": "extraction",
+    "events": 550,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6204254,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a06e4cfe",
+    "ability": "extraction",
+    "events": 534,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.3160865,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1da05512",
+    "ability": "extraction",
+    "events": 462,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.2591997,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "1903aded",
+    "ability": "extraction",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.0310314,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "cc539528",
+    "ability": "extraction",
+    "events": 496,
+    "at5": true,
+    "at10": true,
+    "seconds": 22.9874523,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "50635ada",
+    "ability": "knowledge-update",
+    "events": 531,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.9568372,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "07741c44",
+    "ability": "knowledge-update",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.3167264,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "ed4ddc30",
+    "ability": "knowledge-update",
+    "events": 543,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6490688,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "69fee5aa",
+    "ability": "knowledge-update",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.855803,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "07741c45",
+    "ability": "knowledge-update",
+    "events": 527,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.063918,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "4d6b87c8",
+    "ability": "knowledge-update",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6042396,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "7401057b",
+    "ability": "knowledge-update",
+    "events": 446,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6958017,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "d7c942c3",
+    "ability": "knowledge-update",
+    "events": 520,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.2985729,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "1cea1afa",
+    "ability": "knowledge-update",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.8349519,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "7e974930",
+    "ability": "knowledge-update",
+    "events": 502,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6003028,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a1eacc2a",
+    "ability": "knowledge-update",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6710835,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "3ba21379",
+    "ability": "knowledge-update",
+    "events": 431,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5799482,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "01493427",
+    "ability": "knowledge-update",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.5793967,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "dad224aa",
+    "ability": "knowledge-update",
+    "events": 521,
+    "at5": false,
+    "at10": true,
+    "seconds": 14.3103941,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "89941a94",
+    "ability": "knowledge-update",
+    "events": 523,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.1984767,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "71315a70",
+    "ability": "knowledge-update",
+    "events": 514,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.197981,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6a1eabeb",
+    "ability": "knowledge-update",
+    "events": 413,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.2029405,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "f685340e",
+    "ability": "knowledge-update",
+    "events": 424,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.1246671,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b01defab",
+    "ability": "knowledge-update",
+    "events": 503,
+    "at5": true,
+    "at10": true,
+    "seconds": 22.0803925,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9bbe84a2",
+    "ability": "knowledge-update",
+    "events": 459,
+    "at5": true,
+    "at10": true,
+    "seconds": 34.3788079,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2698e78f",
+    "ability": "knowledge-update",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 23.0213914,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "06db6396",
+    "ability": "knowledge-update",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.866241,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "603deb26",
+    "ability": "knowledge-update",
+    "events": 472,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.0089681,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "184da446",
+    "ability": "knowledge-update",
+    "events": 473,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.2659659,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c6853660",
+    "ability": "knowledge-update",
+    "events": 477,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.4887165,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "08e075c7",
+    "ability": "knowledge-update",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.9156775,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0977f2af",
+    "ability": "knowledge-update",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.3640444,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "eace081b",
+    "ability": "knowledge-update",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.9817553,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "18bc8abd",
+    "ability": "knowledge-update",
+    "events": 436,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.5395599,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "5a4f22c0",
+    "ability": "knowledge-update",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.8661558,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "41698283",
+    "ability": "knowledge-update",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.1410895,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "72e3ee87",
+    "ability": "knowledge-update",
+    "events": 496,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.3358238,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6a27ffc2",
+    "ability": "knowledge-update",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.5853359,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0e4e4c46",
+    "ability": "knowledge-update",
+    "events": 481,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.629244,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6071bd76",
+    "ability": "knowledge-update",
+    "events": 482,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.5863176,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e61a7584",
+    "ability": "knowledge-update",
+    "events": 496,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.6746289,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "830ce83f",
+    "ability": "knowledge-update",
+    "events": 511,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.8157175,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "59524333",
+    "ability": "knowledge-update",
+    "events": 528,
+    "at5": true,
+    "at10": true,
+    "seconds": 40.5879601,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "f9e8c073",
+    "ability": "knowledge-update",
+    "events": 504,
+    "at5": true,
+    "at10": true,
+    "seconds": 24.9328427,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a2f3aa27",
+    "ability": "knowledge-update",
+    "events": 448,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.4569535,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "db467c8c",
+    "ability": "knowledge-update",
+    "events": 475,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.196669,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "cc5ded98",
+    "ability": "knowledge-update",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.6192993,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c7dc5443",
+    "ability": "knowledge-update",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.1021338,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "10e09553",
+    "ability": "knowledge-update",
+    "events": 472,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.0490694,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "dfde3500",
+    "ability": "knowledge-update",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.9701367,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "945e3d21",
+    "ability": "knowledge-update",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.2928946,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "8fb83627",
+    "ability": "knowledge-update",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.561186,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "affe2881",
+    "ability": "knowledge-update",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.7237494,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "22d2cb42",
+    "ability": "knowledge-update",
+    "events": 473,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.103345,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e66b632c",
+    "ability": "knowledge-update",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.4869877,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "ce6d2d27",
+    "ability": "knowledge-update",
+    "events": 521,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.3662886,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "cf22b7bf",
+    "ability": "knowledge-update",
+    "events": 550,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.3545839,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "26bdc477",
+    "ability": "knowledge-update",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.6060556,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "89941a93",
+    "ability": "knowledge-update",
+    "events": 528,
+    "at5": true,
+    "at10": true,
+    "seconds": 24.0271217,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e493bb7c",
+    "ability": "knowledge-update",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.9584525,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "45dc21b6",
+    "ability": "knowledge-update",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.2483837,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "5c40ec5b",
+    "ability": "knowledge-update",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7203681,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "5831f84d",
+    "ability": "knowledge-update",
+    "events": 422,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.8881774,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "618f13b2",
+    "ability": "knowledge-update",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.132931,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "852ce960",
+    "ability": "knowledge-update",
+    "events": 396,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.2865552,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9ea5eabc",
+    "ability": "knowledge-update",
+    "events": 537,
+    "at5": true,
+    "at10": true,
+    "seconds": 49.3183937,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0ddfec37",
+    "ability": "knowledge-update",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 29.7306088,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6aeb4375",
+    "ability": "knowledge-update",
+    "events": 468,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.616404,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b6019101",
+    "ability": "knowledge-update",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 25.7203819,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "4b24c848",
+    "ability": "knowledge-update",
+    "events": 514,
+    "at5": true,
+    "at10": true,
+    "seconds": 23.0505616,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c4ea545c",
+    "ability": "knowledge-update",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.9984847,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "7a87bd0c",
+    "ability": "knowledge-update",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 22.5585847,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "42ec0761",
+    "ability": "knowledge-update",
+    "events": 521,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.0832923,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "ba61f0b9",
+    "ability": "knowledge-update",
+    "events": 454,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.1226113,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2133c1b5",
+    "ability": "knowledge-update",
+    "events": 523,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.7461496,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "031748ae",
+    "ability": "knowledge-update",
+    "events": 494,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.1716093,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0f05491a",
+    "ability": "knowledge-update",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.2070129,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "aae3761f",
+    "ability": "multi-session",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.4029783,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "3fe836c9",
+    "ability": "multi-session",
+    "events": 449,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.3292867,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "4f54b7c9",
+    "ability": "multi-session",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.6482791,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "77eafa52",
+    "ability": "multi-session",
+    "events": 527,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.1563726,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "1a8a66a6",
+    "ability": "multi-session",
+    "events": 501,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.3494389,
+    "answerSessions": 4,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_194be4b3",
+    "ability": "multi-session",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 21.7285643,
+    "answerSessions": 5,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_f2262a51",
+    "ability": "multi-session",
+    "events": 479,
+    "at5": false,
+    "at10": true,
+    "seconds": 17.2638342,
+    "answerSessions": 3,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "5025383b",
+    "ability": "multi-session",
+    "events": 446,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.6487451,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2311e44b",
+    "ability": "multi-session",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.9950281,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0a995998",
+    "ability": "multi-session",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.6154638,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "3a704032",
+    "ability": "multi-session",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.8761055,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "37f165cf",
+    "ability": "multi-session",
+    "events": 567,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7467364,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "d851d5ba",
+    "ability": "multi-session",
+    "events": 533,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.783035,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "2b8f3739",
+    "ability": "multi-session",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.8349233,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "21d02d0d",
+    "ability": "multi-session",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.1790309,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "eeda8a6d",
+    "ability": "multi-session",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7124015,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "55241a1f",
+    "ability": "multi-session",
+    "events": 514,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.9220867,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "5a7937c8",
+    "ability": "multi-session",
+    "events": 419,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.678857,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_731e37d7",
+    "ability": "multi-session",
+    "events": 525,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.2856701,
+    "answerSessions": 4,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9d25d4e0",
+    "ability": "multi-session",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.5780277,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_2f8be40d",
+    "ability": "multi-session",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.2187682,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "27016adc",
+    "ability": "multi-session",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.3964658,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_a56e767c",
+    "ability": "multi-session",
+    "events": 477,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.7737259,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "4bc144e2",
+    "ability": "multi-session",
+    "events": 530,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.8146939,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "f35224e0",
+    "ability": "multi-session",
+    "events": 515,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.161204,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e3038f8c",
+    "ability": "multi-session",
+    "events": 458,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.0615584,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "7024f17c",
+    "ability": "multi-session",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 16.2531558,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "81507db6",
+    "ability": "multi-session",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.3214638,
+    "answerSessions": 5,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "4adc0475",
+    "ability": "multi-session",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.6502383,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_d84a3211",
+    "ability": "multi-session",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.6464418,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "09ba9854",
+    "ability": "multi-session",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6153183,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a346bb18",
+    "ability": "multi-session",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.9024064,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e56a43b9",
+    "ability": "multi-session",
+    "events": 448,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.504622,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_e05b82a6",
+    "ability": "multi-session",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 23.3402114,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "a4996e51",
+    "ability": "multi-session",
+    "events": 512,
+    "at5": true,
+    "at10": true,
+    "seconds": 19.1231393,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "8e91e7d9",
+    "ability": "multi-session",
+    "events": 498,
+    "at5": false,
+    "at10": false,
+    "seconds": 15.8372698,
+    "answerSessions": 2,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "a9f6b44c",
+    "ability": "multi-session",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 18.5230687,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_59c863d7",
+    "ability": "multi-session",
+    "events": 481,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.1564424,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "720133ac",
+    "ability": "multi-session",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2530925,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_d12ceb0e",
+    "ability": "multi-session",
+    "events": 477,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9898856,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_5501fe77",
+    "ability": "multi-session",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.0102703,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_2f91af09",
+    "ability": "multi-session",
+    "events": 515,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.544982,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "d23cf73b",
+    "ability": "multi-session",
+    "events": 512,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4484544,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "ef9cf60a",
+    "ability": "multi-session",
+    "events": 522,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2230021,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9aaed6a3",
+    "ability": "multi-session",
+    "events": 541,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.0881259,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "d3ab962e",
+    "ability": "multi-session",
+    "events": 530,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.0129316,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_31ff4165",
+    "ability": "multi-session",
+    "events": 457,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1819237,
+    "answerSessions": 5,
+    "foundAt10": 5
+  },
+  {
+    "questionId": "078150f1",
+    "ability": "multi-session",
+    "events": 551,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4381558,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "91b15a6e",
+    "ability": "multi-session",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6344824,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "73d42213",
+    "ability": "multi-session",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2597676,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "92a0aa75",
+    "ability": "multi-session",
+    "events": 455,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.5145226,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6cb6f249",
+    "ability": "multi-session",
+    "events": 470,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1050626,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "8cf4d046",
+    "ability": "multi-session",
+    "events": 468,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3821549,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2e6d26dc",
+    "ability": "multi-session",
+    "events": 494,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8145647,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "c2ac3c61",
+    "ability": "multi-session",
+    "events": 528,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7570541,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "87f22b4a",
+    "ability": "multi-session",
+    "events": 474,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3778423,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6d550036",
+    "ability": "multi-session",
+    "events": 505,
+    "at5": false,
+    "at10": true,
+    "seconds": 13.955123,
+    "answerSessions": 4,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "61f8c8f8",
+    "ability": "multi-session",
+    "events": 459,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7365105,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "60472f9c",
+    "ability": "multi-session",
+    "events": 454,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.5870662,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e831120c",
+    "ability": "multi-session",
+    "events": 481,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7724413,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_15e38248",
+    "ability": "multi-session",
+    "events": 470,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8189184,
+    "answerSessions": 4,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "60159905",
+    "ability": "multi-session",
+    "events": 448,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3109639,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "dd2973ad",
+    "ability": "multi-session",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9539503,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6456829e",
+    "ability": "multi-session",
+    "events": 488,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0030749,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "3c1045c8",
+    "ability": "multi-session",
+    "events": 542,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.07881,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "129d1232",
+    "ability": "multi-session",
+    "events": 451,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1508213,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "7405e8b1",
+    "ability": "multi-session",
+    "events": 469,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6441293,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_372c3eed",
+    "ability": "multi-session",
+    "events": 465,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0356652,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "60bf93ed",
+    "ability": "multi-session",
+    "events": 494,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.9907009,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "85fa3a3f",
+    "ability": "multi-session",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.069594,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "10d9b85a",
+    "ability": "multi-session",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6069584,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "bb7c3b45",
+    "ability": "multi-session",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5880447,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "ef66a6e5",
+    "ability": "multi-session",
+    "events": 445,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6305238,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a3332713",
+    "ability": "multi-session",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0708257,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "d905b33f",
+    "ability": "multi-session",
+    "events": 504,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.484692,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e25c3b8d",
+    "ability": "multi-session",
+    "events": 530,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.9465828,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0ea62687",
+    "ability": "multi-session",
+    "events": 460,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3148935,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "bf659f65",
+    "ability": "multi-session",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.040762,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "3fdac837",
+    "ability": "multi-session",
+    "events": 453,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6747266,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b3c15d39",
+    "ability": "multi-session",
+    "events": 502,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2823908,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "099778bb",
+    "ability": "multi-session",
+    "events": 466,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.9859553,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "d682f1a2",
+    "ability": "multi-session",
+    "events": 469,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7205569,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "a1cc6108",
+    "ability": "multi-session",
+    "events": 492,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5160129,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_ab202e7f",
+    "ability": "multi-session",
+    "events": 481,
+    "at5": true,
+    "at10": true,
+    "seconds": 15.8571948,
+    "answerSessions": 5,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "ba358f49",
+    "ability": "multi-session",
+    "events": 409,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3797426,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2318644b",
+    "ability": "multi-session",
+    "events": 523,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1751985,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c4a1ceb8",
+    "ability": "multi-session",
+    "events": 488,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.8756251,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "b5ef892d",
+    "ability": "multi-session",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7654046,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "60036106",
+    "ability": "multi-session",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4110093,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "88432d0a",
+    "ability": "multi-session",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1674068,
+    "answerSessions": 4,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "80ec1f4f",
+    "ability": "multi-session",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1917881,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_2ba83207",
+    "ability": "multi-session",
+    "events": 502,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2753437,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "cc06de0d",
+    "ability": "multi-session",
+    "events": 462,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0351911,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "36b9f61e",
+    "ability": "multi-session",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4533592,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "e6041065",
+    "ability": "multi-session",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2843371,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0100672e",
+    "ability": "multi-session",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4999524,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a96c20ee",
+    "ability": "multi-session",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8979896,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2ce6a0f2",
+    "ability": "multi-session",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.383689,
+    "answerSessions": 4,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "1192316e",
+    "ability": "multi-session",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.615277,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "00ca467f",
+    "ability": "multi-session",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4968551,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "d6062bb9",
+    "ability": "multi-session",
+    "events": 532,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.7793643,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "8979f9ec",
+    "ability": "multi-session",
+    "events": 469,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4838341,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c18a7dc8",
+    "ability": "multi-session",
+    "events": 509,
+    "at5": false,
+    "at10": false,
+    "seconds": 13.0721191,
+    "answerSessions": 2,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "28dc39ac",
+    "ability": "multi-session",
+    "events": 431,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7092805,
+    "answerSessions": 5,
+    "foundAt10": 5
+  },
+  {
+    "questionId": "51c32626",
+    "ability": "multi-session",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6416035,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "1f2b8d4f",
+    "ability": "multi-session",
+    "events": 522,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.673357,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "f0e564bc",
+    "ability": "multi-session",
+    "events": 508,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7124294,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_7fce9456",
+    "ability": "multi-session",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5838033,
+    "answerSessions": 5,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "157a136e",
+    "ability": "multi-session",
+    "events": 503,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.9718636,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "2788b940",
+    "ability": "multi-session",
+    "events": 475,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3313228,
+    "answerSessions": 4,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "1c549ce4",
+    "ability": "multi-session",
+    "events": 462,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.5472281,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9ee3ecd6",
+    "ability": "multi-session",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.250649,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a08a253f",
+    "ability": "multi-session",
+    "events": 560,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.7547073,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "681a1674",
+    "ability": "multi-session",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8708275,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "efc3f7c2",
+    "ability": "multi-session",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2530564,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "edced276",
+    "ability": "multi-session",
+    "events": 482,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3765208,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "67e0d0f2",
+    "ability": "multi-session",
+    "events": 510,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1655765,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6c49646a",
+    "ability": "multi-session",
+    "events": 429,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8514383,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "bc149d6b",
+    "ability": "multi-session",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1186816,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a11281a2",
+    "ability": "multi-session",
+    "events": 457,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0010117,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "46a3abf7",
+    "ability": "multi-session",
+    "events": 503,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6521169,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "2ebe6c90",
+    "ability": "temporal",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.381249,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9a707b82",
+    "ability": "temporal",
+    "events": 532,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.8412735,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_85da3956",
+    "ability": "temporal",
+    "events": 505,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0065996,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "6613b389",
+    "ability": "temporal",
+    "events": 452,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7176908,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_4edbafa2",
+    "ability": "temporal",
+    "events": 460,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0787006,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_7f6b06db",
+    "ability": "temporal",
+    "events": 558,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5576777,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_68e94287",
+    "ability": "temporal",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2061531,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_9a159967",
+    "ability": "temporal",
+    "events": 470,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.9160261,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_213fd887",
+    "ability": "temporal",
+    "events": 446,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6635605,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "eac54adc",
+    "ability": "temporal",
+    "events": 464,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.9793329,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_65aabe59",
+    "ability": "temporal",
+    "events": 452,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8645422,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_8279ba03",
+    "ability": "temporal",
+    "events": 500,
+    "at5": false,
+    "at10": false,
+    "seconds": 13.5498432,
+    "answerSessions": 1,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "4dfccbf8",
+    "ability": "temporal",
+    "events": 455,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4207792,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "a3838d2b",
+    "ability": "temporal",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.7020867,
+    "answerSessions": 6,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "4dfccbf7",
+    "ability": "temporal",
+    "events": 521,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6179354,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "9a707b81",
+    "ability": "temporal",
+    "events": 530,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.706249,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2f584639",
+    "ability": "temporal",
+    "events": 472,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0034052,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "dcfa8644",
+    "ability": "temporal",
+    "events": 470,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3194862,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_0b2f1d21",
+    "ability": "temporal",
+    "events": 497,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7457404,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_1a1dc16d",
+    "ability": "temporal",
+    "events": 453,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.001977,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2d58bcd6",
+    "ability": "temporal",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4325623,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "71017276",
+    "ability": "temporal",
+    "events": 614,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2931233,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_8e165409",
+    "ability": "temporal",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5350798,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "f0853d11",
+    "ability": "temporal",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.322616,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_7ddcf75f",
+    "ability": "temporal",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8831736,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_0a05b494",
+    "ability": "temporal",
+    "events": 506,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5280507,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_f49edff3",
+    "ability": "temporal",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5432568,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_74aed68e",
+    "ability": "temporal",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1704271,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_45189cb4",
+    "ability": "temporal",
+    "events": 501,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9393032,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0bb5a684",
+    "ability": "temporal",
+    "events": 463,
+    "at5": true,
+    "at10": true,
+    "seconds": 17.3361733,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b46e15ee",
+    "ability": "temporal",
+    "events": 457,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.7776476,
+    "answerSessions": 4,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_8279ba02",
+    "ability": "temporal",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0083911,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_59149c77",
+    "ability": "temporal",
+    "events": 484,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.960651,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_1d80365e",
+    "ability": "temporal",
+    "events": 517,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4720927,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6e984302",
+    "ability": "temporal",
+    "events": 460,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8347635,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_fe651585",
+    "ability": "temporal",
+    "events": 471,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6969067,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_fa19884d",
+    "ability": "temporal",
+    "events": 556,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.0972894,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_d6585ce9",
+    "ability": "temporal",
+    "events": 438,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8892201,
+    "answerSessions": 5,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_98f46fc6",
+    "ability": "temporal",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5087062,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "982b5123",
+    "ability": "temporal",
+    "events": 473,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3119578,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "5e1b23de",
+    "ability": "temporal",
+    "events": 445,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6910942,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_7a0daae1",
+    "ability": "temporal",
+    "events": 561,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6105869,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2312f94c",
+    "ability": "temporal",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8113422,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_d31cdae3",
+    "ability": "temporal",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.586116,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "370a8ff4",
+    "ability": "temporal",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7467803,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_21adecb5",
+    "ability": "temporal",
+    "events": 511,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6376163,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2655b836",
+    "ability": "temporal",
+    "events": 465,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2153767,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_2c50253f",
+    "ability": "temporal",
+    "events": 591,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4363138,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_7abb270c",
+    "ability": "temporal",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1783396,
+    "answerSessions": 6,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "gpt4_7bc6cf22",
+    "ability": "temporal",
+    "events": 519,
+    "at5": true,
+    "at10": true,
+    "seconds": 20.2308869,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_4929293b",
+    "ability": "temporal",
+    "events": 469,
+    "at5": false,
+    "at10": false,
+    "seconds": 16.2079443,
+    "answerSessions": 2,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "gpt4_5dcc0aab",
+    "ability": "temporal",
+    "events": 547,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9464411,
+    "answerSessions": 5,
+    "foundAt10": 5
+  },
+  {
+    "questionId": "gpt4_a2d1d1f6",
+    "ability": "temporal",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.6523054,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_78cf46a3",
+    "ability": "temporal",
+    "events": 505,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6526218,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "e4e14d04",
+    "ability": "temporal",
+    "events": 461,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7783997,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "a3045048",
+    "ability": "temporal",
+    "events": 584,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.6783356,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b9cfe692",
+    "ability": "temporal",
+    "events": 492,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4993449,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_cd90e484",
+    "ability": "temporal",
+    "events": 508,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1114769,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_468eb063",
+    "ability": "temporal",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.8496996,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "8077ef71",
+    "ability": "temporal",
+    "events": 554,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4387507,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_5438fa52",
+    "ability": "temporal",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1687384,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2ebe6c92",
+    "ability": "temporal",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5052325,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_68e94288",
+    "ability": "temporal",
+    "events": 459,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1637891,
+    "answerSessions": 2,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_e061b84f",
+    "ability": "temporal",
+    "events": 467,
+    "at5": false,
+    "at10": false,
+    "seconds": 12.6847947,
+    "answerSessions": 3,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "gpt4_7ca326fa",
+    "ability": "temporal",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7131076,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_59149c78",
+    "ability": "temporal",
+    "events": 497,
+    "at5": false,
+    "at10": true,
+    "seconds": 12.7450736,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_7de946e7",
+    "ability": "temporal",
+    "events": 533,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.4433895,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0bc8ad93",
+    "ability": "temporal",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4998616,
+    "answerSessions": 3,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_1d4ab0c9",
+    "ability": "temporal",
+    "events": 483,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8124314,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_ec93e27f",
+    "ability": "temporal",
+    "events": 516,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8584979,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_f420262d",
+    "ability": "temporal",
+    "events": 454,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6564051,
+    "answerSessions": 5,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "c8090214",
+    "ability": "temporal",
+    "events": 459,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7227011,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_8c8961ae",
+    "ability": "temporal",
+    "events": 485,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6973372,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_1e4a8aec",
+    "ability": "temporal",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1432501,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "8c18457d",
+    "ability": "temporal",
+    "events": 434,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.9111404,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2487a7cb",
+    "ability": "temporal",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.508477,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_af6db32f",
+    "ability": "temporal",
+    "events": 476,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7667351,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "b46e15ed",
+    "ability": "temporal",
+    "events": 478,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0587958,
+    "answerSessions": 4,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_4ef30696",
+    "ability": "temporal",
+    "events": 520,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2668552,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_4929293a",
+    "ability": "temporal",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9251337,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_b4a80587",
+    "ability": "temporal",
+    "events": 542,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.9424864,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0db4c65d",
+    "ability": "temporal",
+    "events": 462,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.1623967,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "0bc8ad92",
+    "ability": "temporal",
+    "events": 443,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5469469,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "2c63a862",
+    "ability": "temporal",
+    "events": 529,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.3672957,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "71017277",
+    "ability": "temporal",
+    "events": 493,
+    "at5": false,
+    "at10": true,
+    "seconds": 13.1534752,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "08f4fc43",
+    "ability": "temporal",
+    "events": 480,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.555671,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_b0863698",
+    "ability": "temporal",
+    "events": 457,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7562842,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_e414231e",
+    "ability": "temporal",
+    "events": 507,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0247769,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "b29f3365",
+    "ability": "temporal",
+    "events": 494,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.2844301,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "6e984301",
+    "ability": "temporal",
+    "events": 513,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5421181,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_2f56ae70",
+    "ability": "temporal",
+    "events": 458,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5631834,
+    "answerSessions": 3,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_e072b769",
+    "ability": "temporal",
+    "events": 444,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.4544002,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_f420262c",
+    "ability": "temporal",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.3275339,
+    "answerSessions": 5,
+    "foundAt10": 5
+  },
+  {
+    "questionId": "gpt4_c27434e8",
+    "ability": "temporal",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4015895,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "eac54add",
+    "ability": "temporal",
+    "events": 476,
+    "at5": false,
+    "at10": false,
+    "seconds": 12.1424039,
+    "answerSessions": 2,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "2a1811e2",
+    "ability": "temporal",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1912733,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_d6585ce8",
+    "ability": "temporal",
+    "events": 491,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.4167128,
+    "answerSessions": 5,
+    "foundAt10": 4
+  },
+  {
+    "questionId": "bcbe585f",
+    "ability": "temporal",
+    "events": 453,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.305807,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_e061b84g",
+    "ability": "temporal",
+    "events": 566,
+    "at5": false,
+    "at10": false,
+    "seconds": 13.3261912,
+    "answerSessions": 3,
+    "foundAt10": 0
+  },
+  {
+    "questionId": "gpt4_483dd43c",
+    "ability": "temporal",
+    "events": 532,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.5857102,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_e414231f",
+    "ability": "temporal",
+    "events": 490,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1891434,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_b5700ca0",
+    "ability": "temporal",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.8672775,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "d01c6aa8",
+    "ability": "temporal",
+    "events": 429,
+    "at5": true,
+    "at10": true,
+    "seconds": 10.8047643,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "bbf86515",
+    "ability": "temporal",
+    "events": 487,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.7544209,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_70e84552",
+    "ability": "temporal",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7346009,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "c9f37c46",
+    "ability": "temporal",
+    "events": 511,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.1645459,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_385a5000",
+    "ability": "temporal",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.7541532,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_4fc4f797",
+    "ability": "temporal",
+    "events": 472,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.405107,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_1916e0ea",
+    "ability": "temporal",
+    "events": 533,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.3205051,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_18c2b244",
+    "ability": "temporal",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.0782746,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "gpt4_93f6379c",
+    "ability": "temporal",
+    "events": 445,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6087766,
+    "answerSessions": 3,
+    "foundAt10": 3
+  },
+  {
+    "questionId": "cc6d1ec1",
+    "ability": "temporal",
+    "events": 457,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8188767,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_fa19884c",
+    "ability": "temporal",
+    "events": 507,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.2798266,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "993da5e2",
+    "ability": "temporal",
+    "events": 486,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.8043806,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_76048e76",
+    "ability": "temporal",
+    "events": 482,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9846478,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_61e13b3c",
+    "ability": "temporal",
+    "events": 467,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.0317388,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_4cd9eba1",
+    "ability": "temporal",
+    "events": 500,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9765791,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_6dc9b45b",
+    "ability": "temporal",
+    "events": 565,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.8026886,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_93159ced",
+    "ability": "temporal",
+    "events": 444,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.7951484,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_468eb064",
+    "ability": "temporal",
+    "events": 460,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.9793352,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_b5700ca9",
+    "ability": "temporal",
+    "events": 537,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.2600082,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "af082822",
+    "ability": "temporal",
+    "events": 495,
+    "at5": true,
+    "at10": true,
+    "seconds": 14.9190952,
+    "answerSessions": 1,
+    "foundAt10": 1
+  },
+  {
+    "questionId": "gpt4_88806d6e",
+    "ability": "temporal",
+    "events": 493,
+    "at5": true,
+    "at10": true,
+    "seconds": 13.5077731,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_6ed717ea",
+    "ability": "temporal",
+    "events": 489,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.9860781,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_a1b77f9c",
+    "ability": "temporal",
+    "events": 498,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.6465107,
+    "answerSessions": 6,
+    "foundAt10": 5
+  },
+  {
+    "questionId": "gpt4_d9af6064",
+    "ability": "temporal",
+    "events": 534,
+    "at5": true,
+    "at10": true,
+    "seconds": 12.6370218,
+    "answerSessions": 2,
+    "foundAt10": 2
+  },
+  {
+    "questionId": "gpt4_1e4a8aeb",
+    "ability": "temporal",
+    "events": 479,
+    "at5": true,
+    "at10": true,
+    "seconds": 11.5483949,
+    "answerSessions": 2,
+    "foundAt10": 2
+  }
+]

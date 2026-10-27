@@ -1,0 +1,68 @@
+## a,b\n1,2\n
+parse error=null
+1: a | b
+2: 1 | 2
+check error=null header=a | b rows=1
+## a,b\r\n1,2\r\n\r\n3,4
+parse error=null
+1: a | b
+2: 1 | 2
+4: 3 | 4
+check error=null header=a | b rows=2
+##  a , b \n"x, y","say ""hi"""\n
+parse error=null
+1:  a  |  b 
+2: x, y | say "hi"
+check error=null header=a | b rows=1
+## a,b\n"multi\nline",2\n3,4\n
+parse error=null
+1: a | b
+2: multi\nline | 2
+4: 3 | 4
+check error=null header=a | b rows=2
+## a,b\n"",\n,\n
+parse error=null
+1: a | b
+2:  | 
+3:  | 
+check error=null header=a | b rows=2
+## a,b\n1,"2"x\n
+parse error=Line 2: text after a closing quote.
+1: a | b
+check error=Line 2: text after a closing quote. header= rows=0
+## a,b\n1,2"3\n
+parse error=Line 2: a quote inside an unquoted field; put the field in double quotes and write the quote as "".
+1: a | b
+check error=Line 2: a quote inside an unquoted field; put the field in double quotes and write the quote as "". header= rows=0
+## a,b\n"open,2\n3,4\n
+parse error=Line 2: a quoted field is not closed.
+1: a | b
+check error=Line 2: a quoted field is not closed. header= rows=0
+## 
+parse error=null
+check error=A collection needs a header line with the names of its fields. header= rows=0
+## \n\n
+parse error=null
+check error=A collection needs a header line with the names of its fields. header= rows=0
+## ,b\n1,2\n
+parse error=null
+1:  | b
+2: 1 | 2
+check error=Every field of the header needs a name. header= | b rows=0
+## a,A\n1,2\n
+parse error=null
+1: a | A
+2: 1 | 2
+check error=The header names the field 'a' more than once. header=a | A rows=0
+## a,b\n1\n
+parse error=null
+1: a | b
+2: 1
+check error=Line 2 has 1 fields, the header has 2. header=a | b rows=1
+## a\n""""\n
+parse error=null
+1: a
+2: "
+check error=null header=a rows=1
+## write
+a," b","c,d"\n1,"say ""hi""","x\ny"\n,"\r",plain\n

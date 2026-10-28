@@ -55,6 +55,7 @@ public sealed class ListingTests
     [Fact]
     public async Task EventsSearch_WhenANormalSearchIsCut_ShouldSayToListAndNotWhenItIsNot()
     {
+        _options = new MemoryOptions { EventsSearchMax = 8 };
         for (var i = 0; i < 10; i++)
         {
             await Said($"Another lamp, number {i}.", Day.AddDays(i));

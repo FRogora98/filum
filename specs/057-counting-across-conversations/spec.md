@@ -70,6 +70,10 @@ of 55 multi-session questions, and counted worse when it did. Changes, still bef
 - The counting line says to list before answering, and to count every item shown once, unsure ones too, within the
   time asked; a listing ends by saying the same.
 
+Outcome (2026-10-28): on the development set 168 of 200 (multi-session 40 of 55); on the test set, against 1.0.0, 52
+against 49 multi-session questions of 75 (10 to 7, p = 0.63), not the +8 asked, for about 14% more tokens per answer.
+Iteration 1 is reverted; the rest of this spec stays, measured alone against 1.0.0 on a new set before any release.
+
 ## Platform check
 
 1. Generic: listing every mention and counting distinct items works for any person and any domain.

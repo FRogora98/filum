@@ -81,10 +81,8 @@ public sealed class RecallTests
 
         var found = await Search("volcano eruption lava");
 
-        // The weak ones are not shown whole; since spec 057 they are named on a line each after the page.
-        var page = found.Split("Other conversations that match")[0];
-        Assert.All(Enumerable.Range(0, 3), i => Assert.Contains($"Strong {i}", page));
-        Assert.All(Enumerable.Range(0, 3), i => Assert.DoesNotContain($"Weak {i}", page));
+        Assert.All(Enumerable.Range(0, 3), i => Assert.Contains($"Strong {i}", found));
+        Assert.All(Enumerable.Range(0, 3), i => Assert.DoesNotContain($"Weak {i}", found));
     }
 
     [Fact]

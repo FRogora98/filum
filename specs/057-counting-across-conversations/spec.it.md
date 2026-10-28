@@ -73,6 +73,11 @@ il set di test:
 - La riga sul contare dice di elencare prima di rispondere, e di contare una volta ogni voce mostrata, anche quelle
   incerte, entro il periodo chiesto; un elenco finisce dicendo lo stesso.
 
+Esito (2026-10-28): sul set di sviluppo 168 su 200 (multi-sessione 40 su 55); sul set di test, contro la 1.0.0, 52
+contro 49 domande multi-sessione su 75 (10 a 7, p = 0,63), non il +8 chiesto, con circa il 14% di token in più per
+risposta. L'iterazione 1 è annullata; il resto di questa spec resta, misurato da solo contro la 1.0.0 su un set nuovo
+prima di qualunque release.
+
 ## Controllo di piattaforma
 
 1. Generico: elencare ogni menzione e contare le voci distinte vale per qualunque persona e dominio.

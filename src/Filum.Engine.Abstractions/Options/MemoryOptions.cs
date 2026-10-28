@@ -55,7 +55,7 @@ public sealed class MemoryOptions
     public int VectorsPerSearch { get; set; } = 32;
 
     /// <summary>A search of the log of events returns at most this many events.</summary>
-    public int EventsSearchMax { get; set; } = 20;
+    public int EventsSearchMax { get; set; } = 8;
 
     /// <summary>A listing of what was said (a search with <c>every</c>) shows at most this many messages (spec 057).</summary>
     public int EventsListMax { get; set; } = 100;

@@ -131,11 +131,8 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
             var named = FactLinks.Named(current, query);
             var matching = ((await Facts.MatchFactsAsync(UserId, query, cancellationToken)).Value ?? []).Where(f => !named.Any(n => FactLinks.Same(n, f))).ToList();
             var sessions = await SessionsAsync(hits, [.. matching, .. named], withPrivate, cancellationToken);
-            var shown = sessions.Select(s => Conversations.KeyOf(s.Anchor)).ToList();
-            // The other conversations' lines come out of the same budget as the page.
-            var others = Others(hits, shown, query, Session.Limits.RecallBudgetChars / OthersShare);
             var found = sessions.Count > 0
-                ? await new RecallPage(EventLog, UserId, withPrivate, query, Session.Limits.RecallBudgetChars - others.Length).ShowAsync(sessions, cancellationToken)
+                ? await new RecallPage(EventLog, UserId, withPrivate, query, Session.Limits.RecallBudgetChars).ShowAsync(sessions, cancellationToken)
                 : await NothingAsync(query, from, to, includePrivate, cancellationToken);
             var facts = string.Join("\n\n", new[] { FactLinks.About(current, query), FactLinks.Matching(matching) }.Where(s => s.Length > 0));
             if (facts.Length > 0)
@@ -143,12 +140,12 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
                 found = $"{facts}\n\n{found}";
             }
 
-            found += others;
             if (hits.Count >= Session.Limits.EventsSearchMax)
             {
                 found += "\n\nMore messages may match: to count or add them up, list them with every.";
             }
 
+            var shown = sessions.Select(s => Conversations.KeyOf(s.Anchor)).ToList();
             var ordered = hits.Where(h => shown.Contains(Conversations.KeyOf(h.Event))).OrderBy(h => shown.IndexOf(Conversations.KeyOf(h.Event))).ToList();
             return new ToolDone(found, ToolStep.Searched, null,
                 $"Searched what was said for \"{query}\" · {Plural(hits.Count, "match", "matches")}", Structured: ToolData.Matches(ordered));
@@ -180,33 +177,9 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
         text.Append(shown == 0 ? "Nothing that was said matches."
             : shown < listed.Count ? $"{Plural(shown, "message", "messages")} listed; there may be more: narrow the words or the days."
             : $"{Plural(shown, "message", "messages")} listed: all that match.");
-        text.Append(shown == 0 ? string.Empty : " Count each distinct item once, the ones you are unsure of too, and name them.");
         return new ToolDone(text.ToString(), ToolStep.Searched, null, $"Listed what was said about \"{query}\" · {Plural(shown, "message", "messages")}",
             Structured: ToolData.Matches(listed.Take(shown).Select(e => new MemoryEventHit(e, null, 0))));
     }
-
-    // The matches in conversations the page did not show, a line each: an item said in many conversations is still seen
-    // whole, so it can be counted (spec 057). They take at most a quarter of the recall budget.
-    private static string Others(IReadOnlyList<MemoryEventHit> hits, List<string> shown, string query, int budget)
-    {
-        var lines = new List<string>();
-        var used = 0;
-        foreach (var h in hits.Where(h => !shown.Contains(Conversations.KeyOf(h.Event))).OrderBy(h => h.Event.OccurredAt))
-        {
-            var line = $"- {h.Event.OccurredAt.UtcDateTime.ToString(EngineConstants.Dates.Day, CultureInfo.InvariantCulture)} #{h.Event.Id} {Who(h.Event)}: {EventSearch.Around(h.Event.Text, query, ListExcerpt)}";
-            if (used + line.Length > budget)
-            {
-                break;
-            }
-
-            lines.Add(line);
-            used += line.Length + 1;
-        }
-
-        return lines.Count == 0 ? string.Empty : "\n\nOther conversations that match (read one with events_read):\n" + string.Join('\n', lines);
-    }
-
-    private const int OthersShare = 4;
 
     // About this many characters of each listed message, around the match.
     private const int ListExcerpt = 160;

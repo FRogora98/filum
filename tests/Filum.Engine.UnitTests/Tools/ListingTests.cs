@@ -34,7 +34,7 @@ public sealed class ListingTests
         Assert.Contains("2026-01-02", listed);
         Assert.Contains("sold the old sofa for 80 dollars", listed);
         Assert.DoesNotContain("weather", listed);
-        Assert.Contains("2 messages listed: all that match.", listed);
+        Assert.EndsWith("2 messages listed: all that match.", listed);
     }
 
     [Fact]
@@ -49,13 +49,12 @@ public sealed class ListingTests
         var listed = await Search("lamp");
 
         Assert.Equal(3, listed.Split('\n').Count(l => l.StartsWith("- ", StringComparison.Ordinal)));
-        Assert.Contains("3 messages listed; there may be more: narrow the words or the days.", listed);
+        Assert.EndsWith("3 messages listed; there may be more: narrow the words or the days.", listed);
     }
 
     [Fact]
     public async Task EventsSearch_WhenANormalSearchIsCut_ShouldSayToListAndNotWhenItIsNot()
     {
-        _options = new MemoryOptions { EventsSearchMax = 8 };
         for (var i = 0; i < 10; i++)
         {
             await Said($"Another lamp, number {i}.", Day.AddDays(i));

@@ -40,10 +40,11 @@ public sealed class ToolCatalogTests
             Assert.True(t.Description.Length > 20, t.Name);
             Assert.Equal("object", t.JsonSchema.GetProperty("type").GetString());
         });
-        // What every model call of a turn carries (spec 031): names, descriptions and schemas, at most 12,500 characters
-        // for the whole catalog (spec 041; the core profile has its own budget, in filum-mcp's tests).
+        // What every model call of a turn carries (spec 031): names, descriptions and schemas, at most 12,700 characters
+        // for the whole catalog (spec 041; 200 more for events_search's listing, spec 057; the core profile has its own
+        // budget, in filum-mcp's tests).
         var size = catalog.Sum(t => System.Text.Json.JsonSerializer.Serialize(new { t.Name, t.Description, t.JsonSchema }).Length);
-        Assert.True(size <= 12_500, $"{size} characters");
+        Assert.True(size <= 12_700, $"{size} characters");
         // Spec 040: every tool says what it does to the memory, so a host can show or gate it.
         Assert.All(catalog, t => Assert.NotNull(Filum.Engine.Abstractions.Tools.ToolTraits.Of(t.Name)));
         Assert.Contains(catalog, t => t.Name == "memory_overview");

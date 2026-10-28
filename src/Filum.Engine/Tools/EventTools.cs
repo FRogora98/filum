@@ -110,7 +110,7 @@ internal sealed class EventTools(MemoryToolSession session) : MemoryToolGroup(se
         [Description("From the day it was said, yyyy-MM-dd.")] string? from = null,
         [Description("To the day it was said, yyyy-MM-dd.")] string? to = null,
         [Description("Include private messages.")] bool includePrivate = false,
-        [Description("To count or add up what was said across conversations: list every message that mentions it, oldest first. Give a category and its members as alternatives, \"furniture | bookshelf | sofa\"; count each distinct item once, keep to the time asked, then count or add (with compute_run when offered).")] bool every = false,
+        [Description("List every mention, oldest first, to count across conversations; alternatives as \"sofa | desk\".")] bool every = false,
         CancellationToken cancellationToken = default) =>
         Run(ToolNames.EventsSearch, null, "search what was said", async () =>
         {

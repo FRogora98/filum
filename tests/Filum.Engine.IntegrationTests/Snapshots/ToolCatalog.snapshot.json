@@ -97,7 +97,7 @@
           "default": false
         },
         "every": {
-          "description": "To count or add up what was said across conversations: list every message that mentions it, oldest first. Give a category and its members as alternatives, \"furniture | bookshelf | sofa\"; count each distinct item once, keep to the time asked, then count or add (with compute_run when offered).",
+          "description": "List every mention, oldest first, to count across conversations; alternatives as \"sofa | desk\".",
           "type": "boolean",
           "default": false
         }

@@ -60,6 +60,16 @@ and the conversation it was said in, counted once.
 5. **The engine API:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` gives the listing,
    so a host other than filum-mcp can use it.
 
+## Development iteration 1 (2026-10-28, after the first development run)
+
+The first run on the development set left multi-session level (35 of 55, the earlier run 37): the model listed on only 7
+of 55 multi-session questions, and counted worse when it did. Changes, still before the test set runs:
+- `EventsSearchMax` goes from 8 to 20, and a normal search ends with the matches in conversations its page did not show,
+  one line each (day, number, who, the part around the match): an item said in many conversations is seen without
+  choosing to list.
+- The counting line says to list before answering, and to count every item shown once, unsure ones too, within the
+  time asked; a listing ends by saying the same.
+
 ## Platform check
 
 1. Generic: listing every mention and counting distinct items works for any person and any domain.

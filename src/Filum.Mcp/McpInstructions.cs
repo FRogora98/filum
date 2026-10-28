@@ -11,7 +11,7 @@ internal static class McpInstructions
 
         - Unless their brief is already in your context, call memory_overview once at the start (who they are, rules, open items, facts, the map). Follow their rules: {InstructionParts.RuleReach}
         - After you answered their first request of a session, call memory_consolidate once and do what it gives, then close it.
-        - Before answering about their past (what they said, did, have, like or planned), search events_search (what was said) and memory_search (the files) with a few words, then other words if nothing fits. To count or add up what was said across conversations, search with every and a category | its members, and count each item once. {InstructionParts.ReadWhole} Say you do not know only after searching. {InstructionParts.Unknown}
+        - Before answering about their past (what they said, did, have, like or planned), search events_search (what was said) and memory_search (the files) with a few words, then other words if nothing fits. For how many or how much in total, list with every (a category | its members) before answering, and count each item it shows once, unsure ones too, within the time asked. {InstructionParts.ReadWhole} Say you do not know only after searching. {InstructionParts.Unknown}
         - When they tell you something that matters about them, call memory_log with their words. {InstructionParts.Durable}
         - {InstructionParts.WithoutAsking}
         - {InstructionParts.FactPolicy} {InstructionParts.RulesAndOpenItems}

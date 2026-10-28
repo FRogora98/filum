@@ -62,6 +62,17 @@ conversazione in cui è stata detta, contata una volta.
 5. **L'API del motore:** `IMemoryEvents.ListEventsAsync(userId, query, from, to, includePrivate, max)` dà l'elenco,
    così anche un host diverso da filum-mcp può usarlo.
 
+## Iterazione di sviluppo 1 (2026-10-28, dopo il primo giro di sviluppo)
+
+Il primo giro sul set di sviluppo ha lasciato pari le multi-sessione (35 su 55, il giro precedente 37): il modello ha
+elencato solo in 7 delle 55 domande multi-sessione, e quando l'ha fatto ha contato peggio. Cambi, sempre prima che giri
+il set di test:
+- `EventsSearchMax` passa da 8 a 20, e una ricerca normale finisce con le corrispondenze nelle conversazioni che la sua
+  pagina non ha mostrato, una riga ciascuna (giorno, numero, chi, la parte intorno alla corrispondenza): una voce detta
+  in molte conversazioni si vede senza dover scegliere di elencare.
+- La riga sul contare dice di elencare prima di rispondere, e di contare una volta ogni voce mostrata, anche quelle
+  incerte, entro il periodo chiesto; un elenco finisce dicendo lo stesso.
+
 ## Controllo di piattaforma
 
 1. Generico: elencare ogni menzione e contare le voci distinte vale per qualunque persona e dominio.

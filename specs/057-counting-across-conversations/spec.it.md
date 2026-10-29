@@ -1,6 +1,6 @@
 # Contare attraverso le conversazioni
 
-> Stato: Approvata (il proprietario, 2026-10-27)
+> Stato: Chiusa (il proprietario, 2026-10-29): l'elenco resta come strumento opzionale, nessun tag 1.1, nessuna nuova misura
 > Area: motore, MCP
 > Autore/data: federico rogora (bozza di Claude), 2026-10-27
 

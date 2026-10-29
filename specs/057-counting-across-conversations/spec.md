@@ -1,6 +1,6 @@
 # Counting across conversations
 
-> Status: Approved (the owner, 2026-10-27)
+> Status: Closed (the owner, 2026-10-29): the listing stays as an optional tool, no 1.1 tag, no new measure
 > Area: engine, MCP
 > Author/date: federico rogora (drafted by Claude), 2026-10-27
 
